@@ -82,11 +82,27 @@ for column in df[['rationale', 'habitat', 'threats', 'population', 'range', 'use
 df.to_csv("../Data/dfCleanOnce.csv", index = False)
 
 # load df
-df = pd.read_csv("../Data/dfCleanOnce.csv", nrows = 5)
+df = pd.read_csv("../Data/dfCleanOnce.csv", nrows = 5000)
 
 # convert to list
 rationale = df.rationale.values.tolist()
 
+# lemmatize: convert words to root words
+nlp = spacy.load('en_core_web_sm')
+
+print(nlp.pipe_names)
+docs = list(nlp.pipe(rationale, n_process = 7, disable=['parser','ner']))
+tokens = [token.text for token in docs]
+tokens = []
+# skips replicates
+for doc in docs:
+    tokens.append([(tok.lemma_) if (tok.lemma_) not in tokens else '' for tok in doc if not tok.is_stop and tok.text and not tok.is_punct])
+
+#########################################################################
+# don't need to remove replicates yet
+# code to check if replicates are removed by counting the occurrences
+{i:tokens[0].count(i) for i in set(tokens[0])}
+#########################################################################
 # might be able to just use str.split()
 # tokenize and clean-up using gensim's simple_preprocess()
 def sent2Words(text):
@@ -105,17 +121,14 @@ tokensNoStop = []
     # tokensNoStop.append(newTerm)
 tokensNoStop = [[word for word in row if word not in stopwords.words('english')] for row in tokens]
 
-# lemmatize: convert words to root words
-nlp = spacy.load('en_core_web_sm')
-
 def lem(text, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV']):
     textOut = []
     for sent in text:
-        doc = nlp(" ".join(sent))
+        docs = [nlp.pipe(" ".join(sent), n_process=7, disable=['tagger','parser','ner'])]
         textOut.append([token.lemma_ if token.lemma_ not in ['-PRON-'] else '' for token in doc if token.pos_ in allowed_postags])
     return textOut
 
-rationaleLem = lem(tokens, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV'])
+rationaleLem = lem(rationale, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV'])
 # started at 11:27, finished at 11:52
 
 # pickle rationaleLem
