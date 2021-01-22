@@ -5,10 +5,11 @@ import pickle
 import pandas as pd
 import re
 import string
+from multiprocessing import Pool
 # from pprint import pprint
 
 # NLTK stopwords
-from nltk.corpus import stopwords
+# from nltk.corpus import stopwords
 # from nltk.stem.wordnet import WordNetLemmatizer
 
 # gensim
@@ -34,9 +35,6 @@ warnings.filterwarnings("ignore", category = DeprecationWarning)
 # import data
 df = pd.read_csv("../Data/assessments.csv")
 
-df.head(1)
-df.iloc[1]
-
 print(df.columns.values)
 # ['assessmentId' 'internalTaxonId' 'scientificName' 'redlistCategory'
 #  'redlistCriteria' 'yearPublished' 'assessmentDate' 'criteriaVersion'
@@ -44,20 +42,14 @@ print(df.columns.values)
 #  'range' 'useTrade' 'systems' 'conservationActions' 'realm' 'yearLastSeen'
 #  'possiblyExtinct' 'possiblyExtinctInTheWild' 'scopes']
 
-
 df['language'].unique()
-
-# 860 in portuguese
-# 48 in french
-# 1539 in spanish; castilian
 # drop entries not in english, if not LDA will pick them up and put them in the same topic
 df = df[df.language == 'English']
 
-# col = ['assessmentId', 'internalTaxonId', 'scientificName', 'rationale', 'habitat', 'threats', 'population', 'range', 'useTrade', 'conservationActions', 'realm', 'scopes']
-
-# extract columns of interest
-# col = ['assessmentId', 'redlistCategory', 'redlistCriteria', 'yearPublished', 'assessmentDate', 'criteriaVersion', 'language', 'populationTrend', 'systems', 'yearLastSeen', 'possiblyExtinct', 'possiblyExtinctInTheWild']
-# dfPrep = df.drop(columns = col)
+# check for NaN in columns
+df.isnull().any()
+# check for number of NaN in columns
+df.column.isnull()..sum()
 
 def cleanOne(text):
     text = str(text) # convert cell values to string
@@ -74,15 +66,34 @@ def cleanOne(text):
 
 # aoo and eoo = area of occupancy and extent of occurrence
 
-# iterate over specific columns
-for column in df[['rationale', 'habitat', 'threats', 'population', 'range', 'useTrade', 'conservationActions']]:
-    df[column] = df[column].map(lambda x: cleanOne(x))
+# parallelize cleaning of columns
+def addFeats(df):
+    df['rationale'] = df['rationale'].map(lambda x: cleanOne(x))
+    df['habitat'] = df['habitat'].map(lambda x: cleanOne(x))
+    df['threats'] = df['threats'].map(lambda x: cleanOne(x))
+    df['population'] = df['population'].map(lambda x: cleanOne(x))
+    df['range'] = df['range'].map(lambda x: cleanOne(x))
+    df['useTrade'] = df['useTrade'].map(lambda x: cleanOne(x))
+    df['conservationActions'] = df['conservationActions'].map(lambda x: cleanOne(x))
+    return df
 
-# save round one of cleaning
-df.to_csv("../Data/dfCleanOnce.csv", index = False)
+def parallelDf(df, func, n_cores = 7):
+    df_split = np.array_split(df, n_cores)
+    pool = Pool(n_cores)
+    df = pd.concat(pool.map(func, df_split))
+    pool.close()
+    pool.join()
+    return df
 
-# load df
-df = pd.read_csv("../Data/dfCleanOnce.csv", nrows = 5000)
+dfClean = parallelDf(df, addFeats)
+
+# saving to csv and loading causes NaN to regenerate, pickle doesn't
+# pickle dfClean
+with open("../Data/dfClean.pkl", "wb") as f:
+    pickle.dump(dfClean, f)
+# pickle load dfClean
+with open("../Data/dfClean.pkl", "rb") as f:
+    df = pickle.load(f)
 
 # convert to list
 rationale = df.rationale.values.tolist()
@@ -90,61 +101,22 @@ rationale = df.rationale.values.tolist()
 # lemmatize: convert words to root words
 nlp = spacy.load('en_core_web_sm')
 
-print(nlp.pipe_names)
-docs = list(nlp.pipe(rationale, n_process = 7, disable=['parser','ner']))
-tokens = [token.text for token in docs]
-tokens = []
-# skips replicates
-for doc in docs:
-    tokens.append([(tok.lemma_) if (tok.lemma_) not in tokens else '' for tok in doc if not tok.is_stop and tok.text and not tok.is_punct])
+ratDocs = list(nlp.pipe(rationale, n_process = 7, disable=['parser','ner']))
+ratTokens = []
+for doc in ratDocs:
+    ratTokens.append([(tok.lemma_) for tok in doc if not tok.is_stop and tok.text and not tok.is_punct])
 
 #########################################################################
 # don't need to remove replicates yet
 # code to check if replicates are removed by counting the occurrences
-{i:tokens[0].count(i) for i in set(tokens[0])}
+# {i:ratTokens[0].count(i) for i in set(ratTokens[0])}
 #########################################################################
-# might be able to just use str.split()
-# tokenize and clean-up using gensim's simple_preprocess()
-def sent2Words(text):
-    for sentence in text:
-        yield(simple_preprocess(str(sentence), deacc = True))
-
-tokens = list(sent2Words(rationale))
-
-# removing stopwords
-tokensNoStop = []
-# for row in tokens:
-    # newTerm = []
-    # for word in doc:
-    #     if not word in stopwords.words('english'):
-    #         newTerm.append(word)
-    # tokensNoStop.append(newTerm)
-tokensNoStop = [[word for word in row if word not in stopwords.words('english')] for row in tokens]
-
-def lem(text, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV']):
-    textOut = []
-    for sent in text:
-        docs = [nlp.pipe(" ".join(sent), n_process=7, disable=['tagger','parser','ner'])]
-        textOut.append([token.lemma_ if token.lemma_ not in ['-PRON-'] else '' for token in doc if token.pos_ in allowed_postags])
-    return textOut
-
-rationaleLem = lem(rationale, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV'])
-# started at 11:27, finished at 11:52
-
-# pickle rationaleLem
-with open("../Data/rationaleLem.pkl", "wb") as f:
-    pickle.dump(rationaleLem, f)
-# pickle load rationaleLem
-with open("../Data/rationaleLem.pkl", "rb") as f:
-    test = pickle.load(f)
-
-# try nlp.pipe
 
 # create bag of words from rationale
-rationaleDict = corpora.Dictionary(rationaleLem)
+ratDict = corpora.Dictionary(ratTokens)
 
 count = 0
-for k, v in rationaleDict.iteritems():
+for k, v in ratDict.iteritems():
     print(k, v)
     count += 1
     if count > 20:
@@ -154,7 +126,7 @@ for k, v in rationaleDict.iteritems():
 # no_below(int): keep tokens which are contained in at least int documents
 # no_above(float): keep tokens which are contained in no more than float documents (fraction of total corpus size, not an absolute number)
 # keep_n(int): keep only the first int most frequent tokens
-rationaleDict.filter_extremes(no_below=10, no_above=0.5, keep_n=100000)
+ratDict.filter_extremes(no_below=10, no_above=0.5, keep_n=100000)
 # this example:
 # removes tokens in dictionary that appear in less than 5 documents
 # removes tokens in dictionary that appear in more than 0.5 of total corpus size
