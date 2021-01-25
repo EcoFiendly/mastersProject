@@ -15,9 +15,9 @@ from multiprocessing import Pool
 # gensim
 import gensim
 import gensim.corpora as corpora
-from gensim.utils import simple_preprocess
+# from gensim.utils import simple_preprocess
 
-# from gensim.models import CoherenceModel
+from gensim.models import CoherenceModel
 
 # spacy for lemmatization
 # spacy easier to use compared to nltk WordNetLemmatizer
@@ -49,7 +49,7 @@ df = df[df.language == 'English']
 # check for NaN in columns
 df.isnull().any()
 # check for number of NaN in columns
-df.column.isnull()..sum()
+df.column.isnull().sum()
 
 def cleanOne(text):
     text = str(text) # convert cell values to string
@@ -95,16 +95,24 @@ with open("../Data/dfClean.pkl", "wb") as f:
 with open("../Data/dfClean.pkl", "rb") as f:
     df = pickle.load(f)
 
-# convert to list
+# convert to list and filter empty strings
 rationale = df.rationale.values.tolist()
+rationale = list(filter(None, rationale))
 
 # lemmatize: convert words to root words
 nlp = spacy.load('en_core_web_sm')
 
-ratDocs = list(nlp.pipe(rationale, n_process = 7, disable=['parser','ner']))
+ratDocs = list(nlp.pipe(rationale, n_process = 6, disable=['parser','ner']))
 ratTokens = []
 for doc in ratDocs:
     ratTokens.append([(tok.lemma_) for tok in doc if not tok.is_stop and tok.text and not tok.is_punct])
+
+# pickle ratTokens
+with open("../Data/ratTokens.pkl", "wb") as f:
+    pickle.dump(ratTokens, f)
+# pickle lead ratTokens
+with open("../Data/ratTokens.pkl", "rb") as f:
+    ratTokens = pickle.load(f)
 
 #########################################################################
 # don't need to remove replicates yet
@@ -112,8 +120,18 @@ for doc in ratDocs:
 # {i:ratTokens[0].count(i) for i in set(ratTokens[0])}
 #########################################################################
 
+# sample every alternate token
+ratTokens = ratTokens[::2]
+
 # create bag of words from rationale
 ratDict = corpora.Dictionary(ratTokens)
+
+# pickle ratDict
+with open("../Data/ratDict.pkl", "wb") as f:
+    pickle.dump(ratDict, f)
+# pickle load ratDict
+with open("../Data/ratDict.pkl", "rb") as f:
+    ratDict = pickle.load(f)
 
 count = 0
 for k, v in ratDict.iteritems():
@@ -125,22 +143,41 @@ for k, v in ratDict.iteritems():
 # filter 
 # no_below(int): keep tokens which are contained in at least int documents
 # no_above(float): keep tokens which are contained in no more than float documents (fraction of total corpus size, not an absolute number)
-# keep_n(int): keep only the first int most frequent tokens
-ratDict.filter_extremes(no_below=10, no_above=0.5, keep_n=100000)
+# keep_n(int): keep only the first int most frequent tokens, keep all if None
+ratDict.filter_extremes(no_below=45, no_above=0.8)
 # this example:
-# removes tokens in dictionary that appear in less than 5 documents
-# removes tokens in dictionary that appear in more than 0.5 of total corpus size
-# after the above 2, keep only first 100000 most frequent tokens (or keep all if keep_n=None)
+# removes tokens in dictionary that appear in less than 45 (0.1%) sample documents
+# removes tokens in dictionary that appear in more than 0.8 of total corpus size
+# after the above 2, keep all of the tokens (or keep_n = int)
 
-rationaleCorpus = [rationaleDict.doc2bow(doc) for doc in rationaleLem]
+# document term matrix
+ratCorpus = [ratDict.doc2bow(doc) for doc in ratTokens]
 
-rationaleDoc5 = rationaleCorpus[5]
-for i in range(len(rationaleDoc5)):
-    print('Word {} (\"{}\") appears {} time.'.format(rationaleDoc5[i][0],
-                                                    rationaleDict[rationaleDoc5[i][0]],
-                                                    rationaleDoc5[i][1]))
+# example of words and frequency in doc 6
+ratDoc5 = ratCorpus[5]
+for i in range(len(ratDoc5)):
+    print('Word {} (\"{}\") appears {} time.'.format(ratDoc5[i][0],
+                                                    ratDict[ratDoc5[i][0]],
+                                                    ratDoc5[i][1]))
 
-ldaModel = gensim.models.LdaMulticore(rationaleCorpus, num_topics = 10, id2word = rationaleDict, passes = 2, workers = 6)
+# run LDA model using Bag of Words
+ldaModel = gensim.models.LdaMulticore(ratTrain, num_topics = 50, id2word = ratDict, passes = 5, workers = 6)
 
+# show topics and corresponding weights of words in topics
 for idx, topic in ldaModel.print_topics(-1):
     print('Topic: {} \nWords: {}'.format(idx, topic))
+
+# performance evaluation by classifying sample document using LDA BoW model
+ratTokens[1225]
+
+for index, score in sorted(ldaModel[ratTokens[1225]], key=lambda tup: -1*tup[1]):
+    print("\nScore: {}\t \nTopic: {}".format(score, ldaModel.print_topic(index, 50)))
+
+# compute perplexity: a measure of how good the model is, lower the better
+print("\nPerplexity:", ldaModel.log_perplexity(ratCorpus))
+
+# compute coherence score
+coherenceModelLDA = CoherenceModel(model=ldaModel, texts=ratTokens, dictionary=ratDict, coherence='c_v')
+# work out coherence
+coherenceLDA = coherenceModelLDA.get_coherence()
+print("\nCoherence Score:", coherenceLDA)
