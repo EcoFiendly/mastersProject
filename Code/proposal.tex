@@ -1,0 +1,120 @@
+\documentclass[11pt, a4paper, titlepage]{article}
+\usepackage[left=2cm, right=2cm, top=2cm, bottom=2cm]{geometry}
+\usepackage[style=authoryear, backend=bibtex]{biblatex}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{graphicx}
+\linespread{1.25}
+\usepackage[T1]{fontenc}
+\usepackage{lineno}
+\bibliography{propBib}
+
+\begin{document}
+
+\linenumbers
+\begin{titlepage} % suppress headers and footers on title page
+
+    \centering % centre align
+
+    \scshape % small caps for all text
+
+    \vspace*{\baselineskip} % whitespace on top of page
+
+    % ------------------------------------------------
+
+    %     Title
+
+    % ------------------------------------------------
+
+    \rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} % thick horizontal rule
+
+    \rule{\textwidth}{0.4pt} % thin horizontal rule
+
+    \vspace{0.75\baselineskip} % whitespace above title
+
+    {\LARGE Distribution of extinction risk data through machine reading of IUCN Red List assessments \\} % title
+
+    \vspace{0.75\baselineskip} % whitespace below title
+
+    \rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} % thin horizontal rule
+
+    \rule{\textwidth}{1.6pt} % othick horizontal rule
+
+    \vspace{2\baselineskip} % whitespace after title block
+
+    % -----------------------------------------------
+
+    %    Subtitle
+
+    % -----------------------------------------------
+
+    MRes Project Proposal % subtitle
+
+    \vspace*{3\baselineskip} % whitespace under subtitle
+
+    % ----------------------------------------------
+
+    %   Editor(s)
+
+    % ----------------------------------------------
+
+    \vspace{0.5\baselineskip} % whitespace before editors
+
+    {\scshape\Large
+            Author: \\
+            Yewshen Lim \\
+            Imperial College London \\}
+
+    \textit{y.lim20@imperial.ac.uk}
+
+    {\scshape\Large        
+            Supervisor: \\
+            Dr James Rosindell \\
+            Imperial College London\\} % Editor list
+
+    \textit{j.rosindell@imperial.ac.uk}
+
+\end{titlepage}
+
+\noindent \textbf{Keywords}: Extinction risk; IUCN; Latent Dirichlet Association; Topic modelling; Conservation; Bibliometrics
+
+\section{Introduction}
+
+\noindent 
+The IUCN red list is a compilation of species information for life on Earth \parencite{iucn2020}. IUCN prides itself on leading biodiversity conservation by informing the public and advising policies. It is the most extensive catalog for species information to date, and much can be understood by exploring the data. An example is the application of sentiment analysis \parencite{gregg2020many} on the dataset, which identified possible name changes for some species to improve public perception and engagement with conservation efforts for the select species. Another extracted conservation status information and designed a program to simulate future extinctions \parencite{andermann2020}. This project aims to discover the key extinction risk topics across the different continents by applying Latent Dirichlet Association (LDA) \parencite{blei2003latent} to the dataset. This study aims to grow the scope of what downstream research can be done with available Red List data.
+
+\section{Proposed Methods}
+
+\noindent The corpus is a collection of text summaries of the assessments made for individual species by The IUCN Red List. The corpus will first be pre-processed. This involves removing punctuation, numerical values, stop words and common non-sensical texts (e.g. newlines), changes all text to lower case. The text is then tokenized by being broken down into words. A document-term matrix dataframe will be then be initialized, where each column represents a different word, and each row represents a different document. Latent Dirichlet Association (LDA) is a type of topic model which belongs to the class of supervised machine learning techniques. This algorithm models the probability of each word belonging to a topic, and categorizes the documents by topics based on the frequencies of words in the documents. Topics are unknown as of now and will be represented by numbers. I will interpret the topics and label them based on the words allocated to each topic by the algorithm.
+
+\section{Anticipated Outputs and Outcomes}
+
+\noindent Outputs: Underlying topics discovered by the algorithm mapped to the continents the species are located in. 
+
+\noindent Outcomes: The topics differ across continents, and reveal the emergent topics from each continent. Determine relationship between topics, extinction risk category, and threats faced by species.
+
+\section{Project Feasibility}
+
+\noindent Plain text dataset will be requested from IUCN Red List. No data collection required. Python is the language of choice for conducting the entire analysis. The allocated time for this project should be adequate to generate topics from the corpus and answer the research question.
+
+\begin{figure}[h!]
+    \centering\includegraphics[width=0.8\textwidth]{timelinechart.pdf}
+    \caption{Proposed project timeline}
+\end{figure}
+
+\section{Itemized budget}
+
+\begin{table}[h!]
+    \small
+    \begin{tabular}{| l | c | l |} \hline
+        \textbf{Item} & \textbf{Cost} & \textbf{Information} \\ \hline
+        Monitor arm & £35 & For better ergonomics at my desk \\ \hline
+        IUCN Red List donation & £50 & Donation to IUCN Red List for using their assessment data \\ \hline
+        \textbf{Total} & £85 & - \\ \hline
+    \end{tabular}
+    \caption{Proposed budget}
+\end{table}
+
+\printbibliography
+
+\end{document}

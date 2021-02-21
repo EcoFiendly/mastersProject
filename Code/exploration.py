@@ -31,7 +31,7 @@ import spacy
 # plotting tools
 # import pyLDAvis
 # import pyLDAvis.gensim
-import matplotlib
+# import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('tkagg')
 from wordcloud import WordCloud
@@ -115,17 +115,17 @@ with open("../Data/dfClean.pkl", "rb") as f:
     f.close()
 
 # create corpus
-rat = df.rationale.values.tolist()
-hab = df.habitat.values.tolist()
-thr = df.threats.values.tolist()
-pop = df.population.values.tolist()
-ran = df.range.values.tolist()
-use = df.useTrade.values.tolist()
-con = df.conservationActions.values.tolist()
+rat = df.rationale.values.tolist()[::2]
+hab = df.habitat.values.tolist()[::2]
+thr = df.threats.values.tolist()[::2]
+pop = df.population.values.tolist()[::2]
+ran = df.range.values.tolist()[::2]
+use = df.useTrade.values.tolist()[::2]
+con = df.conservationActions.values.tolist()[::2]
 
-corpus = rat + hab + thr + pop + ran + use + con
+testCorpus = rat + hab + thr + pop + ran + use + con
 del rat,hab,thr,pop,ran,use,con
-corpus = list(filter(None, corpus))
+testCorpus = list(filter(None, testCorpus))
 
 # # write to txt file
 # with open("../Data/corpus.txt", "w") as f:
@@ -147,54 +147,51 @@ nlp = spacy.load('en_core_web_md')
 # can't do entire corpus at once, do columns separately before combining
 # generators help decrease ram usage (keep output of nlp.pipe as a generator)
 # don't need too many cores since tokenization cannot be multithreaded
-corpusGen = nlp.pipe(corpus, n_process = 3, batch_size = 100, disable = ['parser','ner'])
+testCorpusGen = nlp.pipe(testCorpus, n_process = 3, batch_size = 100, disable = ['parser','ner'])
 
-tokens = []
-for doc in corpusGen:
-    tokens.append([(tok.lemma_) for tok in doc if not tok.is_stop and tok.text and not tok.is_punct])
+testTokens = []
+for doc in testCorpusGen:
+    testTokens.append([(tok.lemma_) for tok in doc if not tok.is_stop and tok.text and not tok.is_punct])
 
 # pickle ratTokens
-with open("../Data/tokens.pkl", "wb") as f:
-    pickle.dump(tokens, f)
+with open("../Data/testTokens.pkl", "wb") as f:
+    pickle.dump(testTokens, f)
 # pickle load ratTokens
-with open("../Data/tokens.pkl", "rb") as f:
-    tokens = pickle.load(f)
+with open("../Data/testTokens.pkl", "rb") as f:
+    testTokens = pickle.load(f)
     f.close()
 
 # create a dictionary
-dictionary = corpora.Dictionary(tokens)
+testDict = corpora.Dictionary(testTokens)
 
 # filter tokens
 # no_below(int): keep tokens which are contained in at least int documents
 # no_above(float): keep tokens which are contained in no more than float documents (fraction of total corpus size, not an absolute number)
 # keep_n(int): keep only the first int most frequent tokens, keep all if None
-dictionary.filter_extremes(no_below=698, no_above=0.8)
+testDict.filter_extremes(no_below=349, no_above=0.8)
 # this example:
 # removes tokens in dictionary that appear in less than 45 (0.1%) sample documents
 # removes tokens in dictionary that appear in more than 0.8 of total corpus size
 # after the above 2, keep all of the tokens (or keep_n = int)
-dictionary.compactify() # assign new word ids to all words, shrinking any gaps
+testDict.compactify() # assign new word ids to all words, shrinking any gaps
 
 # save dictionary
-dictionary.save("../Data/dictionary.dict")
+testDict.save("../Data/testDict.dict")
 # load dictionary
-dictionary = corpora.Dictionary.load("../Data/dictionary.dict")
+testDict = corpora.Dictionary.load("../Data/testDict.dict")
 
 # bag of words corpus
-bowCorpus = [dictionary.doc2bow(doc) for doc in tokens]
+testCorpus = [testDict.doc2bow(doc) for doc in testTokens]
 # save corpus and serializing decreases ram usage (by a lot)
-corpora.MmCorpus.serialize('../Data/bowCorpus.mm', bowCorpus)
+corpora.MmCorpus.serialize('../Data/testCorpus.mm', testCorpus)
 # load corpus
-bowCorpus = corpora.MmCorpus('../Data/bowCorpus.mm')
+testCorpus = corpora.MmCorpus('../Data/testCorpus.mm')
 
 #########################################################################
 # don't need to remove replicates yet
 # code to check if replicates are removed by counting the occurrences
 # {i:ratTokens[0].count(i) for i in set(ratTokens[0])}
 #########################################################################
-
-# sample every alternate token for training model
-trainTokens = tokens[::2]
 
 # # pickle ratDict
 # with open("../Data/ratDict.pkl", "wb") as f:
@@ -204,14 +201,14 @@ trainTokens = tokens[::2]
 #     ratDict = pickle.load(f)
 
 count = 0
-for k, v in dictionary.iteritems():
+for k, v in testDict.iteritems():
     print(k, v)
     count += 1
     if count > 20:
         break
 
 # training corpus
-trainCorpus = [dictionary.doc2bow(doc) for doc in trainTokens]
+# trainCorpus = [testDict.doc2bow(doc) for doc in testTokens]
 
 # example of words and frequency in doc 6
 trainDoc5 = trainCorpus[5]
@@ -221,14 +218,14 @@ for i in range(len(trainDoc5)):
                                                      trainDoc5[i][1]))
 
 # run LDA model using Bag of Words
-ldaModel = gensim.models.LdaMulticore(bowCorpus, num_topics = 8, id2word = dictionary, chunksize = 70, passes = 5, workers = 4)
+testModel = gensim.models.LdaMulticore(testCorpus, num_topics = 14, id2word = testDict, chunksize = 70, passes = 5, workers = 6)
 # save model
-ldaModel.save('../Data/ldaModel.model')
+testModel.save('../Data/testModel.model')
 # load model
-ldaModel = gensim.models.LdaMulticore.load('../Data/ldaModel.model')
+testModel = gensim.models.LdaMulticore.load('../Data/testModel.model')
 
 # show topics and corresponding weights of words in topics
-for idx, topic in ldaModel.print_topics(-1):
+for idx, topic in testModel.print_topics(-1):
     print('Topic: {} \nWords: {}'.format(idx, topic))
 
 # performance evaluation by classifying sample document using LDA BoW model
@@ -238,13 +235,13 @@ for index, score in sorted(ldaModel[ratTokens[1225]], key=lambda tup: -1*tup[1])
     print("\nScore: {}\t \nTopic: {}".format(score, ldaModel.print_topic(index, 50)))
 
 # compute perplexity: a measure of how good the model is, lower the better
-print("\nPerplexity:", ldaModel.log_perplexity(bowCorpus))
+print("\nPerplexity:", testModel.log_perplexity(testCorpus))
 
 # compute coherence score
-coherenceModelLDA = CoherenceModel(model=ldaModel, texts=tokens, dictionary=dictionary, coherence='c_v')
+testCohModLDA = CoherenceModel(model=testModel, texts=testTokens, dictionary=testDict, coherence='c_v')
 # work out coherence
-coherenceLDA = coherenceModelLDA.get_coherence()
-print("\nCoherence Score:", coherenceLDA)
+testCohLDA = testCohModLDA.get_coherence()
+print("\nCoherence Score:", testCohLDA)
 
 # visualize topics-keywords of LDA
 
@@ -271,16 +268,33 @@ def modelOpti(corpus, dictionary, limit, start=2, step=2):
     cohVals = []
     modelList = []
     for num_topics in range(start, limit, step):
-        model = gensim.models.LdaMulticore(corpus, num_topics = num_topics, id2word = dictionary, chunksize = 70, passes = 5, workers = 2)
+        model = gensim.models.LdaMulticore(corpus, num_topics = num_topics, id2word = testDict, chunksize = 1860, passes = 15, workers = 7)
         modelList.append(model)
-        cohLDA = CoherenceModel(model = model, texts = tokens, dictionary = dictionary, coherence = 'c_v')
+        cohLDA = CoherenceModel(model = model, corpus = corpus, dictionary = testDict, coherence = 'u_mass', processes = 7)
         cohVals.append(cohLDA.get_coherence())
     
     return modelList, cohVals
 
-modelList, cohVals = modelOpti(bowCorpus, dictionary, limit = 17, start = 2, step = 3)
+modelList, cohVals = modelOpti(testCorpus, testDict, limit = 27, start = 2, step = 2)
 
 # plot graph for coherence values
-limit=17;start=2;step=3
+limit=27;start=2;step=2
 x = range(start,limit,step)
 plt.plot(x, cohVals)
+plt.show() # seems to peak at 14 topics
+
+# compute perplexity: a measure of how good the model is, lower the better
+print("\nPerplexity:", modelList[1].log_perplexity(testCorpus))
+
+# show topics and corresponding weights of words in topics
+for idx, topic in modelList[3].print_topics(-1):
+    print('Topic: {} \nWords: {}'.format(idx, topic))
+
+# visualize topics-keywords of LDA
+
+for t in range(modelList[0].num_topics):
+    f = plt.figure()
+    plt.imshow(WordCloud().fit_words(dict(modelList[0].show_topic(t, 200))))
+    plt.axis('off')
+    plt.title('Topic #' + str(t))
+    f.savefig("wordCloud" + str(t))
