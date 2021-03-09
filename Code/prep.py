@@ -27,6 +27,7 @@ df = df[df.language == 'English']
 # check for number of NaN in columns
 df.isnull().sum()
 # np.where(pd.isnull(df.rationale)) # prints NaN cell number
+# skip pop, range, usetrade, focus on habitat, conservationActions
 
 # replace NaNs with 0
 df[['rationale','habitat','threats','population','range','useTrade','conservationActions']] = df[['rationale','habitat','threats','population','range','useTrade','conservationActions']].fillna(0)
@@ -34,17 +35,16 @@ df[['rationale','habitat','threats','population','range','useTrade','conservatio
 def cleanOne(text):
     text = str(text) # convert cell values to string
     text = text.lower() # lower case all text
-    text = re.sub('<.*?>', '', text) # remove html tags
-    text = re.sub('(&#160;)', ' ', text) # remove html non-breaking space
-    text = re.sub('\[.*?\]', '', text) # remove text in square brackets
-    text = re.sub('\(.*?\)', '', text) # remove text in parentheses
-    # text = re.sub('\w+\s*(and\s){0,1}\w+\s*(et al.)*\s\d{4}', '', text) #remove in text citation
-    # text = re.sub('\(..\)', '', text) # remove extinction status acronym
-    text = re.sub('[%s]' % re.escape(string.punctuation), ' ', text) # remove punctuation
-    text = re.sub('\d+\s\w{1,2}\s', ' ', text) # remove measurements
-    text = re.sub('\w*\d\w*', ' ', text) # remove words containing numbers
-    text = re.sub('(\s\S\s){1}', ' ', text) # remove single characters
-    text = re.sub('(\s°[nsew]\s)', ' ', text) # remove longtitude and latitude units
+    text = re.sub(r'<.*?>', ' ', text) # remove html tags
+    text = re.sub(r'(&#160;)', ' ', text) # remove html non-breaking space
+    text = re.sub(r'\[.*?\]', ' ', text) # remove text in square brackets
+    text = re.sub(r'\(.*?\)', ' ', text) # remove text in parentheses
+    # text = re.sub(r'\w+\s*(and\s){0,1}\w+\s*(et al.)*\s\d{4}', '', text) #remove in text citation
+    text = re.sub(r'[%s]' % re.escape(string.punctuation), ' ', text) # remove punctuation
+    text = re.sub(r'\d+\s\w{1,2}\b', ' ', text) # remove measurements
+    text = re.sub(r'\w*\d\w*', ' ', text) # remove words containing numbers
+    text = re.sub(r'\b\S{1,3}\b', ' ', text) # remove single to 3 characters
+    text = re.sub(r'\b°[nsew]\b', ' ', text) # remove longtitude and latitude units
     text = " ".join(text.split()) # remove extra spaces, \n, \t
     return text
 
@@ -79,27 +79,4 @@ dfClean = parallelDf(df, parClean)
 # pickle dfClean
 with open("../Data/dfClean.pkl", "wb") as f:
     pickle.dump(dfClean, f)
-    f.close()
-
-# pickle load dfClean
-with open("../Data/dfClean.pkl", "rb") as f:
-    df = pickle.load(f)
-    f.close()
-
-# create training corpus (50% of every column)
-rat = df.rationale.values.tolist()[::2]
-hab = df.habitat.values.tolist()[::2]
-thr = df.threats.values.tolist()[::2]
-pop = df.population.values.tolist()[::2]
-ran = df.range.values.tolist()[::2]
-use = df.useTrade.values.tolist()[::2]
-con = df.conservationActions.values.tolist()[::2]
-# combine into training corpus
-trainCorpus = rat + hab + thr + pop + ran + use + con
-del rat,hab,thr,pop,ran,use,con
-trainCorpus = list(filter(None, trainCorpus))
-
-# save trainCorpus
-with open("../Data/trainCorpus.pkl", "wb") as f:
-    pickle.dump(trainCorpus, f)
     f.close()
