@@ -10,40 +10,40 @@ Weekly meeting at 2:30
 
 Combined peaks at 29
 
-Topic: 0 
+Topic: deforestation (for plantation and agriculture)
 Words: 0.074*"forest" + 0.063*"log" + 0.041*"plantation" + 0.036*"orchid" + 0.032*"herbarium" + 0.030*"cultivation" + 0.030*"agriculture" + 0.029*"palm" + 0.024*"botanic_garden" + 0.020*"value"
 
-Topic: 1 
+Topic: coral disease
 Words: 0.163*"coral" + 0.092*"disease" + 0.049*"level" + 0.034*"great" + 0.030*"effect" + 0.030*"localize" + 0.029*"conserve" + 0.024*"change" + 0.021*"loss" + 0.020*"fishery"
 
-Topic: 2 
+Topic: fish growth cycle
 Words: 0.041*"length" + 0.037*"maximum" + 0.035*"female" + 0.030*"male" + 0.028*"water" + 0.026*"feed" + 0.026*"spawn" + 0.025*"depth" + 0.024*"fish" + 0.024*"adult"
 
-Topic: 3 
+Topic: natural reserve
 Words: 0.122*"reserve" + 0.041*"natural" + 0.034*"nature" + 0.016*"wildlife" + 0.014*"ensure" + 0.013*"local" + 0.013*"manage" + 0.012*"effort" + 0.012*"work" + 0.012*"wild"
 
-Topic: 4 
+Topic: large trees
 Words: 0.248*"large" + 0.243*"tree" + 0.150*"identify" + 0.103*"experience" + 0.035*"decline" + 0.020*"past" + 0.018*"small" + 0.018*"qualify" + 0.018*"endemic" + 0.018*"undertake"
 
-Topic: 5 
+Topic: burning of forests
 Words: 0.068*"fire" + 0.030*"plant" + 0.028*"wood" + 0.022*"timber" + 0.020*"wild" + 0.019*"construction" + 0.018*"burn" + 0.017*"tree" + 0.016*"seed" + 0.015*"regeneration"
 
 Topic: 6 
 Words: 0.221*"coast" + 0.202*"utilize" + 0.177*"depth" + 0.040*"globally" + 0.030*"ridge" + 0.021*"slope" + 0.017*"deepwater" + 0.016*"skate" + 0.016*"totally" + 0.015*"continental"
 
-Topic: 7 
+Topic: deforestation for agriculture
 Words: 0.066*"agriculture" + 0.060*"loss" + 0.059*"deforestation" + 0.049*"land" + 0.041*"log" + 0.039*"decline" + 0.035*"forest" + 0.033*"conversion" + 0.032*"destruction" + 0.027*"scale"
 
 Topic: 8 
 Words: 0.043*"propose" + 0.031*"underway" + 0.031*"hunt" + 0.027*"bird" + 0.020*"local" + 0.019*"breeding" + 0.017*"conduct" + 0.016*"control" + 0.016*"reduce" + 0.013*"prevent"
 
-Topic: 9 
+Topic: use trade
 Words: 0.264*"trade" + 0.067*"harvest" + 0.045*"wild" + 0.039*"use" + 0.037*"aquarium" + 0.030*"international" + 0.023*"export" + 0.022*"ornamental" + 0.022*"market" + 0.020*"local"
 
-Topic: 10 
+Topic: invasive species
 Words: 0.158*"plant" + 0.110*"native" + 0.071*"invasive" + 0.049*"introduce" + 0.031*"spread" + 0.020*"alien" + 0.019*"graze" + 0.019*"predation" + 0.018*"competition" + 0.015*"introduction"
 
-Topic: 11 
+Topic: fish habitat
 Words: 0.133*"water" + 0.068*"fish" + 0.064*"deep" + 0.061*"live" + 0.043*"shallow" + 0.036*"food" + 0.024*"shell" + 0.021*"accession" + 0.019*"freshwater" + 0.018*"small"
 
 Topic: 12 
@@ -52,7 +52,7 @@ Words: 0.260*"widespread" + 0.099*"regional" + 0.090*"stable" + 0.036*"utilise" 
 Topic: 13 
 Words: 0.177*"endemic" + 0.064*"elevation" + 0.043*"basin" + 0.023*"level" + 0.023*"extend" + 0.022*"represent" + 0.022*"limit" + 0.022*"valley" + 0.019*"base" + 0.015*"county"
 
-Topic: 14 
+Topic: island endemic species
 Words: 0.555*"island" + 0.054*"endemic" + 0.027*"mainland" + 0.021*"archipelago" + 0.013*"reduction" + 0.012*"degradation" + 0.011*"galápago" + 0.010*"introduce" + 0.010*"seychelle" + 0.009*"palau"
 
 Topic: 15 
