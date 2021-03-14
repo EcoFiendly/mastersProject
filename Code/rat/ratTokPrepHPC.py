@@ -18,13 +18,13 @@ with open("/rds/general/user/yl4220/home/Data/dfClean.pkl", "rb") as f:
     f.close()
 
 # create conservation actions corpus
-conActCorpus = df.conservationActions.values.tolist()
+ratCorpus = df.rationale.values.tolist()
 del df
-conActCorpus = list(filter(None, conActCorpus))
+ratCorpus = list(filter(None, ratCorpus))
 
-# save conActCorpus
-with open("/rds/general/user/yl4220/home/Data/conAct/conActCorpus.pkl", "wb") as f:
-    pickle.dump(conActCorpus, f)
+# save ratCorpus
+with open("/rds/general/user/yl4220/home/Data/rat/ratCorpus.pkl", "wb") as f:
+    pickle.dump(ratCorpus, f)
     f.close()
 
 nlp = spacy.load('en_core_web_sm')
@@ -36,45 +36,45 @@ for word in nlp.Defaults.stop_words:
     lexeme = nlp.vocab[word]
     lexeme.is_stop = True
 
-conActCorpusGen = nlp.pipe(conActCorpus, n_process = 8, batch_size = 800, disable = ["parser", "ner"])
+ratCorpusGen = nlp.pipe(ratCorpus, n_process = 8, batch_size = 800, disable = ["parser", "ner"])
 
-conActTokens = []
-for doc in conActCorpusGen:
-    conActTokens.append(' '.join([(tok.lemma_) for tok in doc if not tok.is_stop and not tok.is_punct and tok.tag_ != 'NNP']))
+ratTokens = []
+for doc in ratCorpusGen:
+    ratTokens.append(' '.join([(tok.lemma_) for tok in doc if not tok.is_stop and not tok.is_punct and tok.tag_ != 'NNP']))
 
-conActCorpusGen2 = nlp.pipe(conActTokens, n_process = 8, batch_size = 800, disable = ["parser", "ner"])
+ratCorpusGen2 = nlp.pipe(ratTokens, n_process = 8, batch_size = 800, disable = ["parser", "ner"])
 
-conActTokens2 = []
-for doc in conActCorpusGen2:
-    conActTokens2.append([(tok.lemma_) for tok in doc if not tok.is_stop])
+ratTokens2 = []
+for doc in ratCorpusGen2:
+    ratTokens2.append([(tok.lemma_) for tok in doc if not tok.is_stop])
 
 # build bigram model
-bigram = Phrases(conActTokens2, min_count = 9, threshold = 125)
+bigram = Phrases(ratTokens2, min_count = 9, threshold = 125)
 bigramMod = Phraser(bigram)
-# print(bigramMod[conActTokens2[0]])
+# print(bigramMod[ratTokens2[0]])
 # # list of bigrams obtained, with their corresponding scores
 # bigramsList = []
-# for doc in bigram.export_phrases(conActTokens2):
+# for doc in bigram.export_phrases(ratTokens2):
 #     bigramsList.append(doc)
 
 # bigramsList[0:100]
 
-conActTokens3 = bigramMod[conActTokens2]
+ratTokens3 = bigramMod[ratTokens2]
 
 # pickle trainTokens3
-with open("/rds/general/user/yl4220/home/Data/conAct/conActTokens3.pkl", "wb") as f:
-    pickle.dump(conActTokens3, f)
+with open("/rds/general/user/yl4220/home/Data/rat/ratTokens3.pkl", "wb") as f:
+    pickle.dump(ratTokens3, f)
     f.close()
 
 # create dictionary
-conActDict = corpora.Dictionary(conActTokens3)
+ratDict = corpora.Dictionary(ratTokens3)
 
-conActDict.filter_extremes(no_below=100, no_above=0.45)
+ratDict.filter_extremes(no_below=100, no_above=0.45)
 
-conActDict.compactify()
+ratDict.compactify()
 
-conActDict.save("/rds/general/user/yl4220/home/Data/conAct/conActDict.dict")
+ratDict.save("/rds/general/user/yl4220/home/Data/rat/ratDict.dict")
 
-conActBoWCorpus = [conActDict.doc2bow(doc) for doc in conActTokens3]
+ratBoWCorpus = [ratDict.doc2bow(doc) for doc in ratTokens3]
 
-corpora.MmCorpus.serialize("/rds/general/user/yl4220/home/Data/conAct/conActBoWCorpus.mm", conActBoWCorpus)
+corpora.MmCorpus.serialize("/rds/general/user/yl4220/home/Data/rat/ratBoWCorpus.mm", ratBoWCorpus)

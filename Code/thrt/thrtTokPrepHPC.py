@@ -18,13 +18,13 @@ with open("/rds/general/user/yl4220/home/Data/dfClean.pkl", "rb") as f:
     f.close()
 
 # create conservation actions corpus
-conActCorpus = df.conservationActions.values.tolist()
+thrtCorpus = df.threats.values.tolist()
 del df
-conActCorpus = list(filter(None, conActCorpus))
+thrtCorpus = list(filter(None, thrtCorpus))
 
-# save conActCorpus
-with open("/rds/general/user/yl4220/home/Data/conAct/conActCorpus.pkl", "wb") as f:
-    pickle.dump(conActCorpus, f)
+# save thrtCorpus
+with open("/rds/general/user/yl4220/home/Data/thrt/thrtCorpus.pkl", "wb") as f:
+    pickle.dump(thrtCorpus, f)
     f.close()
 
 nlp = spacy.load('en_core_web_sm')
@@ -36,45 +36,45 @@ for word in nlp.Defaults.stop_words:
     lexeme = nlp.vocab[word]
     lexeme.is_stop = True
 
-conActCorpusGen = nlp.pipe(conActCorpus, n_process = 8, batch_size = 800, disable = ["parser", "ner"])
+thrtCorpusGen = nlp.pipe(thrtCorpus, n_process = 8, batch_size = 800, disable = ["parser", "ner"])
 
-conActTokens = []
-for doc in conActCorpusGen:
-    conActTokens.append(' '.join([(tok.lemma_) for tok in doc if not tok.is_stop and not tok.is_punct and tok.tag_ != 'NNP']))
+thrtTokens = []
+for doc in thrtCorpusGen:
+    thrtTokens.append(' '.join([(tok.lemma_) for tok in doc if not tok.is_stop and not tok.is_punct and tok.tag_ != 'NNP']))
 
-conActCorpusGen2 = nlp.pipe(conActTokens, n_process = 8, batch_size = 800, disable = ["parser", "ner"])
+thrtCorpusGen2 = nlp.pipe(thrtTokens, n_process = 8, batch_size = 800, disable = ["parser", "ner"])
 
-conActTokens2 = []
-for doc in conActCorpusGen2:
-    conActTokens2.append([(tok.lemma_) for tok in doc if not tok.is_stop])
+thrtTokens2 = []
+for doc in thrtCorpusGen2:
+    thrtTokens2.append([(tok.lemma_) for tok in doc if not tok.is_stop])
 
 # build bigram model
-bigram = Phrases(conActTokens2, min_count = 9, threshold = 125)
+bigram = Phrases(thrtTokens2, min_count = 9, threshold = 125)
 bigramMod = Phraser(bigram)
-# print(bigramMod[conActTokens2[0]])
+# print(bigramMod[thrtTokens2[0]])
 # # list of bigrams obtained, with their corresponding scores
 # bigramsList = []
-# for doc in bigram.export_phrases(conActTokens2):
+# for doc in bigram.export_phrases(thrtTokens2):
 #     bigramsList.append(doc)
 
 # bigramsList[0:100]
 
-conActTokens3 = bigramMod[conActTokens2]
+thrtTokens3 = bigramMod[thrtTokens2]
 
 # pickle trainTokens3
-with open("/rds/general/user/yl4220/home/Data/conAct/conActTokens3.pkl", "wb") as f:
-    pickle.dump(conActTokens3, f)
+with open("/rds/general/user/yl4220/home/Data/thrt/thrtTokens3.pkl", "wb") as f:
+    pickle.dump(thrtTokens3, f)
     f.close()
 
 # create dictionary
-conActDict = corpora.Dictionary(conActTokens3)
+thrtDict = corpora.Dictionary(thrtTokens3)
 
-conActDict.filter_extremes(no_below=100, no_above=0.45)
+thrtDict.filter_extremes(no_below=100, no_above=0.45)
 
-conActDict.compactify()
+thrtDict.compactify()
 
-conActDict.save("/rds/general/user/yl4220/home/Data/conAct/conActDict.dict")
+thrtDict.save("/rds/general/user/yl4220/home/Data/thrt/thrtDict.dict")
 
-conActBoWCorpus = [conActDict.doc2bow(doc) for doc in conActTokens3]
+thrtBoWCorpus = [thrtDict.doc2bow(doc) for doc in thrtTokens3]
 
-corpora.MmCorpus.serialize("/rds/general/user/yl4220/home/Data/conAct/conActBoWCorpus.mm", conActBoWCorpus)
+corpora.MmCorpus.serialize("/rds/general/user/yl4220/home/Data/thrt/thrtBoWCorpus.mm", thrtBoWCorpus)

@@ -28,16 +28,16 @@ for file in natsort.os_sorted(os.listdir("../../Data/conAct/")):
         cvList.append(cv)
 
 # plot graph for coherence values
-limit=151;start=2;step=1
+limit=101;start=2;step=1
 x = range(start,limit,step)
 f = plt.figure()
 plt.plot(x, cvList) 
 plt.xlabel("Number of topics")
-plt.ylabel("Coherence value")
+plt.ylabel("C_v score")
 plt.show()
 f.savefig("../../Data/conAct/coherencePlot.png", dpi=500)
-# 17*
+# 8, 12* (very close)
 
-for idx, topic in modelList[15].print_topics(-1):
+for idx, topic in modelList[10].print_topics(-1):
     print('Topic: {} \nWords: {}'.format(idx, topic))
 

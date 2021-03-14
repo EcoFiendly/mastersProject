@@ -21,13 +21,11 @@ conActDict = corpora.Dictionary.load("/rds/general/user/yl4220/home/Data/conAct/
 # load corpus
 conActCorpus = corpora.MmCorpus("/rds/general/user/yl4220/home/Data/conAct/conActBoWCorpus.mm")
 
-# read job number from cluster
-iter = int(os.getenv("PBS_ARRAY_INDEX"))
+iter = int(os.getenv("PBS_ARRAY_INDEX")) # read job number from cluster
+chunksize = len(conActCorpus)//20 # set chunksize as 5% of corpus length
+eval_every = chunksize*4 # set eval_every to chunksize*4
 
-# set chunksize as 5% of corpus length
-chunksize = len(conActCorpus)//20
-
-model = gensim.models.LdaMulticore(corpus = conActCorpus, num_topics = iter, id2word = conActDict, chunksize = chunksize, passes = 20, workers = 8, eval_every = chunksize, random_state = 95)
+model = gensim.models.LdaMulticore(corpus = conActCorpus, num_topics = iter, id2word = conActDict, chunksize = chunksize, passes = 20, workers = 8, eval_every = eval_every, random_state = 95)
 cv = CoherenceModel(model = model, corpus = conActCorpus, texts = conActTokens3, coherence = 'c_v', processes = 8)
 cvCoh = cv.get_coherence()
 

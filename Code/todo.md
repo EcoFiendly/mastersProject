@@ -1,189 +1,338 @@
 # Todo list
 Weekly meeting at 2:30
+17th march 4pm meeting 
 ## in meetings
 
 ### progress update
 
 ## coherence plot and corresponding number of topics
 
-<img src="../Data/comb/coherencePlot.png" alt="comb coherence plot" width="800"/>
+<img src="../Data/comb/coherencePlot.png" alt="comb coherence plot" width="700"/>
 
-Combined peaks at 29
+Combined peaks at 25
 
-Topic: deforestation (for plantation and agriculture)
-Words: 0.074*"forest" + 0.063*"log" + 0.041*"plantation" + 0.036*"orchid" + 0.032*"herbarium" + 0.030*"cultivation" + 0.030*"agriculture" + 0.029*"palm" + 0.024*"botanic_garden" + 0.020*"value"
+Topic: assess extinction status \
+Words: 0.084*"endanger" + 0.063*"list" + 0.057*"assess" + 0.049*"threaten" + 0.040*"vulnerable" + 0.031*"critically" + 0.028*"near" + 0.025*"habitat" + 0.023*"assessment" + 0.022*"location"
 
-Topic: coral disease
-Words: 0.163*"coral" + 0.092*"disease" + 0.049*"level" + 0.034*"great" + 0.030*"effect" + 0.030*"localize" + 0.029*"conserve" + 0.024*"change" + 0.021*"loss" + 0.020*"fishery"
+Topic: threat to habitat (human activity) \
+Words: 0.045*"habitat" + 0.040*"threat" + 0.020*"fire" + 0.018*"change" + 0.017*"area" + 0.016*"activity" + 0.016*"human" + 0.014*"impact" + 0.014*"land" + 0.012*"cause"
 
-Topic: fish growth cycle
-Words: 0.041*"length" + 0.037*"maximum" + 0.035*"female" + 0.030*"male" + 0.028*"water" + 0.026*"feed" + 0.026*"spawn" + 0.025*"depth" + 0.024*"fish" + 0.024*"adult"
+Topic: use/trade \
+Words: 0.223*"trade" + 0.036*"know" + 0.031*"aquarium" + 0.031*"harvest" + 0.028*"utilise" + 0.028*"wild" + 0.027*"collect" + 0.023*"ornamental" + 0.019*"market" + 0.016*"international"
 
-Topic: natural reserve
-Words: 0.122*"reserve" + 0.041*"natural" + 0.034*"nature" + 0.016*"wildlife" + 0.014*"ensure" + 0.013*"local" + 0.013*"manage" + 0.012*"effort" + 0.012*"work" + 0.012*"wild"
+Topic: conservation actions \
+Words: 0.109*"conservation" + 0.064*"measure" + 0.055*"place" + 0.053*"protect" + 0.053*"area" + 0.048*"research" + 0.044*"specific" + 0.038*"action" + 0.036*"population" + 0.034*"distribution"
 
-Topic: large trees
-Words: 0.248*"large" + 0.243*"tree" + 0.150*"identify" + 0.103*"experience" + 0.035*"decline" + 0.020*"past" + 0.018*"small" + 0.018*"qualify" + 0.018*"endemic" + 0.018*"undertake"
+Topic: conservation actions \
+Words: 0.041*"conservation" + 0.027*"population" + 0.024*"management" + 0.023*"habitat" + 0.021*"action" + 0.018*"protection" + 0.017*"protect" + 0.014*"monitor" + 0.014*"site" + 0.012*"include"
 
-Topic: burning of forests
-Words: 0.068*"fire" + 0.030*"plant" + 0.028*"wood" + 0.022*"timber" + 0.020*"wild" + 0.019*"construction" + 0.018*"burn" + 0.017*"tree" + 0.016*"seed" + 0.015*"regeneration"
+Topic: threat to forests \
+Words: 0.029*"area" + 0.022*"hunt" + 0.020*"timber" + 0.015*"construction" + 0.015*"forest" + 0.014*"local" + 0.013*"increase" + 0.013*"log" + 0.012*"human" + 0.012*"wood"
 
-Topic: 6 
-Words: 0.221*"coast" + 0.202*"utilize" + 0.177*"depth" + 0.040*"globally" + 0.030*"ridge" + 0.021*"slope" + 0.017*"deepwater" + 0.016*"skate" + 0.016*"totally" + 0.015*"continental"
+Topic: population information \
+Words: 0.157*"population" + 0.145*"information" + 0.098*"available" + 0.065*"trend" + 0.053*"size" + 0.040*"datum" + 0.023*"unknown" + 0.023*"subpopulation" + 0.021*"decline" + 0.016*"current"
 
-Topic: deforestation for agriculture
-Words: 0.066*"agriculture" + 0.060*"loss" + 0.059*"deforestation" + 0.049*"land" + 0.041*"log" + 0.039*"decline" + 0.035*"forest" + 0.033*"conversion" + 0.032*"destruction" + 0.027*"scale"
+Topic: population information \
+Words: 0.126*"population" + 0.093*"criterion" + 0.087*"threshold" + 0.087*"size" + 0.083*"vulnerable" + 0.074*"approach" + 0.060*"range" + 0.060*"trend" + 0.050*"believe" + 0.032*"large"
 
-Topic: 8 
-Words: 0.043*"propose" + 0.031*"underway" + 0.031*"hunt" + 0.027*"bird" + 0.020*"local" + 0.019*"breeding" + 0.017*"conduct" + 0.016*"control" + 0.016*"reduce" + 0.013*"prevent"
+Topic: fish use trade \
+Words: 0.057*"fishery" + 0.042*"catch" + 0.025*"fishing" + 0.020*"fish" + 0.016*"trawl" + 0.016*"commercial" + 0.013*"bycatch" + 0.011*"increase" + 0.011*"target" + 0.011*"stock"
 
-Topic: use trade
-Words: 0.264*"trade" + 0.067*"harvest" + 0.045*"wild" + 0.039*"use" + 0.037*"aquarium" + 0.030*"international" + 0.023*"export" + 0.022*"ornamental" + 0.022*"market" + 0.020*"local"
+Topic: population information \
+Words: 0.103*"list" + 0.064*"concern" + 0.061*"decline" + 0.052*"distribution" + 0.049*"threaten" + 0.045*"population" + 0.045*"category" + 0.044*"large" + 0.041*"wide" + 0.032*"qualify"
 
-Topic: invasive species
-Words: 0.158*"plant" + 0.110*"native" + 0.071*"invasive" + 0.049*"introduce" + 0.031*"spread" + 0.020*"alien" + 0.019*"graze" + 0.019*"predation" + 0.018*"competition" + 0.015*"introduction"
+Topic: population information \
+Words: 0.135*"common" + 0.076*"widespread" + 0.063*"population" + 0.053*"concern" + 0.050*"abundant" + 0.043*"range" + 0.041*"locally" + 0.029*"global" + 0.025*"stable" + 0.023*"size"
 
-Topic: fish habitat
-Words: 0.133*"water" + 0.068*"fish" + 0.064*"deep" + 0.061*"live" + 0.043*"shallow" + 0.036*"food" + 0.024*"shell" + 0.021*"accession" + 0.019*"freshwater" + 0.018*"small"
+Topic: population information \
+Words: 0.128*"individual" + 0.104*"population" + 0.071*"estimate" + 0.053*"number" + 0.045*"decline" + 0.044*"mature" + 0.021*"total" + 0.019*"density" + 0.018*"range" + 0.015*"survey"
 
-Topic: 12 
-Words: 0.260*"widespread" + 0.099*"regional" + 0.090*"stable" + 0.036*"utilise" + 0.034*"rare" + 0.032*"uncommon" + 0.026*"level" + 0.023*"face" + 0.015*"decline" + 0.015*"scatter"
+Topic: forests; lowland/montane \
+Words: 0.166*"forest" + 0.034*"tree" + 0.025*"lowland" + 0.016*"montane" + 0.015*"fruit" + 0.014*"secondary" + 0.012*"leave" + 0.012*"plantation" + 0.012*"primary" + 0.012*"habitat"
 
-Topic: 13 
-Words: 0.177*"endemic" + 0.064*"elevation" + 0.043*"basin" + 0.023*"level" + 0.023*"extend" + 0.022*"represent" + 0.022*"limit" + 0.022*"valley" + 0.019*"base" + 0.015*"county"
+Topic: threat level in space and time \
+Words: 0.207*"threat" + 0.111*"major" + 0.067*"concern" + 0.066*"know" + 0.056*"assess" + 0.041*"currently" + 0.040*"significant" + 0.035*"distribution" + 0.032*"future" + 0.031*"identify"
 
-Topic: island endemic species
-Words: 0.555*"island" + 0.054*"endemic" + 0.027*"mainland" + 0.021*"archipelago" + 0.013*"reduction" + 0.012*"degradation" + 0.011*"galápago" + 0.010*"introduce" + 0.010*"seychelle" + 0.009*"palau"
+Topic: monitoring \
+Words: 0.081*"know" + 0.050*"locality" + 0.049*"record" + 0.038*"collection" + 0.038*"speciman" + 0.031*"survey" + 0.031*"collect" + 0.024*"area" + 0.022*"site" + 0.019*"type"
 
-Topic: 15 
-Words: 0.106*"seed" + 0.086*"bank" + 0.050*"plant" + 0.043*"field" + 0.030*"garden" + 0.029*"flower" + 0.027*"grow" + 0.024*"soil" + 0.021*"meadow" + 0.016*"cultivate"
+Topic: freshwater habitat \
+Words: 0.044*"water" + 0.026*"stream" + 0.021*"river" + 0.018*"small" + 0.018*"occur" + 0.015*"habitat" + 0.015*"fish" + 0.015*"lake" + 0.014*"inhabit" + 0.014*"feed"
 
-Topic: 16 
-Words: 0.134*"decline" + 0.115*"large" + 0.084*"threaten" + 0.073*"presume" + 0.035*"broad" + 0.033*"deficient" + 0.029*"fast_qualify" + 0.025*"rate" + 0.023*"stable" + 0.023*"uncertain"
+Topic: island bird ecology \
+Words: 0.173*"island" + 0.032*"nest" + 0.027*"breeding" + 0.025*"bird" + 0.025*"breed" + 0.017*"colony" + 0.016*"site" + 0.014*"introduce" + 0.012*"include" + 0.010*"predator"
 
-Topic: 17 
-Words: 0.096*"grow" + 0.081*"forest" + 0.061*"tree" + 0.036*"shrub" + 0.032*"soil" + 0.026*"small" + 0.023*"slope" + 0.022*"tall" + 0.021*"limestone" + 0.020*"open"
+Topic: threat to coral systems \
+Words: 0.039*"threat" + 0.030*"coral" + 0.029*"habitat" + 0.028*"change" + 0.028*"pollution" + 0.027*"water" + 0.024*"increase" + 0.021*"disease" + 0.019*"climate" + 0.017*"impact"
 
-Topic: 18 
-Words: 0.430*"forest" + 0.028*"secondary" + 0.027*"primary" + 0.017*"rainforest" + 0.016*"disturb" + 0.014*"cloud" + 0.013*"patch" + 0.012*"humid" + 0.011*"small" + 0.011*"evergreen"
+Topic: freshwater habitat \
+Words: 0.076*"river" + 0.049*"occur" + 0.042*"range" + 0.031*"record" + 0.027*"lake" + 0.025*"region" + 0.024*"basin" + 0.022*"distribution" + 0.021*"know" + 0.015*"subspecie"
 
-Topic: 19 
-Words: 0.095*"water" + 0.056*"pollution" + 0.037*"system" + 0.036*"drainage" + 0.030*"spring" + 0.030*"flow" + 0.025*"fish" + 0.019*"impact" + 0.019*"basin" + 0.018*"dam"
+Topic: conservation actions \
+Words: 0.114*"protect" + 0.104*"area" + 0.086*"national" + 0.081*"park" + 0.065*"reserve" + 0.059*"occur" + 0.022*"forest" + 0.020*"know" + 0.016*"conservation" + 0.016*"collection"
 
-Topic: 20 
-Words: 0.174*"decline" + 0.075*"rare" + 0.067*"small" + 0.063*"quality" + 0.033*"single" + 0.028*"loss" + 0.024*"severely_fragment" + 0.024*"restrict" + 0.022*"suitable" + 0.022*"mature"
+Topic:  \
+Words: 0.085*"occurrence" + 0.080*"extent" + 0.075*"area" + 0.069*"endemic" + 0.050*"occupancy" + 0.047*"occur" + 0.037*"estimate" + 0.037*"know" + 0.033*"location" + 0.030*"province"
 
-Topic: 21 
-Words: 0.166*"change" + 0.096*"climate" + 0.059*"altitude" + 0.025*"drought" + 0.022*"condition" + 0.021*"impact" + 0.018*"massif" + 0.018*"temperature" + 0.017*"effect" + 0.017*"highland"
+Topic: forest habitat decline \
+Words: 0.098*"habitat" + 0.047*"decline" + 0.044*"loss" + 0.039*"forest" + 0.035*"threat" + 0.026*"threaten" + 0.025*"agriculture" + 0.024*"deforestation" + 0.023*"log" + 0.020*"continue"
 
-Topic: 22 
-Words: 0.617*"size" + 0.099*"large" + 0.047*"stable" + 0.046*"extremely" + 0.034*"decline" + 0.019*"despite_fact" + 0.018*"data" + 0.017*"sufficiently_rapid" + 0.015*"reserva" + 0.015*"exact"
+Topic: reef habitat/system \
+Words: 0.067*"reef" + 0.055*"depth" + 0.036*"range" + 0.029*"length" + 0.026*"coral" + 0.024*"occur" + 0.024*"island" + 0.023*"ocean" + 0.022*"coast" + 0.017*"generation"
 
-Topic: 23 
-Words: 0.055*"breed" + 0.039*"nest" + 0.031*"breeding" + 0.030*"vegetation" + 0.025*"inhabit" + 0.024*"egg" + 0.023*"ground" + 0.021*"pair" + 0.019*"small" + 0.018*"water"
+Topic: forest habitat \
+Words: 0.035*"forest" + 0.031*"grow" + 0.022*"tree" + 0.021*"occur" + 0.018*"habitat" + 0.017*"soil" + 0.016*"area" + 0.014*"grassland" + 0.014*"rock" + 0.014*"open"
 
-Topic: 24 
-Words: 0.071*"impact" + 0.067*"activity" + 0.059*"human" + 0.052*"development" + 0.023*"agricultural" + 0.021*"mining" + 0.020*"loss" + 0.019*"road" + 0.018*"disturbance" + 0.018*"urban"
+Topic: 24 \
+Words: 0.064*"utilize" + 0.049*"record" + 0.043*"report" + 0.036*"unknown" + 0.028*"female" + 0.028*"use" + 0.023*"know" + 0.022*"size" + 0.022*"male" + 0.015*"group"
 
-Topic: 25 
-Words: 0.140*"ecology" + 0.048*"understand" + 0.047*"abundance" + 0.044*"life_history" + 0.043*"size" + 0.036*"biology" + 0.029*"order" + 0.025*"carry" + 0.023*"dynamic" + 0.016*"knowledge"
+<img src="../Data/conAct/coherencePlot.png" alt="conAct coherence plot" width="700"/>
 
-Topic: 26 
-Words: 0.087*"fishery" + 0.067*"catch" + 0.045*"fishing" + 0.028*"trawl" + 0.026*"fish" + 0.025*"commercial" + 0.022*"bycatch" + 0.021*"effort" + 0.017*"target" + 0.017*"stock"
+Conservation actions peaks at 12, 8 really close.
 
-Topic: 27 
-Words: 0.035*"group" + 0.020*"host" + 0.019*"territory" + 0.018*"roost" + 0.018*"large" + 0.017*"fruit" + 0.016*"female" + 0.015*"colony" + 0.015*"small" + 0.015*"bear"
+12 Topics:
 
-Topic: 28 
-Words: 0.076*"decline" + 0.042*"mature" + 0.033*"density" + 0.033*"generation" + 0.029*"base" + 0.025*"rate" + 0.024*"abundance" + 0.023*"time" + 0.021*"past" + 0.017*"assume"
+Topic: population research \ 
+Words: 0.036*"population" + 0.021*"research" + 0.019*"subpopulation" + 0.017*"threat" + 0.017*"habitat" + 0.013*"history" + 0.012*"life" + 0.011*"datum" + 0.011*"ecology" + 0.010*"river"
 
-<img src="../Data/conAct/coherencePlot.png" alt="conAct coherence plot" width="800"/>
+Topic: fishery management \
+Words: 0.038*"fishery" + 0.023*"fishing" + 0.021*"management" + 0.020*"marine" + 0.019*"catch" + 0.017*"include" + 0.015*"measure" + 0.014*"fish" + 0.014*"effort" + 0.014*"limit"
 
-Conservation actions peaks at 17
+Topic: conservation actions for forest habitat \
+Words: 0.048*"forest" + 0.036*"habitat" + 0.025*"protection" + 0.021*"management" + 0.016*"local" + 0.013*"include" + 0.012*"land" + 0.012*"plan" + 0.011*"community" + 0.009*"species"
 
-Topic: 0 
-Words: 0.083*"park" + 0.083*"national" + 0.056*"habitat" + 0.049*"population" + 0.033*"need" + 0.031*"trend" + 0.026*"research" + 0.023*"monitor" + 0.022*"occur" + 0.017*"recommend"
+Topic: habitat conservation actions \
+Words: 0.062*"habitat" + 0.053*"action" + 0.049*"recommend" + 0.045*"monitor" + 0.029*"population" + 0.021*"trend" + 0.021*"lake" + 0.018*"activity" + 0.018*"know" + 0.017*"occur"
 
-Topic: 1 
-Words: 0.062*"management" + 0.031*"include" + 0.030*"population" + 0.029*"research" + 0.028*"threat" + 0.027*"require" + 0.025*"taxonomy" + 0.024*"conserve" + 0.023*"range" + 0.022*"action"
+Topic: 4 \
+Words: 0.087*"measure" + 0.081*"place" + 0.061*"specific" + 0.054*"population" + 0.047*"research" + 0.044*"distribution" + 0.038*"threat" + 0.034*"action" + 0.033*"know" + 0.031*"range"
 
-Topic: 2 
-Words: 0.070*"protection" + 0.026*"habitat" + 0.025*"action" + 0.025*"level" + 0.023*"occur" + 0.023*"need" + 0.017*"range" + 0.016*"important" + 0.015*"list" + 0.013*"subject"
+Topic: plant collection \
+Words: 0.051*"collection" + 0.050*"plant" + 0.031*"accession" + 0.027*"seed" + 0.026*"wild" + 0.026*"report" + 0.025*"genetic" + 0.023*"germplasm" + 0.022*"resource" + 0.021*"hold"
 
-Topic: 3 
-Words: 0.059*"seed" + 0.039*"situ" + 0.037*"plant" + 0.028*"bank" + 0.027*"collection" + 0.026*"accession" + 0.025*"collect" + 0.024*"garden" + 0.023*"list" + 0.022*"genetic"
+Topic: population information \
+Words: 0.058*"action" + 0.046*"population" + 0.044*"research" + 0.035*"survey" + 0.032*"require" + 0.029*"habitat" + 0.025*"determine" + 0.025*"know" + 0.024*"status" + 0.023*"distribution"
 
-Topic: 4 
-Words: 0.042*"fishery" + 0.040*"marine" + 0.028*"fishing" + 0.023*"catch" + 0.022*"measure" + 0.022*"management" + 0.019*"include" + 0.015*"water" + 0.015*"limit" + 0.014*"fish"
+Topic: national parks/reserves \
+Words: 0.148*"park" + 0.141*"national" + 0.120*"reserve" + 0.049*"forest" + 0.049*"occur" + 0.031*"nature" + 0.018*"record" + 0.016*"know" + 0.016*"natural" + 0.016*"range"
 
-Topic: 5 
-Words: 0.071*"appendix" + 0.064*"cite" + 0.057*"list" + 0.055*"information" + 0.039*"available" + 0.028*"wildlife" + 0.021*"range" + 0.018*"population" + 0.018*"sanctuary" + 0.017*"trade"
+Topic: list of threats \
+Words: 0.127*"list" + 0.047*"endanger" + 0.042*"threaten" + 0.040*"assess" + 0.034*"national" + 0.031*"occur" + 0.028*"vulnerable" + 0.024*"seed" + 0.022*"concern" + 0.017*"present"
 
-Topic: 6 
-Words: 0.041*"population" + 0.032*"site" + 0.030*"recommend" + 0.029*"protection" + 0.021*"habitat" + 0.020*"situ" + 0.018*"management" + 0.018*"legislation" + 0.017*"monitor" + 0.016*"collection"
+Topic: conservation actions for island populations \
+Words: 0.029*"population" + 0.029*"action" + 0.016*"island" + 0.013*"breeding" + 0.013*"propose" + 0.013*"habitat" + 0.012*"underway" + 0.012*"site" + 0.012*"plan" + 0.011*"programme"
 
-Topic: 7 
-Words: 0.036*"population" + 0.012*"island" + 0.012*"breeding" + 0.011*"captive" + 0.010*"river" + 0.009*"include" + 0.009*"increase" + 0.009*"management" + 0.009*"research" + 0.009*"subpopulation"
+Topic: collect information \
+Words: 0.133*"occur" + 0.110*"collection" + 0.089*"record" + 0.088*"know" + 0.056*"information" + 0.049*"subpopulation" + 0.041*"report" + 0.038*"available" + 0.016*"special" + 0.011*"zahamena"
 
-Topic: 8 
-Words: 0.044*"action" + 0.030*"habitat" + 0.022*"population" + 0.021*"propose" + 0.020*"underway" + 0.018*"survey" + 0.015*"forest" + 0.015*"site" + 0.012*"monitor" + 0.012*"conduct"
+Topic: protection legislation \
+Words: 0.045*"legislation" + 0.042*"protection" + 0.037*"population" + 0.030*"occur" + 0.030*"trade" + 0.026*"habitat" + 0.026*"recommend" + 0.023*"site" + 0.019*"list" + 0.018*"monitor"
 
-Topic: 9 
-Words: 0.110*"need" + 0.034*"research" + 0.028*"occur" + 0.025*"distribution" + 0.023*"status" + 0.022*"population" + 0.021*"nacional" + 0.019*"know" + 0.017*"action" + 0.016*"survey"
+8 Topics:
 
-Topic: 10 
-Words: 0.190*"measure" + 0.132*"place" + 0.129*"specific" + 0.074*"know" + 0.046*"range" + 0.041*"occur" + 0.032*"need" + 0.031*"marine" + 0.031*"present" + 0.030*"assess"
+Topic: population research \
+Words: 0.041*"population" + 0.023*"research" + 0.020*"habitat" + 0.016*"threat" + 0.015*"list" + 0.013*"subpopulation" + 0.012*"datum" + 0.011*"range" + 0.011*"status" + 0.009*"distribution"
 
-Topic: 11 
-Words: 0.068*"occur" + 0.061*"subpopulation" + 0.056*"record" + 0.052*"report" + 0.050*"situ" + 0.042*"national" + 0.037*"park" + 0.031*"collection" + 0.029*"reserve" + 0.028*"special"
+Topic: fishery management  \
+Words: 0.035*"fishery" + 0.034*"management" + 0.022*"include" + 0.021*"trade" + 0.021*"marine" + 0.019*"fishing" + 0.017*"measure" + 0.016*"population" + 0.015*"catch" + 0.013*"size"
 
-Topic: 12 
-Words: 0.127*"reserve" + 0.119*"park" + 0.115*"national" + 0.065*"forest" + 0.050*"occur" + 0.033*"nature" + 0.016*"include" + 0.014*"know" + 0.012*"find" + 0.012*"range"
+Topic: conservation actions for forest habitat \
+Words: 0.034*"forest" + 0.027*"habitat" + 0.021*"protection" + 0.019*"management" + 0.016*"local" + 0.011*"awareness" + 0.011*"plan" + 0.011*"include" + 0.010*"community" + 0.010*"population"
 
-Topic: 13 
-Words: 0.102*"list" + 0.046*"habitat" + 0.037*"endanger" + 0.026*"include" + 0.025*"national" + 0.024*"natural" + 0.021*"protection" + 0.020*"vulnerable" + 0.020*"threaten" + 0.018*"annex"
+Topic: habitat conservation actions \
+Words: 0.036*"action" + 0.030*"habitat" + 0.027*"population" + 0.020*"monitor" + 0.018*"island" + 0.017*"site" + 0.015*"breeding" + 0.014*"propose" + 0.013*"underway" + 0.012*"bird"
 
-Topic: 14 
-Words: 0.039*"forest" + 0.018*"list" + 0.016*"land" + 0.016*"status" + 0.015*"management" + 0.013*"state" + 0.013*"threaten" + 0.013*"national" + 0.013*"endanger" + 0.012*"activity"
+Topic: 4 \
+Words: 0.084*"measure" + 0.079*"place" + 0.059*"specific" + 0.051*"population" + 0.049*"research" + 0.047*"distribution" + 0.045*"know" + 0.041*"action" + 0.034*"threat" + 0.029*"range"
 
-Topic: 15 
-Words: 0.077*"population" + 0.073*"need" + 0.072*"research" + 0.058*"action" + 0.049*"threat" + 0.047*"distribution" + 0.042*"trend" + 0.036*"place" + 0.030*"know" + 0.029*"ecology"
+Topic: plant collection \
+Words: 0.067*"list" + 0.044*"collection" + 0.035*"occur" + 0.031*"seed" + 0.025*"endanger" + 0.022*"report" + 0.021*"plant" + 0.017*"vulnerable" + 0.016*"subpopulation" + 0.016*"collect"
 
-Topic: 16 
-Words: 0.122*"situ" + 0.089*"collection" + 0.055*"know" + 0.043*"occur" + 0.039*"find" + 0.027*"assess" + 0.025*"record" + 0.018*"site" + 0.015*"recommend" + 0.015*"effort"
+Topic: population information \
+Words: 0.060*"action" + 0.039*"population" + 0.039*"assess" + 0.036*"survey" + 0.029*"habitat" + 0.027*"threaten" + 0.026*"research" + 0.022*"require" + 0.022*"know" + 0.021*"recommend"
 
-<img src="../Data/hab/coherencePlot.png" alt="hab coherence plot" width="800"/>
+Topic: national parks/reserves \
+Words: 0.127*"park" + 0.124*"national" + 0.099*"reserve" + 0.073*"occur" + 0.043*"forest" + 0.031*"know" + 0.027*"collection" + 0.026*"record" + 0.024*"nature" + 0.019*"natural"
 
-Habitat peaks at 9
+<img src="../Data/hab/coherencePlot.png" alt="hab coherence plot" width="700"/>
 
-Topic: 0 
-Words: 0.050*"find" + 0.027*"area" + 0.021*"occur" + 0.020*"secondary" + 0.017*"record" + 0.016*"primary" + 0.016*"inhabit" + 0.015*"tree" + 0.013*"breed" + 0.012*"know"
+Habitat peaks at 17. 16 and 18 really close.
 
-Topic: 1 
-Words: 0.077*"grow" + 0.069*"tree" + 0.040*"occur" + 0.034*"shrub" + 0.033*"find" + 0.032*"tall" + 0.029*"soil" + 0.029*"small" + 0.021*"humid" + 0.019*"altitude"
+17 Topic:
 
-Topic: 2 
-Words: 0.038*"find" + 0.028*"water" + 0.027*"feed" + 0.025*"fish" + 0.023*"depth" + 0.023*"occur" + 0.022*"spawn" + 0.018*"small" + 0.016*"shallow" + 0.016*"coral"
+Topic: bird ecology \
+Words: 0.039*"nest" + 0.029*"breed" + 0.023*"breeding" + 0.021*"feed" + 0.018*"small" + 0.016*"bird" + 0.016*"insect" + 0.016*"diet" + 0.015*"ground" + 0.014*"forage"
 
-Topic: 3 
-Words: 0.031*"grow" + 0.025*"find" + 0.024*"occur" + 0.018*"plant" + 0.017*"area" + 0.014*"soil" + 0.013*"flower" + 0.013*"seed" + 0.012*"moist" + 0.011*"herb"
+Topic: freshwater systems \
+Words: 0.084*"water" + 0.057*"occur" + 0.040*"pond" + 0.033*"freshwater" + 0.027*"flood" + 0.027*"shallow" + 0.022*"margin" + 0.020*"grow" + 0.020*"ditch" + 0.018*"slow"
 
-Topic: 4 
-Words: 0.027*"female" + 0.019*"male" + 0.018*"range" + 0.012*"population" + 0.011*"size" + 0.010*"area" + 0.009*"large" + 0.009*"individual" + 0.009*"occur" + 0.009*"adult"
+Topic: rock habitats \
+Words: 0.048*"crevice" + 0.040*"limestone" + 0.029*"stone" + 0.023*"outcrop" + 0.023*"area" + 0.022*"boulder" + 0.022*"wall" + 0.021*"cliff" + 0.017*"usually" + 0.016*"base"
 
-Topic: 5 
-Words: 0.082*"length" + 0.060*"maximum" + 0.039*"size" + 0.028*"know" + 0.025*"reach" + 0.024*"total" + 0.023*"depth" + 0.022*"standard" + 0.020*"maturity" + 0.019*"occur"
+Topic: plant hosts for insects \
+Words: 0.048*"tree" + 0.027*"plant" + 0.027*"wood" + 0.024*"host" + 0.019*"leave" + 0.018*"adult" + 0.016*"dead" + 0.015*"live" + 0.015*"larvae" + 0.013*"occur"
 
-Topic: 6 
-Words: 0.035*"nest" + 0.026*"breed" + 0.020*"breeding" + 0.016*"feed" + 0.016*"small" + 0.015*"season" + 0.014*"insect" + 0.013*"area" + 0.012*"forage" + 0.012*"bird"
+Topic: plants on slopes habitats *phrasing* \
+Words: 0.052*"slope" + 0.047*"grow" + 0.034*"herb" + 0.032*"occur" + 0.021*"altitude" + 0.020*"pine" + 0.019*"shrub" + 0.019*"steep" + 0.015*"tree" + 0.014*"quercus"
 
-Topic: 7 
-Words: 0.038*"find" + 0.023*"area" + 0.020*"occur" + 0.018*"open" + 0.017*"tree" + 0.016*"soil" + 0.012*"vegetation" + 0.011*"slope" + 0.011*"wood" + 0.011*"pine"
+Topic: plant ecology \
+Words: 0.103*"grow" + 0.084*"tree" + 0.046*"tall" + 0.041*"shrub" + 0.035*"small" + 0.027*"soil" + 0.026*"flower" + 0.023*"occur" + 0.020*"seed" + 0.018*"humid"
 
-Topic: 8 
-Words: 0.073*"water" + 0.033*"find" + 0.024*"occur" + 0.024*"small" + 0.024*"flow" + 0.020*"inhabit" + 0.020*"pond" + 0.018*"vegetation" + 0.014*"large" + 0.013*"shallow"
+Topic: plant ecology (in calcareous habitats) \
+Words: 0.048*"grow" + 0.048*"soil" + 0.022*"plant" + 0.020*"occur" + 0.016*"calcareous" + 0.015*"shade" + 0.013*"rich" + 0.013*"moist" + 0.011*"bank" + 0.011*"damp"
 
+Topic: open area vegetation \
+Words: 0.065*"area" + 0.048*"open" + 0.032*"occur" + 0.029*"vegetation" + 0.024*"scrub" + 0.018*"grass" + 0.018*"semi" + 0.018*"arid" + 0.017*"soil" + 0.017*"edge"
+
+Topic: forest floor habitat (unsure) \
+Words: 0.025*"breed" + 0.023*"inhabit" + 0.022*"secondary" + 0.021*"litter" + 0.020*"area" + 0.020*"leaf" + 0.019*"occur" + 0.018*"primary" + 0.015*"disturb" + 0.014*"disturbance"
+
+Topic: small water habitats \
+Words: 0.066*"water" + 0.041*"vegetation" + 0.035*"egg" + 0.026*"breed" + 0.025*"season" + 0.017*"shallow" + 0.015*"small" + 0.014*"pond" + 0.013*"area" + 0.011*"larvae"
+
+Topic: coral habitats \
+Words: 0.065*"length" + 0.063*"maximum" + 0.046*"depth" + 0.035*"coral" + 0.035*"inhabit" + 0.032*"occur" + 0.029*"standard" + 0.027*"water" + 0.023*"feed" + 0.022*"shallow"
+
+Topic: gather more information \
+Words: 0.060*"know" + 0.048*"record" + 0.036*"information" + 0.028*"ecology" + 0.028*"collect" + 0.026*"speciman" + 0.021*"available" + 0.020*"little" + 0.019*"likely" + 0.018*"area"
+
+Topic: evergreen habitat \
+Words: 0.069*"occur" + 0.066*"tree" + 0.035*"evergreen" + 0.033*"elevation" + 0.029*"range" + 0.028*"secondary" + 0.026*"primary" + 0.026*"small" + 0.025*"humid" + 0.019*"record"
+
+Topic: 13
+Words: 0.021*"range" + 0.016*"female" + 0.015*"population" + 0.013*"area" + 0.012*"male" + 0.011*"individual" + 0.010*"size" + 0.010*"group" + 0.010*"large" + 0.009*"study"
+
+Topic: lifecycle \ 
+Words: 0.063*"length" + 0.056*"size" + 0.055*"female" + 0.044*"generation" + 0.038*"maximum" + 0.037*"male" + 0.031*"mature" + 0.030*"reach" + 0.029*"maturity" + 0.026*"estimate"
+
+Topic: (fresh)water habitat \
+Words: 0.052*"water" + 0.043*"flow" + 0.039*"small" + 0.028*"clear" + 0.023*"large" + 0.021*"inhabit" + 0.021*"fast" + 0.020*"occur" + 0.015*"current" + 0.015*"moderate"
+
+Topic: fish ecology \
+Words: 0.032*"spawn" + 0.027*"fish" + 0.026*"water" + 0.026*"male" + 0.024*"female" + 0.023*"feed" + 0.021*"occur" + 0.017*"egg" + 0.015*"juvenile" + 0.013*"small"
+
+16 Topic:
+
+Topic: 0  \
+Words: 0.041*"nest" + 0.034*"breed" + 0.025*"breeding" + 0.018*"feed" + 0.017*"small" + 0.016*"bird" + 0.016*"season" + 0.015*"insect" + 0.014*"diet" + 0.014*"ground"
+
+Topic: 1  \
+Words: 0.103*"water" + 0.047*"occur" + 0.046*"pond" + 0.031*"shallow" + 0.026*"freshwater" + 0.023*"vegetation" + 0.020*"flood" + 0.019*"permanent" + 0.018*"spring" + 0.017*"margin"
+
+Topic: 2  \
+Words: 0.046*"limestone" + 0.045*"crevice" + 0.029*"cliff" + 0.027*"stone" + 0.026*"outcrop" + 0.024*"area" + 0.022*"wall" + 0.022*"boulder" + 0.017*"usually" + 0.016*"associate"
+
+Topic: 3  \
+Words: 0.038*"tree" + 0.025*"plant" + 0.022*"leave" + 0.022*"wood" + 0.020*"host" + 0.015*"adult" + 0.013*"dead" + 0.013*"flower" + 0.012*"feed" + 0.012*"occur"
+
+Topic: 4  \
+Words: 0.052*"slope" + 0.039*"grow" + 0.037*"occur" + 0.033*"altitude" + 0.027*"tree" + 0.022*"pine" + 0.021*"shrub" + 0.020*"steep" + 0.018*"range" + 0.017*"herb"
+
+Topic: 5  \
+Words: 0.099*"grow" + 0.084*"tree" + 0.046*"tall" + 0.042*"shrub" + 0.035*"small" + 0.028*"flower" + 0.027*"soil" + 0.025*"occur" + 0.019*"seed" + 0.019*"humid"
+
+Topic: 6  \
+Words: 0.044*"grow" + 0.034*"soil" + 0.017*"occur" + 0.016*"plant" + 0.013*"shade" + 0.013*"area" + 0.012*"range" + 0.011*"site" + 0.011*"calcareous" + 0.011*"rich"
+
+Topic: 7  \
+Words: 0.052*"area" + 0.045*"open" + 0.032*"occur" + 0.028*"soil" + 0.026*"vegetation" + 0.021*"scrub" + 0.020*"grass" + 0.017*"grow" + 0.017*"arid" + 0.016*"edge"
+
+Topic: 8  \
+Words: 0.026*"breed" + 0.025*"area" + 0.022*"inhabit" + 0.019*"secondary" + 0.018*"litter" + 0.018*"occur" + 0.017*"leaf" + 0.016*"primary" + 0.014*"disturb" + 0.014*"rainforest"
+
+Topic: 9  \
+Words: 0.042*"male" + 0.042*"female" + 0.035*"spawn" + 0.029*"egg" + 0.020*"water" + 0.017*"fish" + 0.016*"feed" + 0.016*"occur" + 0.014*"spawning" + 0.013*"adult"
+
+Topic: 10  \
+Words: 0.041*"water" + 0.041*"depth" + 0.033*"feed" + 0.031*"fish" + 0.030*"occur" + 0.030*"coral" + 0.025*"small" + 0.024*"inhabit" + 0.024*"shallow" + 0.022*"maximum"
+
+Topic: 11  \
+Words: 0.063*"know" + 0.050*"record" + 0.038*"information" + 0.033*"collect" + 0.029*"ecology" + 0.028*"speciman" + 0.023*"available" + 0.021*"little" + 0.021*"likely" + 0.018*"unknown"
+
+Topic: 12  \
+Words: 0.067*"occur" + 0.051*"tree" + 0.035*"evergreen" + 0.031*"elevation" + 0.030*"range" + 0.027*"secondary" + 0.024*"humid" + 0.024*"primary" + 0.022*"record" + 0.020*"dense"
+
+Topic: 13  \
+Words: 0.019*"range" + 0.016*"female" + 0.015*"population" + 0.014*"area" + 0.011*"individual" + 0.011*"size" + 0.010*"group" + 0.010*"male" + 0.009*"large" + 0.009*"study"
+
+Topic: 14  \
+Words: 0.107*"length" + 0.078*"maximum" + 0.056*"size" + 0.030*"total" + 0.029*"maturity" + 0.029*"reach" + 0.028*"standard" + 0.027*"depth" + 0.027*"female" + 0.027*"generation"
+
+Topic: 15  \
+Words: 0.052*"water" + 0.042*"flow" + 0.035*"small" + 0.028*"clear" + 0.025*"large" + 0.021*"fast" + 0.019*"occur" + 0.019*"inhabit" + 0.017*"current" + 0.015*"moderate"
+
+18 Topic:
+
+Topic: 0  \
+Words: 0.039*"nest" + 0.033*"breed" + 0.024*"breeding" + 0.019*"feed" + 0.017*"small" + 0.016*"insect" + 0.016*"bird" + 0.015*"diet" + 0.015*"ground" + 0.014*"season"
+
+Topic: 1  \
+Words: 0.099*"water" + 0.050*"occur" + 0.042*"pond" + 0.032*"shallow" + 0.026*"freshwater" + 0.024*"flood" + 0.019*"margin" + 0.017*"slow" + 0.017*"ditch" + 0.017*"vegetation"
+
+Topic: 2  \
+Words: 0.039*"crevice" + 0.034*"limestone" + 0.033*"area" + 0.023*"stone" + 0.020*"outcrop" + 0.018*"wall" + 0.017*"cliff" + 0.016*"boulder" + 0.016*"occur" + 0.016*"range"
+
+Topic: 3  \
+Words: 0.050*"tree" + 0.027*"wood" + 0.025*"plant" + 0.024*"host" + 0.022*"leave" + 0.017*"dead" + 0.016*"adult" + 0.014*"larvae" + 0.014*"occur" + 0.013*"live"
+
+Topic: 4  \
+Words: 0.054*"slope" + 0.035*"tree" + 0.035*"grow" + 0.034*"altitude" + 0.033*"occur" + 0.025*"pine" + 0.021*"range" + 0.021*"steep" + 0.020*"shrub" + 0.017*"quercus"
+
+Topic: 5  \
+Words: 0.108*"grow" + 0.080*"tree" + 0.047*"tall" + 0.040*"shrub" + 0.032*"small" + 0.030*"flower" + 0.028*"soil" + 0.024*"occur" + 0.021*"seed" + 0.020*"humid"
+
+Topic: 6  \
+Words: 0.049*"grow" + 0.039*"soil" + 0.019*"occur" + 0.017*"plant" + 0.015*"calcareous" + 0.014*"shade" + 0.012*"rich" + 0.011*"form" + 0.011*"moist" + 0.011*"site"
+
+Topic: 7  \
+Words: 0.053*"area" + 0.047*"open" + 0.034*"occur" + 0.026*"soil" + 0.025*"vegetation" + 0.024*"scrub" + 0.020*"grass" + 0.017*"grow" + 0.016*"edge" + 0.016*"arid"
+
+Topic: 8  \
+Words: 0.027*"secondary" + 0.026*"area" + 0.025*"breed" + 0.023*"inhabit" + 0.021*"primary" + 0.020*"occur" + 0.020*"litter" + 0.019*"leaf" + 0.016*"disturb" + 0.015*"record"
+
+Topic: 9  \
+Words: 0.066*"egg" + 0.033*"water" + 0.028*"female" + 0.025*"male" + 0.023*"season" + 0.021*"vegetation" + 0.019*"lie" + 0.019*"burrow" + 0.016*"larvae" + 0.015*"breed"
+
+Topic: 10  \
+Words: 0.055*"length" + 0.054*"maximum" + 0.043*"depth" + 0.037*"inhabit" + 0.035*"water" + 0.033*"coral" + 0.031*"occur" + 0.027*"standard" + 0.026*"feed" + 0.024*"shallow"
+
+Topic: 11  \
+Words: 0.080*"know" + 0.048*"information" + 0.045*"record" + 0.037*"ecology" + 0.034*"speciman" + 0.032*"collect" + 0.028*"available" + 0.026*"little" + 0.026*"likely" + 0.021*"unknown"
+
+Topic: 12  \
+Words: 0.068*"occur" + 0.063*"tree" + 0.035*"evergreen" + 0.031*"elevation" + 0.029*"range" + 0.023*"small" + 0.023*"humid" + 0.019*"moist" + 0.019*"secondary" + 0.019*"dense"
+
+Topic: 13  \
+Words: 0.020*"range" + 0.015*"population" + 0.015*"area" + 0.015*"female" + 0.011*"individual" + 0.010*"male" + 0.010*"group" + 0.010*"size" + 0.009*"large" + 0.009*"study"
+
+Topic: 14  \
+Words: 0.072*"length" + 0.062*"size" + 0.050*"female" + 0.046*"maximum" + 0.044*"generation" + 0.035*"male" + 0.033*"reach" + 0.031*"maturity" + 0.030*"mature" + 0.028*"estimate"
+
+Topic: 15  \
+Words: 0.047*"water" + 0.044*"flow" + 0.037*"small" + 0.030*"clear" + 0.025*"large" + 0.023*"fast" + 0.019*"inhabit" + 0.019*"occur" + 0.017*"current" + 0.016*"moderate"
+
+Topic: 16  \
+Words: 0.034*"spawn" + 0.026*"fish" + 0.025*"water" + 0.024*"male" + 0.022*"female" + 0.022*"feed" + 0.022*"occur" + 0.016*"juvenile" + 0.014*"spawning" + 0.013*"large"
+
+Topic: 17  \
+Words: 0.030*"family" + 0.024*"single" + 0.024*"small" + 0.023*"like" + 0.020*"base" + 0.019*"short" + 0.017*"genus" + 0.016*"volcano_sedimentary" + 0.016*"know" + 0.014*"usually"
 ### what I will do 
-- make sense of most coherence number of topics from comb first, then conAct then hab
 
-- set a seed and compare models trained on the different dictionary filters 45%-80%, start off with optimum number of topics first though, eg train a few sets of 2-100, find average then train models with that number of topics but from 0.1 to 50 to 1 to 50
+- vary the hyperparameters alpha and beta
+  alpha: document-topic density. Higher alpha = documents made up of more topics, vice versa
+  beta: topic-word density. Higher beta = topics made up of most of the words in corpus, vice versa.
+
+- (on hold, might be problem mentioned last week, changing the dictionary filter will affect the stochasticity more than setting a seed can buffer from) 
+  set a seed and compare models trained on the different dictionary filters 45%-80%, start off with optimum number of topics first though, eg train a few sets of 2-100, find average then train models with that number of topics but from 0.1 to 50 to 1 to 50
+
+### questions
+
+- RQ1 what are the main topics in each of the 7 categories
+
+- RQ2 how do the topics vary across different realms
+  determine topic(s) for each specie, then map to corresponding realm(s)
+
+- RQ3 how do the topics differ across different systems (i.e. terrestrial, marine, freshwater)
+
+- discuss the possibility of habitat topics corresponding to the assigned habitats
+

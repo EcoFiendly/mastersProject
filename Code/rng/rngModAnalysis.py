@@ -3,25 +3,27 @@
 import os
 import natsort
 import pickle
+
 import gensim
 import gensim.corpora as corpora
 from gensim.models import CoherenceModel
+
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
 modelList = []
-for file in natsort.os_sorted(os.listdir("../../Data/comb/")):
-    if file.startswith("combModel"):
+for file in natsort.os_sorted(os.listdir("../../Data/rng/")):
+    if file.startswith("rngModel"):
         model = file
-        openmodel = open("../../Data/comb/"+model, 'rb')
+        openmodel = open("../../Data/rng/"+model, 'rb')
         model = pickle.load(openmodel)
         modelList.append(model)
 
 cvList = []
-for file in natsort.os_sorted(os.listdir("../../Data/comb/")):
-    if file.startswith("combCv"):
+for file in natsort.os_sorted(os.listdir("../../Data/rng/")):
+    if file.startswith("rngCv"):
         cv = file
-        opencv = open("../../Data/comb/"+cv, 'rb')
+        opencv = open("../../Data/rng/"+cv, 'rb')
         cv = pickle.load(opencv)
         cvList.append(cv)
 
@@ -29,13 +31,13 @@ for file in natsort.os_sorted(os.listdir("../../Data/comb/")):
 limit=101;start=2;step=1
 x = range(start,limit,step)
 f = plt.figure()
-plt.plot(x, cvList)
+plt.plot(x, cvList) 
 plt.xlabel("Number of topics")
 plt.ylabel("C_v score")
 plt.show()
-f.savefig("../../Data/comb/coherencePlot.png", dpi=500)
-# 25*, 31
+f.savefig("../../Data/rng/coherencePlot.png", dpi=500)
+# 8, 12* (very close)
 
-for idx, topic in modelList[29].print_topics(-1):
+for idx, topic in modelList[10].print_topics(-1):
     print('Topic: {} \nWords: {}'.format(idx, topic))
 

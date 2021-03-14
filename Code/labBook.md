@@ -38,7 +38,7 @@ document term matrix
 
   habitat iucn list = {"habitat", "woodland", "boreal", "subarctic", "subantarctic", "temperate", "subtropical", "tropical", "lowland", "mangrove", "swamp", "montane", "savanna", "savannah", "shrubland", "shrubby", "grassland", "tundra", "wetland", "inland", "river", "stream", "creek", "bog", "marsh", "fen", "peatland", "lake", "oases", "oasis", "alpine", "geothermal", "delta", "saline", "brackish", "alkaline", "flat", "pool", "karst", "subterranean", "aquatic", "rock", "rocky", "cave", "desert", "marine", "neritic", "pelagic", "subtidal", "reef", "pebble", "gravel", "sand", "sandy", "mud", "muddy", "macroalgal", "kelp", "substrate", "foreslope", "lagoon", "rubble", "seagrass", "submerge", "estuary", "estuaries", "oceanic", "epipelagic", "mesopelagic", "bathypelagic", "abyssopelagic", "zone", "ocean", "benthic", "demersal", "bathyl", "abyssal", "plain", "mountain", "hill", "hadal", "trench", "seamount", "vent", "rift", "seep", "intertidal", "shoreline", "beach", "sandbar", "spit", "shingle", "tidepool", "coastal", "supratidal", "dune", "terrestrial", "arable", "pastureland", "aquaculture"}
 
-  others = {"specie", "species", "subspecie", "assess", "assessment", "find", "occur", "occurrence", "record", "know", "area", "unknown", "know", "known", "population", "available", "protect", "protection", "conservation", "distribution", "need", "major", "collect", "collection", "survey", "red", "list", "listing", "need", "criteria", "asl", "bcgi", "annex", "current", "currently", "ex", "situ", "require", "include", "report", "extent", "location", "locality", "subpopulation", "habitat", "site", "place", "information", "research", "trend", "action", "number", "measure", "range", "new", "concern", "measure", "specific", "estimate", "individual", "datum", "national", "park", "management", "status", "likely", "province", "consider", "region", "cause", "result", "usually", "near", "remain", "monitor", "taxon", "overall", "suspect", "affect", "threat", "threaten", "state", "global", "establish", "threshold", "important", "plan", "km²", "suggest", "recently", "describe", "quantify", "de", "appendix", "ii", "monitoring", "appear", "recommend", "increase", "decrease", "specimen", "speciman", "relatively", "wide", "widely", "criterion", "approach", "distribute", "infer", "probably", "recent", "present", "fairly", "common", "locally", "main", "evidence", "significant", "study", "genus", "peninsula", "cite", "potential", "taxonomy", "taxonomic", "lack", "legislation", "necessary", "critically", "endanger", "vulnerable", "ongoing", "extinct", "least", "presumably", "specifically", "possibly", "type", "little", "think", "addition", "additional", "confirm", "programme", "outside", "rarely", "associate", "mt", "mount", "awareness", "sub", "direct", "variety", "abundant", "future", "mainly", "et", "al", "unlikely", "believe", "peninsular", "follow", "la", "different", "adjacent", "reason", "evaluate", "discover", "document", "aoo", "eoo", "particular", "avoid", "benefit", "requirement", "beneficial", "generally", "refer", "continue", "class", "view", "seven", "classify", "category", "department", "numerous", "democratic", "entire", "approximately", "occupancy", "exist", "apparently", "indicate", "possible", "define", "determine", "district", "restrict", "previously", "occassionally", "typically", "reach", "total", "importance", "substantial", "situate", "regionally", "particularly", "come", "quickly", "preferred", "constitute", "estimated", "calculate", "regime", "able", "availability", "furthermore", "historically", "closely", "note", "difficult", "prove", "immediate", "run", "subject", "return", "etc", "annually", "regularly", "day", "surround", "primarily", "shelter", "bed", "interest", "natura", "reportedly", "partly", "mention", "visit", "white", "apart", "involve", "urgently", "exception", "somewhat", "nearly", "pdr", "especially", "key", "undergo", "gallery", "sp", "spp", "easily", "whilst", "nacional", "kingdom", "similarly", "like", "clarify", "sl", "gt", "considerably", "ha", "lt", "alongside", "million", "hectare", "meter", "km", "ago", "del", "metre", "el", "taxa", "subsp", "author", "localitie", "prior", "enter", "verify", "subsequently", "slightly", "percentage", "additionally", "occasional", "supplementary", "material", "municipality", "qualifie", "literature", "iucn"}
+  others = {"situ", "appendix", "cite", "annex"}
 
 
     
@@ -76,7 +76,7 @@ document term matrix
 
     conAct peaks at 7, 9*, 39
 
-5) changed filter_extremes to no_above=0.45
+5) changed filter_extremes to no_above=0.45, other params: chunksize=8000, eval_every=None, passes=15
 
     Combined peaks at 29
 
@@ -249,7 +249,10 @@ document term matrix
     Topic: 8 
     Words: 0.073*"water" + 0.033*"find" + 0.024*"occur" + 0.024*"small" + 0.024*"flow" + 0.020*"inhabit" + 0.020*"pond" + 0.018*"vegetation" + 0.014*"large" + 0.013*"shallow"
 
-6) changed chunksize and eval_every to 5% of corpus, increased passes to 20
+6) changed chunksize and eval_every to 5% of corpus, increased passes to 20, set model seed to 95
+
+7) changed eval_every to 4*chunksize, added {"situ", "appendix", "cite", "annex", "need", "book", "find"} to stopwords
+
 
 
 

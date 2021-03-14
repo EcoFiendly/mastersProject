@@ -28,16 +28,16 @@ for file in natsort.os_sorted(os.listdir("../../Data/hab/")):
         cvList.append(cv)
 
 # plot graph for coherence values
-limit=151;start=2;step=1
+limit=101;start=2;step=1
 x = range(start,limit,step)
 f = plt.figure()
 plt.plot(x, cvList) # peaks at 13*, 15, 18
 plt.xlabel("Number of topics")
-plt.ylabel("Coherence value")
+plt.ylabel("C_v score")
 plt.show()
 f.savefig("../../Data/hab/coherencePlot.png", dpi=500)
-# 9*
+# 16, 17*, 18
 
-for idx, topic in modelList[7].print_topics(-1):
+for idx, topic in modelList[16].print_topics(-1):
     print('Topic: {} \nWords: {}'.format(idx, topic))
 
