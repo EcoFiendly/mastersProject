@@ -8,31 +8,30 @@ import gensim
 import gensim.corpora as corpora
 from gensim.models import CoherenceModel
 
-# Model parameters:
+# get working directory
+home = os.path.expanduser('~')
 
 # load tokens
-with open("/rds/general/user/yl4220/home/Data/comb/combTokens3.pkl", "rb") as f:
-   combTokens3 = pickle.load(f)
+with open(home+"/Data/comb/tokens_2.pkl", "rb") as f:
+   tokens_2 = pickle.load(f)
    f.close()
 
 # load dictionary
-combDict = corpora.Dictionary.load("/rds/general/user/yl4220/home/Data/comb/combDict.dict")
+dic = corpora.Dictionary.load(home+"/Data/comb/dic.dict")
 
 # load corpus
-combCorpus = corpora.MmCorpus("/rds/general/user/yl4220/home/Data/comb/combBoWCorpus.mm")
+corpus = corpora.MmCorpus(home+"/Data/comb/bow_corpus.mm")
 
 iter = int(os.getenv("PBS_ARRAY_INDEX")) # read job number from cluster
-chunksize = len(combCorpus)//20 # set chunksize as 5% of corpus length
-eval_every = chunksize*4 # set eval_every to chunksize*4
 
-model = gensim.models.LdaMulticore(corpus = combCorpus, num_topics = iter, id2word = combDict, chunksize = chunksize, passes = 20, workers = 8, eval_every = eval_every, random_state = 95)
-cv = CoherenceModel(model = model, corpus = combCorpus, texts = combTokens3, coherence = 'c_v', processes = 8)
-cvCoh = cv.get_coherence()
+model = gensim.models.LdaMulticore(corpus = corpus, num_topics = iter, id2word = dic, passes = 10, workers = 32, random_state = 95)
+cv_coh = CoherenceModel(model = model, corpus = corpus, texts = tokens_2, coherence = 'c_v', processes = 32)
+cv = cv_coh.get_coherence()
 
-with open("/rds/general/user/yl4220/home/Data/comb/combModel"+str(iter)+".pkl", "wb") as f:
+with open(home+"/Data/comb/model_"+str(iter)+".pkl", "wb") as f:
     pickle.dump(model, f)
     f.close()
 
-with open("/rds/general/user/yl4220/home/Data/comb/combCv"+str(iter)+".pkl", "wb") as f:
-    pickle.dump(cvCoh, f)
+with open(home+"/Data/comb/cv_"+str(iter)+".pkl", "wb") as f:
+    pickle.dump(cv, f)
     f.close()

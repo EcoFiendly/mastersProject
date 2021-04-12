@@ -36,8 +36,8 @@ plt.xlabel("Number of topics")
 plt.ylabel("C_v score")
 plt.show()
 f.savefig("../../Data/use/coherencePlot.png", dpi=500)
-# 8, 12* (very close)
+# 9, 14*
 
-for idx, topic in modelList[10].print_topics(-1):
+for idx, topic in modelList[12].print_topics(-1):
     print('Topic: {} \nWords: {}'.format(idx, topic))
 

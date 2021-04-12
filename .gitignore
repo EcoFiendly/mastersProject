@@ -8,6 +8,4 @@
 /Proposal
 .vscode
 /Data/ReadMe.txt
-/Data/comb/
-/Data/conAct/
-/Data/hab/
+/Data/*/
