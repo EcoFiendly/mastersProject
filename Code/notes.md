@@ -20,8 +20,6 @@ How I'm using the texts:
 
     Retrain models, interpret topics, calculate coherence using u_mass metric, visualize using word cloud (demonstrate using <5 topic model, less complicated)
 
-    Second, train category specific model (7 models in total), steps same as above.
-
     Interpret results:
 
         Make sense of topics, relate to corpus
