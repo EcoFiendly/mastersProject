@@ -1,10 +1,21 @@
 \subsection{Dataset}
 
-The IUCN Red List Data was downloaded from The IUCN Red List of Threatened Species\textsuperscript{TM} website \parencite{iucn2020}.
+The IUCN Red List assessment text data was downloaded (on December 2020) from The IUCN Red List of Threatened Species\textsuperscript{TM} website \parencite{iucn2020}. Each row represents one entry of information for one species. The information of interest are as follows. 
+The red list category lists the assigned category for the species. 
+The rationale, a summarised justification for the category assigned. 
+The habitat describes the general habitat use and ecology. 
+Related to habitat is the systems, which are the terrestrial, marine and freshwater (or different combinations of) habitats where the species occurs in.
+Realm lists the biogeographic realms (individual or a combination of the seven) that correspond to the habitat locations
+Threats lists and describes the general and specific threats that are affecting the species. 
+Population describes population numbers, structure and current population trend. 
+Range lists and describes the historical and current geographic range, and includes the estimated aera of occupancy (AOO) and estimated extent of occurrence (EOO). 
+Use and trade describes the details of how the species are used and/or traded.
+Conservation actions describes the current and recommended general and specific actions in place to protect to species. 
+
 
 \subsection{Data preprocessing}
 
-The texts in the columns of interests were first processed and normalised. HTML tags we
+The texts in the columns of interests were first processed and normalised. They were then combined into a corpus.
 
 \subsection{Constructing and Understanding the Corpus}
 
