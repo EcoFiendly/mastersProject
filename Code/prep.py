@@ -29,36 +29,36 @@ df.isnull().sum()
 # np.where(pd.isnull(df.rationale)) # prints NaN cell number
 # skip pop, range, usetrade, focus on habitat, conservationActions
 
-df['systems'].unique() # unique values in systems
-len(df['systems'].unique()) # number of unique values
-# tally
-len(df[df.systems == 'Marine'])
-len(df[df.systems == 'Freshwater (=Inland waters)'])
-len(df[df.systems == 'Terrestrial'])
-len(df[df.systems == 'Terrestrial|Freshwater (=Inland waters)'])
-len(df[df.systems == 'Terrestrial|Freshwater (=Inland waters)|Marine'])
-len(df[df.systems == 'Freshwater (=Inland waters)|Marine'])
-len(df[df.systems == 'Terrestrial|Marine'])
-len(df[df.systems == 'Marine|Marine'])
+# df['systems'].unique() # unique values in systems
+# len(df['systems'].unique()) # number of unique values
+# # tally
+# len(df[df.systems == 'Marine'])
+# len(df[df.systems == 'Freshwater (=Inland waters)'])
+# len(df[df.systems == 'Terrestrial'])
+# len(df[df.systems == 'Terrestrial|Freshwater (=Inland waters)'])
+# len(df[df.systems == 'Terrestrial|Freshwater (=Inland waters)|Marine'])
+# len(df[df.systems == 'Freshwater (=Inland waters)|Marine'])
+# len(df[df.systems == 'Terrestrial|Marine'])
+# len(df[df.systems == 'Marine|Marine'])
 
-df['realm'].unique() # unique values in realms
-len(df['realm'].unique()) # number of unique values
+# df['realm'].unique() # unique values in realms
+# len(df['realm'].unique()) # number of unique values
 
 # replace NaNs with 0
 df[['rationale','habitat','threats','population','range','useTrade','conservationActions']] = df[['rationale','habitat','threats','population','range','useTrade','conservationActions']].fillna(0)
 
 def cleanOne(text):
     text = str(text) # convert cell values to string
-    text = text.lower() # lower case all text
+    # text = text.lower() # lower case all text
     text = re.sub(r'<.*?>', ' ', text) # remove html tags
     text = re.sub(r'(&#160;)', ' ', text) # remove html non-breaking space
     text = re.sub(r'\[.*?\]', ' ', text) # remove text in square brackets
     text = re.sub(r'\(.*?\)', ' ', text) # remove text in parentheses
-    # text = re.sub(r'\w+\s*(and\s){0,1}\w+\s*(et al.)*\s\d{4}', '', text) #remove in text citation
-    text = re.sub(r'[%s]' % re.escape(string.punctuation), ' ', text) # remove punctuation
+    text = re.sub(r'\(([^)]+)?(?:19|20)\d{2}?([^)]+)?\)', '', text) #remove in text citation
+    # text = re.sub(r'[%s]' % re.escape(string.punctuation), ' ', text) # remove punctuation
     text = re.sub(r'\d+\s\w{1,2}\b', ' ', text) # remove measurements
     text = re.sub(r'\w*\d\w*', ' ', text) # remove words containing numbers
-    text = re.sub(r'\b\S{1,3}\b', ' ', text) # remove single to 3 characters
+    text = re.sub(r'\b\S{1,2}\b', ' ', text) # remove single to 2 characters
     text = re.sub(r'\b°[nsew]\b', ' ', text) # remove longtitude and latitude units
     text = " ".join(text.split()) # remove extra spaces, \n, \t
     return text
