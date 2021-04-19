@@ -25,11 +25,11 @@ with open(home+"/Data/dfClean.pkl", "rb") as f:
     df = pickle.load(f)
     f.close()
 
-# with open("../../Data/dfClean.pkl", "rb") as f:
-#     df = pickle.load(f)
-#     f.close()
+#with open("../../Data/dfClean.pkl", "rb") as f:
+#    df = pickle.load(f)
+#    f.close()
 
-# create training corpus (50% of every column)
+# create training corpus
 rat = df.rationale.values.tolist()
 hab = df.habitat.values.tolist()
 thr = df.threats.values.tolist()
@@ -57,16 +57,34 @@ for word in nlp.Defaults.stop_words:
     lexeme.is_stop = True
 
 # test if stop words added (need added but not returning false)
-# print([t.is_stop for t in nlp("río")])
+# print([t.is_stop for t in nlp("Río")])
 # can't do entire corpus at once, do columns separately before combining
 # generators help decrease ram usage (keep output of nlp.pipe as a generator)
 # don't need too many cores since tokenization cannot be multithreaded
-corpus_gen = nlp.pipe(corpus, n_process = 32, batch_size = 800, disable = ["parser", "ner"])
+corpus_gen = nlp.pipe(corpus, n_process = 8, batch_size = 800, disable = ["ner"])
 
 del corpus
 
+# # experimenting with token tags
+# corpus[100]
+# test = nlp(corpus[1010])
+# for tok in test:
+#     print(tok.lemma_, tok, tok.tag_, tok.dep_)
+
+# for ent in test.ents:
+#     print(ent.text, ent.label_)
+
+# corpus_gen = nlp.pipe(corpus[1000:1010], n_process = 8, batch_size = 800, disable = ["parser", "ner"])
+
+# tokens = []
+# for doc in corpus_gen:
+#     tokens.append([(tok.lemma_) for tok in doc if not tok.is_stop and not tok.is_punct and tok.dep_ != 'det' and tok.dep_ != 'auxpass' and tok.tag_ != '_SP' and tok.tag_ != 'EX'])
+# # end experiment
+
 tokens = []
 for doc in corpus_gen:
+    # tokens.append([(tok.lemma_) for tok in doc if not tok.is_stop and not tok.is_punct and tok.dep_ != 'det' and tok.dep_ != 'auxpass' and tok.tag_ != '_SP' and tok.tag_ != 'EX'])
+
     tokens.append([(tok.lemma_) for tok in doc if not tok.is_stop and not tok.is_punct and tok.tag_ != 'NNP' and tok.tag_ != 'NNPS' and tok.tag_ != 'VBG' and tok.tag_ != '_SP'])
 
 min_count = int(0.01*len(tokens))
