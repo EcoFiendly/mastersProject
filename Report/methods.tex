@@ -1,24 +1,34 @@
 \subsection{Dataset}
 
-The IUCN Red List assessment text data was downloaded (on December 2020) from The IUCN Red List of Threatened Species\textsuperscript{TM} website \parencite{iucn2020}. Each row represents one entry of information for one species. The information of interest are as follows. 
-The red list category lists the assigned category for the species. 
-The rationale, a summarised justification for the category assigned. 
-The habitat describes the general habitat use and ecology. 
-Related to habitat is the systems, which are the terrestrial, marine and freshwater (or different combinations of) habitats where the species occurs in.
-Realm lists the biogeographic realms (individual or a combination of the seven) that correspond to the habitat locations
-Threats lists and describes the general and specific threats that are affecting the species. 
-Population describes population numbers, structure and current population trend. 
-Range lists and describes the historical and current geographic range, and includes the estimated aera of occupancy (AOO) and estimated extent of occurrence (EOO). 
-Use and trade describes the details of how the species are used and/or traded.
-Conservation actions describes the current and recommended general and specific actions in place to protect to species. 
+The IUCN Red List assessments text data was downloaded (December 2020) from The IUCN Red List of Threatened Species\textsuperscript{TM} website \parencite{iucn2021}. Each row represents one entry of information for one species. The information of interest are as follows (detailed information available on their website):
+\begin{itemize}
+    \item The red list category lists the assigned category for the species. 
+    \item The rationale, a summarised justification for the category assigned. 
+    \item The habitat describes the general habitat use and ecology. 
+    \item A subcategory of habitat is systems, which are the terrestrial, marine and freshwater (or different combinations of) habitats.
+    \item Realm lists the biogeographic realms (individual or a combination of up to seven) that correspond to the habitat locations
+    \item Threats lists and describes the general and specific threats that are affecting the species. 
+    \item Population describes population numbers, structure and current population trend. 
+    \item Range lists and describes the historical and current geographic range, and includes the estimated aera of occupancy (AOO) and estimated extent of occurrence (EOO). 
+    \item Use and trade describes the details of how the species are used and/or traded.
+    \item Conservation actions describes the current and recommended general and specific actions in place to protect to species. 
+\end{itemize}
 
+\subsection{Data preprocessing and corpus construction}
 
-\subsection{Data preprocessing}
+Figure (Corpus is collection of documents, and documents is collection of tokens) shows the structure of the data. 
 
-The texts in the columns of interests were first processed and normalised. They were then combined into a corpus.
+The texts were first processed and normalised. Entries in English and were global assessments were selected. Texts were then cleaned using regular expressions, where noise from the text were removed. \textcite{spacy} was used to remove stop words, lemmatise and tokenise the text in the documents. A bag of words model is output, where the order of words in each document does not matter, only the frequencies. The phraser module from Gensim \parencite{rehurek_lrec} was used to detect bigrams in the tokens. A dictionary was then created from
 
-\subsection{Constructing and Understanding the Corpus}
+Texts were cleaned using regular expressions to remove noise. The texts then processed by spaCy \parencite{spacy}, where stop words were removed, words were lemmatised and tokenised, producing a bag of words (BoW) model output. The phraser module from Gensim \parencite{rehurek_lrec} was then applied onto the BoW to detect and generate bigrams. Finally, a dictionary (vocabulary) of the tokens was created, where tokens which appear outside of 1\% and 50\% documents were filtered out. 
 
-\subsection{Exploring Topic Space}
+\subsection{Topic analyses}
 
+Latent Dirichlet Allocation \parencite{blei2003latent}, a type of topic model under the class of unsupervised machine learning, was applied onto the corpus. 
+
+(insert graphical model representation of LDA and describe)
+
+The models were ran for number of topics ranging from 2 to 100, and their performance was measured using topic coherence as a metric \parencite{roder2015exploring}. On top of the computed metrics, I inspected the topic space that was visualised using pyLDAvis (a python port of LDAvis \parencite{sievert2014ldavis}). The best performing model (number of topics = 17) under the coherence metric also looked the best in pyLDAvis so 17 was selected for the number of topics.
+
+Each topic contains a group of words that the algorithm grouped together through its estimation, and I named the topics by reviewing the group of words.
 
