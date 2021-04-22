@@ -7,31 +7,31 @@ import gensim
 import gensim.corpora as corpora
 import matplotlib.pyplot as plt
 import seaborn as sns
-from wordcloud import WordCloud
+# from wordcloud import WordCloud
 # from PIL import Image
 
 # t-SNE imports
-from sklearn.manifold import TSNE
-from bokeh.plotting import figure, output_file, show
-from bokeh.models import Label
-from bokeh.io import output_notebook
-import matplotlib.colors as mcolors
+# from sklearn.manifold import TSNE
+# from bokeh.plotting import figure, output_file, show
+# from bokeh.models import Label
+# from bokeh.io import output_notebook
+# import matplotlib.colors as mcolors
 
 # import cleaned df
-with open("../../Data/dfClean.pkl", "rb") as f:
+with open("../../Data/df_clean.pkl", "rb") as f:
     df = pickle.load(f)
     f.close()
 
 # load trained model
-with open("../../Data/comb/model_20.pkl", "rb") as f:
+with open("../../Data/comb_global/model_17.pkl", "rb") as f:
     model = pickle.load(f)
     f.close()
 
 # load corpus
-corpus = corpora.MmCorpus("../../Data/comb/bow_corpus.mm")
+corpus = corpora.MmCorpus("../../Data/comb_global/bow_corpus.mm")
 
 # load dictionary
-dic = corpora.Dictionary.load("../../Data/comb/dic.dict")
+dic = corpora.Dictionary.load("../../Data/comb_global/dic.dict")
 
 # apply model to produce list of topic composition for each document
 topic_comp = [model[corpus[i]] for i in range(len(corpus))]
@@ -46,13 +46,13 @@ def topics_to_df(topics, num_topics):
     return res
 
 # generate dataframe of document topic composition
-doc_topic_comp = pd.concat([topics_to_df(topics, 20) for topics in topic_comp]).reset_index(drop=True).fillna(0)
+doc_topic_comp = pd.concat([topics_to_df(topics, 17) for topics in topic_comp]).reset_index(drop=True).fillna(0)
 
-with open("../../Data/comb/doc_topic_comp.pkl", "wb") as f:
+with open("../../Data/comb_global/doc_topic_comp.pkl", "wb") as f:
     pickle.dump(doc_topic_comp, f)
     f.close()
 
-with open("../../Data/comb/doc_topic_comp.pkl", "rb") as f:
+with open("../../Data/comb_global/doc_topic_comp.pkl", "rb") as f:
     doc_topic_comp = pickle.load(f)
     f.close()
 
@@ -76,7 +76,7 @@ with open("../../Data/comb/doc_topic_comp.pkl", "rb") as f:
 # show(plot)
 
 # create list of redlistCategory, realm, systems
-red_list_cat = (df[df['rationale']!='']['redlistCategory']).values.tolist()
+# red_list_cat = (df[df['rationale']!='']['redlistCategory']).values.tolist()
 
 red_list_cat = []
 realm = []
@@ -90,13 +90,13 @@ for i in ['rationale', 'habitat', 'threats', 'population', 'range', 'useTrade', 
 df_topic_comp = pd.concat([doc_topic_comp, pd.Series(red_list_cat), pd.Series(realm), pd.Series(systems)], axis=1)
 
 # rename columns
-df_topic_comp.columns = ['Monitor_species', 'Area_based_protection', 'Assess_major_threat', 'Monitor_trade', 'Monitor_aquatic_habitat', 'Monitor_population_size', 'Human_threat_to_habitat', 'European_regional_assessment', 'Wide_distribution', 'Forest_habitat_loss_to_agriculture', 'Monitor_population_structure', 'Restricted_range', 'Coral_reef_utility', 'Commercial_fishing', 'Species_range_parameters', 'Conservation_action', 'Population_decline_habitat_loss', 'Forest_habitat', 'Population_information', 'Monitor_island_endemics', 'Red_list_category', 'Realm', 'Systems']
+df_topic_comp.columns = ['Monitor_endemics', 'Human_threats_to_habitat', 'Find_water', 'Agricultural_threats_to_forests', 'Monitor_population', 'Range', 'Common_threats', 'Forest_ecosystem', 'Population_structure', 'Fish_use_trade', 'Threat_distribution', 'Forest_fragmentation', 'Habitat_loss', 'Area_based_protection', 'Species_ecology', 'Population_trend', 'Conservation_actions', 'Red_list_category', 'Realm', 'Systems']
 
-with open("../../Data/comb/df_topic_comp.pkl", "wb") as f:
+with open("../../Data/comb_global/df_topic_comp.pkl", "wb") as f:
     pickle.dump(df_topic_comp, f)
     f.close()
 
-with open("../../Data/comb/df_topic_comp.pkl", "rb") as f:
+with open("../../Data/comb_global/df_topic_comp.pkl", "rb") as f:
     df_topic_comp = pickle.load(f)
     f.close()
 
@@ -112,11 +112,14 @@ df_no_reg_ext = df_topic_comp[(df_topic_comp.Red_list_category != 'Regionally Ex
 red_list_topic = df_no_reg_ext.drop(columns=['Realm', 'Systems']).groupby(['Red_list_category']).sum()
 # normalize
 red_list_topic_pct = red_list_topic/(df_no_reg_ext.drop(columns=['Realm', 'Systems']).groupby(['Red_list_category']).count())
+# reorder and sort index
+index_order = ['Least Concern', 'Near Threatened', 'Vulnerable', 'Endangered', 'Critically Endangered', 'Extinct in the Wild', 'Extinct']
+red_list_topic_pct = red_list_topic_pct.reindex(index_order)
 
 # plot heatmap
 fig = plt.figure(figsize=(16,6)) # figure dimensions
 sns.set_context('paper', font_scale=1.5) # context of plot and font scale
-g = sns.heatmap(red_list_topic_pct.loc[red_list_topic_pct.idxmax(axis=1).sort_values().index],
+g = sns.heatmap(red_list_topic_pct.loc[red_list_topic_pct.idxmax(axis=1).index],
     linewidths=0.5, # linewidth between cells
     cmap='YlGnBu', # color
     cbar_kws={'shrink':0.8} # size of color bar
@@ -127,7 +130,7 @@ g.set(xlabel="Topics", ylabel="Red list category") # label both axes
 plt.tight_layout() # tight layout for labels to show on screen
 # docTopicSysPct.sum(axis=1) # check total percentage
 fig.show()
-fig.savefig("../../Data/comb/red_list_cat_HM.svg")
+fig.savefig("../../Data/comb_global/red_list_cat_HM.svg")
 plt.close('all')
 
 ################################################################################
@@ -137,11 +140,14 @@ df_topic_comp['Systems'] = df_topic_comp['Systems'].replace('Marine|Marine', 'Ma
 systems_topic = df_topic_comp.drop(columns=['Red_list_category', 'Realm']).groupby(['Systems']).sum()
 # normalize
 systems_topic_pct = systems_topic/(df_topic_comp.drop(columns=['Red_list_category', 'Realm']).groupby(['Systems']).count())
+# reorder and sort index
+index_order = ['Terrestrial', 'Freshwater (=Inland waters)', 'Marine', 'Terrestrial|Freshwater (=Inland waters)', 'Freshwater (=Inland waters)|Marine', 'Terrestrial|Marine', 'Terrestrial|Freshwater (=Inland waters)|Marine']
+systems_topic_pct = systems_topic_pct.reindex(index_order)
 
 # plot heatmap
 fig = plt.figure(figsize=(16,6)) # figure dimensions
 sns.set_context('paper', font_scale=1.5) # context of plot and font scale
-g = sns.heatmap(systems_topic_pct.loc[systems_topic_pct.idxmax(axis=1).sort_values().index],
+g = sns.heatmap(systems_topic_pct.loc[systems_topic_pct.idxmax(axis=1).index],
     linewidths=0.5, # linewidth between cells
     cmap='YlGnBu', # color
     cbar_kws={'shrink':0.8} # size of color bar
@@ -152,7 +158,7 @@ g.set(xlabel="Topics", ylabel="Systems category") # label both axes
 plt.tight_layout() # tight layout for labels to show on screen
 # docTopicSysPct.sum(axis=1) # check total percentage
 fig.show()
-fig.savefig("../../Data/comb/systems_HM.svg")
+fig.savefig("../../Data/comb_global/systems_HM.svg")
 plt.close('all')
 
 ################################################################################
@@ -163,8 +169,8 @@ realm_topic = realm_topic.groupby(['Realm'])
 # calculate percentage composition of topics per realm
 realm_topic_pct = realm_topic.sum()/realm_topic.count()
 
-# save docTopicRlmPct
-with open("../../Data/comb/realm_topic_pct.pkl", "wb") as f:
+# save realm_topic_pct.pkl
+with open("../../Data/comb_global/realm_topic_pct.pkl", "wb") as f:
     pickle.dump(realm_topic_pct, f)
     f.close()
 
@@ -204,19 +210,19 @@ indiv_realm_topic = indiv_realm_topic.transpose()
 log_indiv_realm_topic = np.log10(indiv_realm_topic)
 
 # save indiv_realm_topic
-with open("../../Data/comb/indiv_realm_topic", "wb") as f:
+with open("../../Data/comb_global/indiv_realm_topic", "wb") as f:
     pickle.dump(indiv_realm_topic, f)
     f.close()
 
 # open indiv_realm_topic
-with open("../../Data/comb/indiv_realm?topic", "rb") as f:
+with open("../../Data/comb_global/indiv_realm?topic", "rb") as f:
     indiv_realm_topic = pickle.load(f)
     f.close()
     
 # plot heatmap
 fig = plt.figure(figsize=(16,6)) # figure dimensions
 sns.set_context('paper', font_scale=1.5) # context of plot and font scale
-g = sns.heatmap(log_indiv_realm_topic.loc[log_indiv_realm_topic.idxmax(axis=1).sort_values().index],
+g = sns.heatmap(indiv_realm_topic.loc[indiv_realm_topic.idxmax(axis=1).index],
     linewidths=0.5, # linewidth between cells
     cmap='YlGnBu', # color
     cbar_kws={'shrink':0.8} # size of color bar
@@ -227,11 +233,11 @@ g.set(xlabel="Topics", ylabel="Realm category") # label both axes
 plt.tight_layout() # tight layout for labels to show on screen
 # docTopicSysPct.sum(axis=1) # check total percentage
 fig.show()
-fig.savefig("../../Data/comb/realms_HM.svg")
+fig.savefig("../../Data/comb_global/realms_HM.svg")
 plt.close('all')
 
 ################################################################################
-topic_dict = {0 : 'Monitor_species', 1 : 'Area_based_protection', 2 :  'Assess_major_threat', 3 : 'Monitor_trade', 4 : 'Monitor_aquatic_habitat', 5 : 'Monitor_population_size', 6 : 'Human_threat_to_habitat', 7 : 'European_regional_assessment', 8 : 'Wide_distribution', 9 : 'Forest_habitat_loss_to_agriculture', 10 : 'Monitor_population_structure', 11 : 'Restricted_range', 12 : 'Coral_reef_utility', 13 : 'Commercial_fishing', 14 : 'Species_range_parameters', 15 : 'Conservation_action', 16 : 'Population_decline_habitat_loss', 17 : 'Forest_habitat', 18 : 'Population_information', 19 : 'Monitor_island_endemics'}
+topic_dict = {0: 'Monitor_endemics', 1: 'Human_threats_to_habitat', 2: 'Find_water', 3: 'Agricultural_threats_to_forests', 4: 'Monitor_population', 5: 'Range', 6: 'Common_threats', 7: 'Forest_ecosystem', 8: 'Population_structure', 9: 'Fish_use_trade', 10: 'Threat_distribution', 11: 'Forest_fragmentation', 12: 'Habitat_loss', 13: 'Area_based_protection', 14: 'Species_ecology', 15: 'Population_trend', 16: 'Conservation_actions'}
 
 def get_topic_desig(doc_topics_list, topic_dict=topic_dict):
     '''

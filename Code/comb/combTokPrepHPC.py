@@ -20,12 +20,12 @@ from gensim.models.phrases import Phraser
 # get working directory
 home = os.path.expanduser('~')
 
-# pickle load dfClean
-with open(home+"/Data/dfClean.pkl", "rb") as f:
+# pickle load df_clean
+with open(home+"/Data/df_clean.pkl", "rb") as f:
     df = pickle.load(f)
     f.close()
 
-#with open("../../Data/dfClean.pkl", "rb") as f:
+# with open("../../Data/df_clean.pkl", "rb") as f:
 #    df = pickle.load(f)
 #    f.close()
 
@@ -61,7 +61,7 @@ for word in nlp.Defaults.stop_words:
 # can't do entire corpus at once, do columns separately before combining
 # generators help decrease ram usage (keep output of nlp.pipe as a generator)
 # don't need too many cores since tokenization cannot be multithreaded
-corpus_gen = nlp.pipe(corpus, n_process = 8, batch_size = 800, disable = ["ner"])
+corpus_gen = nlp.pipe(corpus, n_process = 8, batch_size = 800, disable = ["parser", "ner"])
 
 del corpus
 
@@ -83,15 +83,13 @@ del corpus
 
 tokens = []
 for doc in corpus_gen:
-    # tokens.append([(tok.lemma_) for tok in doc if not tok.is_stop and not tok.is_punct and tok.dep_ != 'det' and tok.dep_ != 'auxpass' and tok.tag_ != '_SP' and tok.tag_ != 'EX'])
-
     tokens.append([(tok.lemma_) for tok in doc if not tok.is_stop and not tok.is_punct and tok.tag_ != 'NNP' and tok.tag_ != 'NNPS' and tok.tag_ != 'VBG' and tok.tag_ != '_SP'])
 
 min_count = int(0.01*len(tokens))
 # build bigram model
 bigram = Phrases(tokens, min_count = min_count)
 bigramMod = Phraser(bigram)
-# print(bigramMod[combTokens2[1]])
+# print(bigramMod[tokens[5]])
 
 tokens_2 = bigramMod[tokens]
 
@@ -118,9 +116,9 @@ dic.compactify() # assign new word ids to all words, shrinking any gaps
 # save dictionary
 dic.save(home+"/Data/comb/dic.dict")
 
-# # look at dictionary items
+# look at dictionary items
 # count = 0
-# for k, v in combDict.iteritems():
+# for k, v in dic.iteritems():
 #     print(k, v)
 #     count += 1
 #     if count > 50:

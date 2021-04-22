@@ -56,4 +56,24 @@ How I'm using the texts:
      generation length information of individual species
      status transition rates estimated from IUCN assessment history
 
-### 
+### Assessing Threats and setting priorities for conservation (1991)
+
+    Criticises old extinction threat categories for lack of clarity and direction, and discusses supplementary ranking methodologies.
+
+    "Inventory efforts for taxa of concern are often prioritised largely on the basis  of element ranks, given equal distributional knowledge and unrestricted funding for action."
+
+### IUCN's credibility critically endangered (1997)
+
+    Questions the Red List's credibility due to the witholding of key information behind decision making with regards to changing risk categories for some species.
+
+### Limits to the use of threatened species lists (2002)
+
+    "three classes of user group: public, governments and conservation organisations"
+    "Because of the variety of objectives and users, the interpretation of lists is variable, and most are used for more than one purpose, regardless of their original intent"
+    "critically assess four ways in which thretened species lists are comminly used. We argue that they are used for purposes beyond thei original intent; furthermore, they perform some of these uses poorly."
+
+    Overall argument is that these lists should be used as a supplement rather than key factor in informing resource allocation (optimised by targetting species which can recover more using the same amount of resources, regardless of extinction category); reserve selection (look at all species occupying the selected area rather than select areas based on umbrella species); development or exploitation (listed/unlisted species can affect how resources are exploited [difficult to explain, ask for help]); reflect change in status of biodiversity (skewed representation of taxa results in accurate reflection of situation).
+
+### Value of the IUCN Red List (2003)
+
+    Largely agrees with Possingham but pointed out flaws in their reasoning and asserts that the Red List is an invaluable tool to aid conservation efforts.

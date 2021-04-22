@@ -18,46 +18,42 @@ print(df.columns.values)
 #  'range' 'useTrade' 'systems' 'conservationActions' 'realm' 'yearLastSeen'
 #  'possiblyExtinct' 'possiblyExtinctInTheWild' 'scopes']
 
-df['language'].unique()
+# df['language'].unique()
 # drop entries not in english, if not LDA will pick them up and put them in the same topic
-df = df[df.language == 'English']
+# df = df[df.language == 'English']
 
 # select only global assessments
-df2 = df[df.scopes.str.contains('Global')]
-df3 = df2.dropna(subset=['rationale', 'habitat', 'threats', 'population', 'range', 'useTrade', 'conservationActions'])
+# df2 = df[df.scopes.str.contains('Global')]
+# df3 = df2.dropna(subset=['rationale', 'habitat', 'threats', 'population', 'range', 'useTrade', 'conservationActions'])
 
 # check for NaN in columns
 # df.isnull().any()
 # check for number of NaN in columns
-df3.isnull().sum()
+# df2.isnull().sum()
 # np.where(pd.isnull(df.rationale)) # prints NaN cell number
 
-# df['systems'].unique() # unique values in systems
-# len(df['systems'].unique()) # number of unique values
-# # tally
-# len(df[df.systems == 'Marine'])
-# len(df[df.systems == 'Freshwater (=Inland waters)'])
-# len(df[df.systems == 'Terrestrial'])
-# len(df[df.systems == 'Terrestrial|Freshwater (=Inland waters)'])
-# len(df[df.systems == 'Terrestrial|Freshwater (=Inland waters)|Marine'])
-# len(df[df.systems == 'Freshwater (=Inland waters)|Marine'])
-# len(df[df.systems == 'Terrestrial|Marine'])
-# len(df[df.systems == 'Marine|Marine'])
+def tidy_one(df):
+    '''
+    Selects English only entries
+    Selects only global assessments
+    Replace NaNs with 0
+    '''
+    df = df[df.language == 'English']
+    df = df[df.scopes.str.contains('Global')]
+    # replace NaNs with 0
+    df[['rationale','habitat','threats','population','range','useTrade','conservationActions']] = df[['rationale','habitat','threats','population','range','useTrade','conservationActions']].fillna(0)
+    return df
 
-# df['realm'].unique() # unique values in realms
-# len(df['realm'].unique()) # number of unique values
+df = tidy_one(df)
 
-# replace NaNs with 0
-# df[['rationale','habitat','threats','population','range','useTrade','conservationActions']] = df[['rationale','habitat','threats','population','range','useTrade','conservationActions']].fillna(0)
-
-def cleanOne(text):
+def clean_one(text):
     text = str(text) # convert cell values to string
     # text = text.lower() # lower case all text
     text = re.sub(r'<.*?>', ' ', text) # remove html tags
     text = re.sub(r'(&#160;)', ' ', text) # remove html non-breaking space
     text = re.sub(r'\[.*?\]', ' ', text) # remove text in square brackets
-    text = re.sub(r'\(.*?\)', ' ', text) # remove text in parentheses
-    text = re.sub(r'\(([^)]+)?(?:19|20)\d{2}?([^)]+)?\)', '', text) #remove in text citation
+    # text = re.sub(r'\(.*?\)', ' ', text) # remove text in parentheses
+    text = re.sub(r'\(([^)]+)?(?:19|20)\d{2}?([^)]+)?\)', ' ', text) #remove in text citation
     # text = re.sub(r'[%s]' % re.escape(string.punctuation), ' ', text) # remove punctuation
     text = re.sub(r'\d+\s\w{1,2}\b', ' ', text) # remove measurements
     text = re.sub(r'\w*\d\w*', ' ', text) # remove words containing numbers
@@ -68,22 +64,23 @@ def cleanOne(text):
 
 # aoo and eoo = area of occupancy and extent of occurrence
 
-# # iterate over specific columns
-# for column in df[['rationale', 'habitat', 'threats', 'population', 'range', 'useTrade', 'conservationActions']]:
-#     df[column] = df[column].map(lambda x: cleanOne(x))
-
-# parallelize cleaning of columns
-def parClean(df):
-    df['rationale'] = df['rationale'].map(lambda x: cleanOne(x))
-    df['habitat'] = df['habitat'].map(lambda x: cleanOne(x))
-    df['threats'] = df['threats'].map(lambda x: cleanOne(x))
-    df['population'] = df['population'].map(lambda x: cleanOne(x))
-    df['range'] = df['range'].map(lambda x: cleanOne(x))
-    df['useTrade'] = df['useTrade'].map(lambda x: cleanOne(x))
-    df['conservationActions'] = df['conservationActions'].map(lambda x: cleanOne(x))
+def par_clean(df):
+    '''
+    Maps clean_one to columns of interest
+    '''
+    df['rationale'] = df['rationale'].map(lambda x: clean_one(x))
+    df['habitat'] = df['habitat'].map(lambda x: clean_one(x))
+    df['threats'] = df['threats'].map(lambda x: clean_one(x))
+    df['population'] = df['population'].map(lambda x: clean_one(x))
+    df['range'] = df['range'].map(lambda x: clean_one(x))
+    df['useTrade'] = df['useTrade'].map(lambda x: clean_one(x))
+    df['conservationActions'] = df['conservationActions'].map(lambda x: clean_one(x))
     return df
 
-def parallelDf(df, func, n_cores = 7):
+def parallel_df(df, func, n_cores = 7):
+    '''
+    Parallelise cleaning of columns
+    '''
     df_split = np.array_split(df, n_cores)
     pool = Pool(n_cores)
     df = pd.concat(pool.map(func, df_split))
@@ -91,12 +88,12 @@ def parallelDf(df, func, n_cores = 7):
     pool.join()
     return df
 
-dfClean = parallelDf(df3, parClean)
+df_clean = parallel_df(df, par_clean)
 
 # saving to csv and loading causes NaN to regenerate, pickle doesn't
 # pickle dfClean
-with open("../Data/dfClean.pkl", "wb") as f:
-    pickle.dump(dfClean, f)
+with open("../Data/df_clean.pkl", "wb") as f:
+    pickle.dump(df_clean, f)
     f.close()
 
 # # tally for chordates

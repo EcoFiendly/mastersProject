@@ -711,6 +711,109 @@ document term matrix
     Topic: monitor_island_endemics
     Words: 0.143*"record" + 0.059*"island" + 0.055*"occur" + 0.053*"range" + 0.048*"find" + 0.036*"distribution" + 0.030*"species" + 0.028*"endemic"
 
+11) Better way to filter in text citations, preserving information written in brackets
+
+    Topic: 0 Population_abundance
+    Words: 0.110*"site" + 0.078*"individual" + 0.047*"wild" + 0.047*"population" + 0.044*"breeding" + 0.039*"survey" + 0.029*"density" + 0.023*"area"
+    Topic: 1 Wide_distribution
+    Words: 0.123*"distribution" + 0.104*"wide" + 0.078*"threaten" + 0.073*"unlikely" + 0.071*"large" + 0.060*"presume" + 0.055*"population" + 0.052*"view"
+    Topic: 2 Population_management
+    Words: 0.063*"population" + 0.057*"management" + 0.039*"area" + 0.034*"conservation" + 0.031*"protection" + 0.030*"protect" + 0.026*"habitat" + 0.024*"measure"
+    Topic: 3 Agricultural_threat
+    Words: 0.074*"habitat" + 0.060*"land" + 0.051*"use" + 0.046*"threat" + 0.043*"agricultural" + 0.036*"area" + 0.034*"development" + 0.026*"agriculture"
+    Topic: 4 Occupancy_and_occurrence_AOO_EOO
+    Words: 0.119*"area" + 0.094*"extent_occurrence" + 0.085*"occupancy" + 0.070*"location" + 0.066*"km²" + 0.061*"estimate" + 0.037*"know" + 0.026*"endemic"
+    Topic: 5 Coral_reef_habitat
+    Words: 0.141*"reef" + 0.090*"coral" + 0.072*"habitat" + 0.046*"unknown" + 0.046*"threat" + 0.043*"population" + 0.038*"loss" + 0.034*"degradation"
+    Topic: 6 Forest_ecosystem
+    Words: 0.107*"forest" + 0.062*"find" + 0.060*"tree" + 0.045*"grow" + 0.031*"occur" + 0.031*"dry" + 0.027*"area" + 0.026*"habitat"
+    Topic: 7 Water
+    Words: 0.108*"depth" + 0.081*"water" + 0.078*"find" + 0.061*"deep" + 0.050*"occur" + 0.047*"shallow" + 0.034*"range" + 0.029*"inhabit"
+    Topic: 8 Climate_change_threat
+    Words: 0.071*"increase" + 0.054*"threat" + 0.044*"coral" + 0.039*"decline" + 0.037*"climate_change" + 0.036*"population" + 0.024*"cause" + 0.024*"habitat"
+    Topic: 9 Habitat_decline
+    Words: 0.112*"habitat" + 0.085*"decline" + 0.072*"quality" + 0.062*"extent" + 0.047*"population" + 0.035*"suspect" + 0.028*"ongoing" + 0.026*"location"
+    Topic: 10 European_regional_assessment
+    Words: 0.120*"european" + 0.083*"regional_assessment" + 0.058*"concern" + 0.040*"require" + 0.040*"country" + 0.039*"threat" + 0.034*"assess" + 0.033*"population"
+    Topic: 11 Forest_habitat
+    Words: 0.260*"forest" + 0.053*"habitat" + 0.038*"lowland" + 0.035*"area" + 0.033*"plantation" + 0.029*"deforestation" + 0.028*"threat" + 0.028*"loss"
+    Topic: 12 Range
+    Words: 0.203*"range" + 0.077*"part" + 0.070*"abundant" + 0.063*"common" + 0.047*"relatively" + 0.042*"list" + 0.041*"habitat" + 0.035*"widespread"
+    Topic: 13 Protect_subpopulation
+    Words: 0.309*"subpopulation" + 0.106*"protect" + 0.076*"area" + 0.055*"reserve" + 0.048*"national" + 0.048*"occur" + 0.031*"list" + 0.021*"know"
+    Topic: 14 Area_based_protection
+    Words: 0.162*"protect" + 0.151*"area" + 0.096*"conservation_measure" + 0.085*"specific" + 0.085*"know" + 0.076*"place" + 0.070*"occur" + 0.034*"species"
+    Topic: 15 Regional_occurrence_data
+    Words: 0.137*"region" + 0.109*"datum" + 0.108*"occur" + 0.083*"available" + 0.052*"species" + 0.050*"subspecie" + 0.041*"distribution" + 0.038*"population"
+    Topic: 16 Population_trend
+    Words: 0.167*"population" + 0.110*"information_available" + 0.074*"trend" + 0.045*"abundance" + 0.044*"little" + 0.041*"stable" + 0.033*"unknown" + 0.029*"current"
+    Topic: 17 Population_framentation
+    Words: 0.144*"probably" + 0.112*"taxon" + 0.053*"population" + 0.043*"fragment" + 0.032*"severely" + 0.032*"small" + 0.027*"area" + 0.026*"number"
+    Topic: 18 Population_structure
+    Words: 0.141*"population" + 0.103*"decline" + 0.099*"estimate" + 0.047*"mature_individual" + 0.042*"individual" + 0.041*"number" + 0.037*"year" + 0.029*"size"
+    Topic: 19 Invasive_species
+    Words: 0.083*"habitat" + 0.082*"plant" + 0.054*"human" + 0.042*"native" + 0.041*"threat" + 0.031*"invasive" + 0.023*"local" + 0.022*"introduce"
+    Topic: 20 Species_ecology
+    Words: 0.055*"female" + 0.049*"length" + 0.046*"male" + 0.044*"egg" + 0.043*"year" + 0.035*"maximum" + 0.034*"adult" + 0.029*"size"
+    Topic: 21 Monitor_major_threats
+    Words: 0.250*"threat" + 0.156*"major" + 0.085*"know" + 0.047*"currently" + 0.043*"significant" + 0.041*"assess" + 0.041*"population" + 0.040*"identify"
+    Topic: 22 Conservation_action
+    Words: 0.089*"conservation" + 0.073*"need" + 0.054*"protect" + 0.052*"population" + 0.051*"research" + 0.048*"area" + 0.039*"action" + 0.028*"distribution"
+    Topic: 23 Use_and_trade_information
+    Words: 0.157*"trade" + 0.137*"common" + 0.097*"use" + 0.071*"information" + 0.045*"locally" + 0.043*"record" + 0.039*"report" + 0.035*"know"
+    Topic: 24 Habitat_threats
+    Words: 0.082*"fire" + 0.071*"threat" + 0.069*"threaten" + 0.068*"mining" + 0.062*"habitat" + 0.050*"activity" + 0.034*"impact" + 0.029*"grazing"
+    Topic: 25 Assess_criteria
+    Words: 0.105*"assess" + 0.098*"criterion" + 0.066*"decline" + 0.054*"population" + 0.051*"qualify" + 0.043*"threshold" + 0.032*"species" + 0.030*"vulnerable"
+    Topic: 26 Coastal_fish
+    Words: 0.177*"fish" + 0.118*"coast" + 0.072*"catch" + 0.031*"food" + 0.024*"water" + 0.020*"survey" + 0.019*"species" + 0.019*"area"
+    Topic: 27 Freshwater_systems
+    Words: 0.122*"water" + 0.122*"river" + 0.089*"stream" + 0.058*"lake" + 0.040*"basin" + 0.034*"find" + 0.031*"system" + 0.029*"small"
+    Topic: 28 Research
+    Words: 0.108*"know" + 0.100*"collection" + 0.096*"record" + 0.096*"locality" + 0.071*"collect" + 0.047*"specimen" + 0.034*"area" + 0.033*"type"
+    Topic: 29 Commercial_fishing
+    Words: 0.121*"fishery" + 0.072*"catch" + 0.058*"fishing" + 0.051*"commercial" + 0.039*"harvest" + 0.028*"target" + 0.024*"take" + 0.021*"effort"
+    Topic: 30 Endemic_species
+    Words: 0.104*"endemic" + 0.078*"find" + 0.075*"island" + 0.063*"asl" + 0.062*"occur" + 0.043*"species" + 0.040*"range" + 0.037*"elevation"
+    Topic: 31 Population_size
+    Words: 0.206*"population" + 0.163*"size" + 0.090*"trend" + 0.067*"criterion" + 0.065*"approach_threshold" + 0.060*"range" + 0.047*"believe" + 0.041*"quantify"
+
+13) Select only global assessments
+
+    Topic: 0 Monitor_endemics
+    Words: 0.115*"record" + 0.050*"endemic" + 0.046*"occur" + 0.037*"know" + 0.036*"island" + 0.035*"find" + 0.033*"range" + 0.029*"species"
+    Topic: 1 Human_threats_to_habitat
+    Words: 0.068*"threat" + 0.050*"habitat" + 0.029*"impact" + 0.026*"human" + 0.022*"water" + 0.022*"pollution" + 0.020*"activity" + 0.020*"development"
+    Topic: 2 Find_water
+    Words: 0.052*"water" + 0.040*"find" + 0.032*"depth" + 0.026*"river" + 0.026*"occur" + 0.024*"stream" + 0.024*"small" + 0.022*"female"
+    Topic: 3 Agricultural_threats_to_forests
+    Words: 0.058*"forest" + 0.044*"area" + 0.041*"habitat" + 0.035*"agriculture" + 0.035*"threat" + 0.034*"fire" + 0.024*"threaten" + 0.022*"plant"
+    Topic: 4 Monitor_population
+    Words: 0.061*"population" + 0.044*"area" + 0.042*"survey" + 0.039*"habitat" + 0.033*"conservation" + 0.028*"range" + 0.027*"status" + 0.022*"suitable"
+    Topic: 5 Range
+    Words: 0.108*"know" + 0.069*"area" + 0.054*"locality" + 0.052*"location" + 0.051*"extent_occurrence" + 0.046*"occupancy" + 0.038*"km²" + 0.031*"estimate"
+    Topic: 6 Common_threats
+    Words: 0.118*"common" + 0.078*"threat" + 0.065*"population" + 0.059*"know" + 0.059*"widespread" + 0.056*"major" + 0.047*"abundant" + 0.046*"locally"
+    Topic: 7 Forest_ecosystem
+    Words: 0.124*"forest" + 0.066*"find" + 0.043*"tree" + 0.041*"occur" + 0.032*"grow" + 0.024*"species" + 0.024*"area" + 0.022*"lowland"
+    Topic: 8 Population_structure
+    Words: 0.089*"population" + 0.050*"individual" + 0.047*"estimate" + 0.044*"decline" + 0.042*"year" + 0.027*"number" + 0.025*"coral" + 0.025*"subpopulation"
+    Topic: 9 Fish_use_trade
+    Words: 0.096*"trade" + 0.061*"fishery" + 0.061*"use" + 0.048*"catch" + 0.036*"information" + 0.031*"fishing" + 0.029*"datum" + 0.028*"fish"
+    Topic: 10 Threat_distribution
+    Words: 0.141*"threat" + 0.082*"distribution" + 0.075*"wide" + 0.064*"large" + 0.062*"major" + 0.057*"population" + 0.052*"currently" + 0.052*"assess"
+    Topic: 11 Forest_fragmentation
+    Words: 0.067*"forest" + 0.053*"fragment" + 0.053*"habitat" + 0.039*"threaten" + 0.038*"severely" + 0.032*"area" + 0.028*"taxon" + 0.025*"population"
+    Topic: 12 Habitat_loss
+    Words: 0.139*"habitat" + 0.092*"loss" + 0.048*"species" + 0.046*"threat" + 0.044*"degradation" + 0.034*"range" + 0.033*"threaten" + 0.021*"area"
+    Topic: 13 Area_based_protection
+    Words: 0.146*"protect" + 0.134*"area" + 0.076*"occur" + 0.054*"conservation_measure" + 0.050*"know" + 0.046*"specific" + 0.045*"place" + 0.035*"species"
+    Topic: 14 Species_ecology
+    Words: 0.119*"decline" + 0.065*"population" + 0.051*"habitat" + 0.043*"criterion" + 0.041*"quality" + 0.036*"assess" + 0.032*"range" + 0.031*"extent"
+    Topic: 15 Population_trend
+    Words: 0.172*"population" + 0.140*"size" + 0.063*"trend" + 0.054*"range" + 0.044*"criterion" + 0.043*"approach_threshold" + 0.040*"decline" + 0.031*"year_generation"
+    Topic: 16 Conservation_actions
+    Words: 0.069*"conservation" + 0.064*"need" + 0.061*"population" + 0.055*"research" + 0.038*"action" + 0.033*"protect" + 0.031*"area" + 0.029*"management"
 ### presentation notes
 
 from james: the narrative heavily revolves around monitoring the situation
