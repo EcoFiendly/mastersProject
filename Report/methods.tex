@@ -18,9 +18,7 @@ The IUCN Red List assessments text data was downloaded (December 2020) from The 
 
 Figure (Corpus is collection of documents, and documents is collection of tokens) shows the structure of the data. 
 
-The texts were first processed and normalised. Entries in English and were global assessments were selected. Texts were then cleaned using regular expressions, where noise from the text were removed. \textcite{spacy} was used to remove stop words, lemmatise and tokenise the text in the documents. A bag of words model is output, where the order of words in each document does not matter, only the frequencies. The phraser module from Gensim \parencite{rehurek_lrec} was used to detect bigrams in the tokens. A dictionary was then created from
-
-Texts were cleaned using regular expressions to remove noise. The texts then processed by spaCy \parencite{spacy}, where stop words were removed, words were lemmatised and tokenised, producing a bag of words (BoW) model output. The phraser module from Gensim \parencite{rehurek_lrec} was then applied onto the BoW to detect and generate bigrams. Finally, a dictionary (vocabulary) of the tokens was created, where tokens which appear outside of 1\% and 50\% documents were filtered out. 
+The texts were first processed and normalised. Entries in English and were global assessments were selected. Texts were cleaned using regular expressions to remove noise. The texts then processed by spaCy \parencite{spacy}, where stop words were removed, words were lemmatised and tokenised, producing a bag of words (BoW) model output. The phraser module from Gensim \parencite{rehurek_lrec} was then applied onto the BoW to detect and generate bigrams. Finally, a dictionary (vocabulary) of the tokens was created, where tokens which appear outside of 1\% and 50\% documents were filtered out. 
 
 \subsection{Topic analyses}
 
