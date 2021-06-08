@@ -25,9 +25,9 @@ with open(home+"/Data/df_clean.pkl", "rb") as f:
     df = pickle.load(f)
     f.close()
 
-# with open("../../Data/df_clean.pkl", "rb") as f:
-#    df = pickle.load(f)
-#    f.close()
+with open("../../Data/df_clean.pkl", "rb") as f:
+   df = pickle.load(f)
+   f.close()
 
 # create training corpus
 rat = df.rationale.values.tolist()
@@ -42,7 +42,7 @@ corpus = rat + hab + thr + pop + ran + use + con
 del rat,hab,thr,pop,ran,use,con
 corpus = list(filter(None, corpus))
 
-# save combCorpus
+# save corpus
 with open(home+"/Data/comb/corpus.pkl", "wb") as f:
     pickle.dump(corpus, f)
     f.close()
@@ -61,7 +61,7 @@ for word in nlp.Defaults.stop_words:
 # can't do entire corpus at once, do columns separately before combining
 # generators help decrease ram usage (keep output of nlp.pipe as a generator)
 # don't need too many cores since tokenization cannot be multithreaded
-corpus_gen = nlp.pipe(corpus, n_process = 8, batch_size = 800, disable = ["parser", "ner"])
+corpus_gen = nlp.pipe(corpus, n_process = 7, batch_size = 800, disable = ["parser", "ner"])
 
 del corpus
 
@@ -89,6 +89,9 @@ min_count = int(0.01*len(tokens))
 # build bigram model
 bigram = Phrases(tokens, min_count = min_count)
 bigramMod = Phraser(bigram)
+# bigramMod.save(home+"/Data/comb/bigramMod.pkl")
+# save bigramMod
+bigramMod.save("../../Data/comb_global/bigramMod.pkl")
 # print(bigramMod[tokens[5]])
 
 tokens_2 = bigramMod[tokens]
