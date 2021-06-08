@@ -18,15 +18,21 @@ The IUCN Red List assessments text data was downloaded (December 2020) from The 
 
 Figure (Corpus is collection of documents, and documents is collection of tokens) shows the structure of the data. 
 
-The texts were first processed and normalised. Entries in English and were global assessments were selected. Texts were cleaned using regular expressions to remove noise. The texts then processed by spaCy \parencite{spacy}, where stop words were removed, words were lemmatised and tokenised, producing a bag of words (BoW) model output. The phraser module from Gensim \parencite{rehurek_lrec} was then applied onto the BoW to detect and generate bigrams. Finally, a dictionary (vocabulary) of the tokens was created, where tokens which appear outside of 1\% and 50\% documents were filtered out. 
+The texts were first processed and normalised. Global assessments in English were selected. Texts were cleaned using regular expressions to remove noise. The texts were then processed using spaCy \parencite{spacy}, where stop words were removed, remaining words were lemmatised and tokenised, producing a bag of words (BoW) model output. The phraser module from Gensim \parencite{rehurek_lrec} was then applied onto the BoW to detect and generate bigrams. Finally, a dictionary (vocabulary) of the tokens was created, where tokens which appear outside of 1\% and 50\% documents were filtered out. 
 
 \subsection{Topic analyses}
 
-Latent Dirichlet Allocation \parencite{blei2003latent}, a type of topic model under the class of unsupervised machine learning, was applied onto the corpus. 
+Latent Dirichlet Allocation \parencite{blei2003latent}, a type of topic model under the class of unsupervised machine learning, was applied onto the corpus. The models were ran for number of topics ranging from 2 to 100, and their performance was measured using topic coherence as a metric \parencite{roder2015exploring}. On top of the computed metrics, I inspected the topic space that was visualised using pyLDAvis (a python port of LDAvis \parencite{sievert2014ldavis}). The model selection suggested 17 topics as the optimal number for this corpus. The labels and top 16 words for each topic are shown in table . Analysis steps are summarised in Fig .
 
 (insert graphical model representation of LDA and describe)
 
-The models were ran for number of topics ranging from 2 to 100, and their performance was measured using topic coherence as a metric \parencite{roder2015exploring}. On top of the computed metrics, I inspected the topic space that was visualised using pyLDAvis (a python port of LDAvis \parencite{sievert2014ldavis}). The best performing model (number of topics = 17) under the coherence metric also looked the best in pyLDAvis so 17 was selected for the number of topics.
+\textit{Figure . Summary of analysis steps of the LDA model. (a) Data preprocessing shows the structure of the dataset (text justifications for the risk category assigned to species) and the methods applied  to it (each text summary is reduced to word frequencies then very rare and very common words were filtered out). (b) The example topic model calculates the word composition for each topic. The model is then applied to a piece of text to generate the topic composition of the text. Topics are named to best describe the top} n \textit{words associated with the topic.}
 
-Each topic contains a group of words that the algorithm grouped together through its estimation, and I named the topics by reviewing the group of words.
+(insert table to show topic number, topic name and words in topic)
+
+Table . Topics revealed from applying a LDA model on the IUCN Red List corpus.
+
+% need help with phrasing:
+Using the trained model, topic compositions for each of the texts were calculated. These were then added and normalised to produce an overall topic composition for each species.
+
 
