@@ -53,7 +53,7 @@ def clean_one(text):
     text = re.sub(r'(&#160;)', ' ', text) # remove html non-breaking space
     text = re.sub(r'\[.*?\]', ' ', text) # remove text in square brackets
     # text = re.sub(r'\(.*?\)', ' ', text) # remove text in parentheses
-    text = re.sub(r'\(([^)]+)?(?:19|20)\d{2}?([^)]+)?\)', ' ', text) #remove in text citation
+    text = re.sub(r'\(([^)]+)?(?:19|20)\d{2}?([^)]+)?\)', '', text) # remove in text citation
     # text = re.sub(r'[%s]' % re.escape(string.punctuation), ' ', text) # remove punctuation
     text = re.sub(r'\d+\s\w{1,2}\b', ' ', text) # remove measurements
     text = re.sub(r'\w*\d\w*', ' ', text) # remove words containing numbers
