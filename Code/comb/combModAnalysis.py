@@ -36,7 +36,7 @@ plt.show()
 f.savefig("../../Data/comb_global/coherencePlot.png", dpi=500)
 # 10, 17*, 22
 
-for idx, topic in model_list[15].print_topics(-1, num_words=8):
+for idx, topic in model_list[15].print_topics(-1, num_words=16):
     print('Topic: {} \nWords: {}'.format(idx, topic))
 
 corpus = corpora.MmCorpus("../../Data/comb_global/bow_corpus.mm")
