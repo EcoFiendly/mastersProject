@@ -44,7 +44,12 @@ corpus = corpora.MmCorpus("../../Data/comb_global/bow_corpus.mm")
 dic = corpora.Dictionary.load("../../Data/comb_global/dic.dict")
 
 pyLDAvis.enable_notebook()
-vis = pyLDAvis.gensim.prepare(model_list[20], corpus, dic, sort_topics=False)
+vis = pyLDAvis.gensim.prepare(model_list[15], corpus, dic, sort_topics=False)
 pyLDAvis.show(vis)
 pyLDAvis.save_html(vis, "../../Data/comb_global/vis_22.html")
+# save json
+pyLDAvis.save_json(vis, "../../Data/comb_global/vis_17.json")
+
+
+
 
