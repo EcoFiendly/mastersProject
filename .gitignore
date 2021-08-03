@@ -8,6 +8,9 @@
 /Proposal
 .vscode
 /Data/ReadMe.txt
-/Data/*/
+/Data/*
 Report/report.run.xml
 Report/report-blx.bib
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+Code/comb/mapping.R
