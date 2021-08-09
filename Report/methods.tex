@@ -28,11 +28,7 @@ Latent Dirichlet Allocation (LDA) \parencite{blei2003latent}, a type of generati
 
 The terminologies are as follows: the basic unit is a word (or token) which is present in the constructed dictionary (preprocessing step); A document is made up of N words; A corpus is the whole collection of M documents \parencite{blei2003latent}.
 
-Models were trained with the number of topics ranging from 2 to 100 using the prepared corpus. Their performance was measured using topic coherence as a metric \parencite{roder2015exploring}. On top of the computed metrics, I inspected the topic space that was visualised using pyLDAvis (a python port of LDAvis \parencite{sievert2014ldavis}). The model selection suggested 17 topics as the optimal number for this corpus. The labels and top 16 words for each topic are shown in table 1. Analysis steps are summarised in Fig (below).
-
-(insert graphical model representation of LDA and describe)
-
-\textit{Figure . Summary of analysis steps of the LDA model. (a) Data preprocessing shows the structure of the dataset (text justifications for the risk category assigned to species) and the methods applied  to it (each text summary is reduced to word frequencies then very rare and very common words were filtered out). (b) The example topic model calculates the word composition for each topic. The model is then applied to a piece of text to generate the topic composition of the text. Topics are named to best describe the top} n \textit{words associated with the topic.}
+Models were trained with the number of topics ranging from 2 to 100 using the prepared corpus. Their performance was measured using topic coherence as a metric \parencite{roder2015exploring}. On top of the computed metrics, I inspected the topic space that was visualised using pyLDAvis (a python port of LDAvis \parencite{sievert2014ldavis}). The model selection suggested 17 topics as the optimal number for this corpus. The labels and top 16 words for each topic are shown in table 1.
 
 (I think this should go into results?)
 (insert table to show topic number, topic name and words in topic)
