@@ -1,32 +1,32 @@
 \subsection{Dataset}
 
-The IUCN Red List assessment justifications text data was downloaded (December 2020) and he spatial data for mammalian species were downloaded (June 2021) from The IUCN Red List of Threatened Species\textsuperscript{TM} website \parencite{iucn2021}. 
+The IUCN Red List assessment justifications text data was downloaded (December 2020) and the spatial data for mammalian species were downloaded (June 2021) from The IUCN Red List of Threatened Species\textsuperscript{TM} website \parencite{iucn2021}. 
 
 The information of interest are as follows (detailed information available on their website):
 \begin{itemize}
     \item The red list category lists the assigned category for the species. 
-    \item The rationale, a summarised justification for the category assigned. 
-    \item The habitat describes the general habitat use and ecology. 
+    \item The \textbf{rationale}, a summarised justification for the category assigned. 
+    \item The \textbf{habitat} describes the general habitat use and ecology. 
     \item A subcategory of habitat is systems, which are the terrestrial, marine and freshwater (or different combinations of) habitats.
     \item Realm lists the biogeographic realms (individual or a combination of up to seven) that correspond to the habitat locations
-    \item Threats lists and describes the general and specific threats that are affecting the species. 
-    \item Population describes population numbers, structure and current population trend. 
-    \item Range lists and describes the historical and current geographic range, and includes the estimated aera of occupancy (AOO) and estimated extent of occurrence (EOO). 
-    \item Use and trade describes the details of how the species are used and/or traded.
-    \item Conservation actions describes the current and recommended general and specific actions in place to protect to species. 
+    \item \textbf{Threats} lists and describes the general and specific threats that are affecting the species. 
+    \item \textbf{Population} describes population numbers, structure and current population trend. 
+    \item \textbf{Range} lists and describes the historical and current geographic range, and includes the estimated aera of occupancy (AOO) and estimated extent of occurrence (EOO). 
+    \item \textbf{Use and trade} describes the details of how the species are used and/or traded.
+    \item \textbf{Conservation} actions describes the current and recommended general and specific actions in place to protect to species. 
 \end{itemize}
 
-In the justification text dataset, each row data represents one entry of information for one species. Each entry of information is made up of nine different sections, and each section is equivalent to one document (LDA terminology).
+In the justification text dataset, each row in the data represents one entry of information for one species. From each entry of information, I am interested in the seven different sections (in bold), and each section is equivalent to one document (LDA terminology).
 
-\subsection{Data preprocessing and corpus construction}
+\subsection{Data preprocessing}
 
-The texts were processed in multiple steps and normalised. Only global assessments in English were selected. This removes noise from regional assessments and assesments not recorded in English. Texts were then cleaned using regular expressions. The texts were then processed using spaCy \parencite{spacy}, where stop words were removed, remaining words were lemmatised and tokenised, producing a bag of words (BoW) matrix. The phraser module from Gensim \parencite{rehurek_lrec} was then applied onto the BoW to detect and generate bigrams. Finally, a dictionary (vocabulary) of the tokens was created, where tokens that appeared between 1\% and 50\% documents were filtered for. 
+The texts were processed in multiple steps and normalised. Only global assessments in English were selected. This removes noise from regional assessments and assesments not recorded in English. Texts were then cleaned using regular expressions. The texts were then processed using spaCy \parencite{spacy}, where stop words were removed, remaining words were lemmatised and tokenised, producing a bag of words (BoW) matrix. The phraser module from Gensim \parencite{rehurek_lrec} was then applied onto the BoW to detect and generate bigrams (words that when occurring together has a different meaning. E.g. global and warming forming global warming). Finally, a dictionary (vocabulary) of the tokens was created, where tokens that appeared between 1\% and 50\% documents were filtered for. 
 
 \subsection{Model, terminology and selection}
 
-Latent Dirichlet Allocation (LDA) \parencite{blei2003latent}, a type of generative probabilistic model under the class of unsupervised machine learning was used to perform topic analysis. LDA is able to reduce the dimensionality of the large amount of text data, and identify \textit{"topics"} from within based on words that are statistically associated. The algorithm estimates, for \textit{k} number of topics, the probability of each word belonging to each topic, and the probability of a word from a document belonging to a topic. We can then infer what the document is about from the topics that are discovered. 
+Latent Dirichlet Allocation (LDA) \parencite{blei2003latent}, a type of generative probabilistic model under the class of unsupervised machine learning was used to perform the topic analysis. LDA is able to reduce the dimensionality of the large amount of text data, and identify \textit{"topics"} from within based on words that are statistically associated. The algorithm estimates, for \textit{k} number of topics, the probability of each word belonging to each topic, and the probability of a word from a document belonging to a topic. We can then infer what the document is about from the topics that are discovered by the model. 
 
-The terminologies are as follows: the basic unit is a word (or token) which is present in the constructed dictionary (preprocessing step); A document is made up of N words; A corpus is the whole collection of M documents \parencite{blei2003latent}.
+The terminologies are as follows: the basic unit is a word (or token) which is present in the constructed dictionary (preprocessing step); A document is made up of N words; A corpus is a collection of M documents \parencite{blei2003latent}. In relation to my dataset, the corpus is the collection of species text justifications, and each of the seven section of interest in the text justifications is a document, and is made up of N words. N differs from document to document.
 
 Models were trained with the number of topics ranging from 2 to 100 using the prepared corpus. Their performance was measured using topic coherence as a metric \parencite{roder2015exploring}. On top of the computed metrics, I inspected the topic space that was visualised using pyLDAvis (a python port of LDAvis \parencite{sievert2014ldavis}). The model selection suggested 17 topics as the optimal number for this corpus. The labels and top 16 words for each topic are shown in table 1.
 
