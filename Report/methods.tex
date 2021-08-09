@@ -1,6 +1,8 @@
 \subsection{Dataset}
 
-The IUCN Red List assessments text data was downloaded (December 2020) from The IUCN Red List of Threatened Species\textsuperscript{TM} website \parencite{iucn2021}. Each row represents one entry of information for one species. The information of interest are as follows (detailed information available on their website):
+The IUCN Red List assessment justifications text data was downloaded (December 2020) and he spatial data for mammalian species were downloaded (June 2021) from The IUCN Red List of Threatened Species\textsuperscript{TM} website \parencite{iucn2021}. 
+
+The information of interest are as follows (detailed information available on their website):
 \begin{itemize}
     \item The red list category lists the assigned category for the species. 
     \item The rationale, a summarised justification for the category assigned. 
@@ -14,25 +16,27 @@ The IUCN Red List assessments text data was downloaded (December 2020) from The 
     \item Conservation actions describes the current and recommended general and specific actions in place to protect to species. 
 \end{itemize}
 
+In the justification text dataset, each row data represents one entry of information for one species. Each entry of information is made up of nine different sections, and each section is equivalent to one document (LDA terminology).
+
 \subsection{Data preprocessing and corpus construction}
 
-Figure (Corpus is collection of documents, and documents is collection of tokens) shows the structure of the data. 
+The texts were processed in multiple steps and normalised. Only global assessments in English were selected. This removes noise from regional assessments and assesments not recorded in English. Texts were then cleaned using regular expressions. The texts were then processed using spaCy \parencite{spacy}, where stop words were removed, remaining words were lemmatised and tokenised, producing a bag of words (BoW) matrix. The phraser module from Gensim \parencite{rehurek_lrec} was then applied onto the BoW to detect and generate bigrams. Finally, a dictionary (vocabulary) of the tokens was created, where tokens that appeared between 1\% and 50\% documents were filtered for. 
 
-The texts were first processed and normalised. Global assessments in English were selected. Texts were cleaned using regular expressions to remove noise. The texts were then processed using spaCy \parencite{spacy}, where stop words were removed, remaining words were lemmatised and tokenised, producing a bag of words (BoW) model output. The phraser module from Gensim \parencite{rehurek_lrec} was then applied onto the BoW to detect and generate bigrams. Finally, a dictionary (vocabulary) of the tokens was created, where tokens which appear outside of 1\% and 50\% documents were filtered out. 
+\subsection{Model, terminology and selection}
 
-\subsection{Topic analyses}
+Latent Dirichlet Allocation (LDA) \parencite{blei2003latent}, a type of generative probabilistic model under the class of unsupervised machine learning was used to perform topic analysis. LDA is able to reduce the dimensionality of the large amount of text data, and identify \textit{"topics"} from within based on words that are statistically associated. The algorithm estimates, for \textit{k} number of topics, the probability of each word belonging to each topic, and the probability of a word from a document belonging to a topic. We can then infer what the document is about from the topics that are discovered. 
 
-Latent Dirichlet Allocation \parencite{blei2003latent}, a type of topic model under the class of unsupervised machine learning, was applied onto the corpus. The models were ran for number of topics ranging from 2 to 100, and their performance was measured using topic coherence as a metric \parencite{roder2015exploring}. On top of the computed metrics, I inspected the topic space that was visualised using pyLDAvis (a python port of LDAvis \parencite{sievert2014ldavis}). The model selection suggested 17 topics as the optimal number for this corpus. The labels and top 16 words for each topic are shown in table . Analysis steps are summarised in Fig .
+The terminologies are as follows: the basic unit is a word (or token) which is present in the constructed dictionary (preprocessing step); A document is made up of N words; A corpus is the whole collection of M documents \parencite{blei2003latent}.
+
+Models were trained with the number of topics ranging from 2 to 100 using the prepared corpus. Their performance was measured using topic coherence as a metric \parencite{roder2015exploring}. On top of the computed metrics, I inspected the topic space that was visualised using pyLDAvis (a python port of LDAvis \parencite{sievert2014ldavis}). The model selection suggested 17 topics as the optimal number for this corpus. The labels and top 16 words for each topic are shown in table 1. Analysis steps are summarised in Fig (below).
 
 (insert graphical model representation of LDA and describe)
 
 \textit{Figure . Summary of analysis steps of the LDA model. (a) Data preprocessing shows the structure of the dataset (text justifications for the risk category assigned to species) and the methods applied  to it (each text summary is reduced to word frequencies then very rare and very common words were filtered out). (b) The example topic model calculates the word composition for each topic. The model is then applied to a piece of text to generate the topic composition of the text. Topics are named to best describe the top} n \textit{words associated with the topic.}
 
+(I think this should go into results?)
 (insert table to show topic number, topic name and words in topic)
 
-Table . Topics revealed from applying a LDA model on the IUCN Red List corpus.
+\textit{Table 1. Topics revealed from applying a LDA model on the IUCN Red List corpus.}
 
-% need help with phrasing:
-Using the trained model, topic compositions for each of the texts were calculated. These were then added and normalised to produce an overall topic composition for each species.
-
-
+Using the selected model, topic compositions for each of the documents were calculated. Topics can have a non-zero probability of being discovered for every document, thus not all of the topics in each document will neccessarily be informative, especially when the probibility is very small. In order to focus on the topics that are informative, the topic probabilities were plotted against their probability density (appendix). This revealed that a threshold of 1/17 was suitable for deciding if a topic was present or absent in a document if the probability was above or below the threshold.
