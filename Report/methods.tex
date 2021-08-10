@@ -1,38 +1,34 @@
 \subsection{Dataset}
 
-The IUCN Red List assessment justifications text data was downloaded (December 2020) and the spatial data for mammalian species were downloaded (June 2021) from The IUCN Red List of Threatened Species\textsuperscript{TM} website \parencite{iucn2021}. 
+The IUCN Red List assessment data was downloaded (December 2020) and the spatial data for mammalian species were downloaded (June 2021) from The IUCN Red List of Threatened Species\textsuperscript{TM} website \parencite{iucn2021}. The assessment data contains a large amount of information, and my analysis focuses on a subset of the data which are sentences or paragraphs of text, listed in table 1.
 
-The information of interest are as follows (detailed information available on their website):
-\begin{itemize}
-    \item The red list category lists the assigned category for the species. 
-    \item The \textbf{rationale}, a summarised justification for the category assigned. 
-    \item The \textbf{habitat} describes the general habitat use and ecology. 
-    \item A subcategory of habitat is systems, which are the terrestrial, marine and freshwater (or different combinations of) habitats.
-    \item Realm lists the biogeographic realms (individual or a combination of up to seven) that correspond to the habitat locations
-    \item \textbf{Threats} lists and describes the general and specific threats that are affecting the species. 
-    \item \textbf{Population} describes population numbers, structure and current population trend. 
-    \item \textbf{Range} lists and describes the historical and current geographic range, and includes the estimated aera of occupancy (AOO) and estimated extent of occurrence (EOO). 
-    \item \textbf{Use and trade} describes the details of how the species are used and/or traded.
-    \item \textbf{Conservation} actions describes the current and recommended general and specific actions in place to protect to species. 
-\end{itemize}
-
-In the justification text dataset, each row in the data represents one entry of information for one species. From each entry of information, I am interested in the seven different sections (in bold), and each section is equivalent to one document (LDA terminology).
+\begin{table}[hbtp]
+    \centering
+    \caption{Example and description of the data used in my analysis (see \parencite{iucn2021}). The first two columns are categorical data that will be later used to group the results from the model. The next seven columns are text data that will be preprocessed and used to train the model to reveal the "topics". Each row of information represents the data collected by the IUCN for a single species. Each of the entries in the last seven columns is equivalent to one document (LDA terminology)}\label{tab:example and desc of data}
+    \tiny
+        \begin{tabulary}{1.0\textwidth}{|L|L|L|L|L|L|L|L|L|}
+            \hline
+            \multicolumn{2}{|c|}{\textbf{Categorical data}} & \multicolumn{7}{c|}{\textbf{Text data to be preprocessed}}\\
+            \hline
+            Red List Category & Systems & Rationale & Habitat & Threats & Population & Range & Use and trade & Conservation actions \\
+            \hline
+            Lists the assigned category for the species & Terrestrial, marine and freshwater (or combinations of the three) & Summary of the text justification for the category assigned & General habitat use and ecology & General and specific threats that are affecting the species & Population numbers, structure and current population trend & Historical and current geographic range & How species are used and/or traded & Current and recommended general and specific actions in place to protect the species \\
+            \hline
+        \end{tabulary}
+\end{table}
 
 \subsection{Data preprocessing}
 
-The texts were processed in multiple steps and normalised. Only global assessments in English were selected. This removes noise from regional assessments and assesments not recorded in English. Texts were then cleaned using regular expressions. The texts were then processed using spaCy \parencite{spacy}, where stop words were removed, remaining words were lemmatised and tokenised, producing a bag of words (BoW) matrix. The phraser module from Gensim \parencite{rehurek_lrec} was then applied onto the BoW to detect and generate bigrams (words that when occurring together has a different meaning. E.g. global and warming forming global warming). Finally, a dictionary (vocabulary) of the tokens was created, where tokens that appeared between 1\% and 50\% documents were filtered for. 
+The texts were processed in multiple steps. Only global assessments in English were selected. This removes noise from regional assessments and assessments not recorded in English. Texts were then cleaned using regular expressions. The texts were then processed using spaCy \parencite{spacy}, where stop words were removed, remaining words were lemmatised and tokenised, producing a bag of words (BoW) matrix. The phraser module from Gensim \parencite{rehurek_lrec} was then applied onto the BoW to detect and generate bigrams (pairs words that when occurring together could have a different meaning. E.g. global and warming forming global warming). Finally, a dictionary (vocabulary) of the tokens (words or bigrams) was created. Tokens that appeared in less than 1\% or more than 50\% documents were filtered out for being too rare or common and thus uninformative. 
 
 \subsection{Model, terminology and selection}
 
-Latent Dirichlet Allocation (LDA) \parencite{blei2003latent}, a type of generative probabilistic model under the class of unsupervised machine learning was used to perform the topic analysis. LDA is able to reduce the dimensionality of the large amount of text data, and identify \textit{"topics"} from within based on words that are statistically associated. The algorithm estimates, for \textit{k} number of topics, the probability of each word belonging to each topic, and the probability of a word from a document belonging to a topic. We can then infer what the document is about from the topics that are discovered by the model. 
+as well as generalistic prob model assumes that each doc generated by collection of topics and topics contain words.
 
-The terminologies are as follows: the basic unit is a word (or token) which is present in the constructed dictionary (preprocessing step); A document is made up of N words; A corpus is a collection of M documents \parencite{blei2003latent}. In relation to my dataset, the corpus is the collection of species text justifications, and each of the seven section of interest in the text justifications is a document, and is made up of N words. N differs from document to document.
+Latent Dirichlet Allocation (LDA) \parencite{blei2003latent} was used to perform the topic analysis. LDA is a type of generative probabilistic model under the class of unsupervised machine learning. LDA is able to reduce the dimensionality of large amount of text data, and identify \textit{"topics"} from within based on words that are statistically associated. The algorithm estimates, for a given number \textit{k} of topics, the probability of each word belonging to each topic, and the probability of a word from a document belonging to a topic. This means that the algorithm assumes that each document is generated by a collection of topics and topics contain keywords that occur together often. We can then infer what the document is about from the topics that are discovered by the model.
 
-Models were trained with the number of topics ranging from 2 to 100 using the prepared corpus. Their performance was measured using topic coherence as a metric \parencite{roder2015exploring}. On top of the computed metrics, I inspected the topic space that was visualised using pyLDAvis (a python port of LDAvis \parencite{sievert2014ldavis}). The model selection suggested 17 topics as the optimal number for this corpus. The labels and top 16 words for each topic are shown in table 1.
+The basic unit is a word or bigram (or token) which is present in the constructed dictionary (preprocessing step); A document is made up of any number of words; A corpus is a collection of any number of documents \parencite{blei2003latent}. In relation to my dataset, the corpus is the collection of all the text data from the species in the Red List, and each entry from the seven sections of is a document, and is made up of a number of words. As such, each species would comprise of seven documents, and the length of the corpus is number of species multiplied by seven.
 
-(I think this should go into results?)
-(insert table to show topic number, topic name and words in topic)
+Models were trained with the number of topics ranging from 2 to 100 using the prepared corpus. Their performance was measured using topic coherence as a metric \parencite{roder2015exploring}. On top of the computed metrics, I inspected the topic space that was visualised using pyLDAvis (a python port of LDAvis \parencite{sievert2014ldavis}). The model selection suggested 17 topics as the optimal number for this corpus. The labels and top 16 words for each topic are shown in table 2.
 
-\textit{Table 1. Topics revealed from applying a LDA model on the IUCN Red List corpus.}
-
-Using the selected model, topic compositions for each of the documents were calculated. Topics can have a non-zero probability of being discovered for every document, thus not all of the topics in each document will neccessarily be informative, especially when the probibility is very small. In order to focus on the topics that are informative, the topic probabilities were plotted against their probability density (appendix). This revealed that a threshold of 1/17 was suitable for deciding if a topic was present or absent in a document if the probability was above or below the threshold.
+Using the selected model, topic compositions for each of the documents were calculated. Topics can have a non-zero probability of being discovered for every document, thus not all of the topics in each document will neccessarily be informative, especially when the probibility is very small. In order to focus on the topics that are informative, the topic probabilities were plotted against their probability density (appendix). This revealed that a threshold of 1/17 was suitable for deciding if a document was about that topic, where probabilities below the threshold were masked to zero.
