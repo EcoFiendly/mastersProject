@@ -5,6 +5,8 @@
 \usepackage{hyperref}
 \usepackage{multirow}
 \usepackage{multicol}
+\usepackage{tabulary}
+\usepackage{adjustbox}
 \usepackage{blindtext}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -32,7 +34,18 @@
 \usepackage{subcaption}
 \usepackage{float}
 \usepackage{aliascnt}
+\usepackage{svg}
+\usepackage{placeins}
+\usepackage{lineno}
+\linenumbers
+\usepackage{cleveref}
+\captionsetup[table]{labelfont={small,bf,it},textfont={small,it}}
+\captionsetup[figure]{labelfont={small,bf,it},textfont={small,it}}
 
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
 
 \usepackage[style=authoryear, backend=bibtex]{biblatex}
 \bibliography{report.bib}
@@ -134,9 +147,9 @@
 	
 	\begin{center}
 		
-		\Huge IUCN Red List assessment supporting information: What the texts really say\\		
+		\Huge Themes in IUCN Red List assessments revealed by Machine Reading\\		
 		\vspace{.5cm}		
-		\large {Word Count: 6,000}
+		\large {Word Count: 4,735}
 		
 	\end{center}
 	\vspace{2.5cm}
@@ -144,13 +157,13 @@
 		\Large Yew Shen Lim
 	\end{center}
 	
-	\vspace{8cm}
-	\begin{center}
-		{\large A thesis submitted in partial fulfilment of the \\requirements for the Master of Research at Imperial College London \\ Sumitted for the MRes in Computational Methods in Ecology and Evolution degree}
-	\end{center}
-	
 	\begin{center}
 		{\large August 2021}
+	\end{center}
+
+	\vspace{7cm}
+	\begin{center}
+		{\large A thesis submitted in partial fulfilment of the \\requirements for the Master of Research at Imperial College London \\ Sumitted for the MRes in Computational Methods in Ecology and Evolution degree}
 	\end{center}		
 
 	\newpage
@@ -158,9 +171,9 @@
 
 \section*{Declaration}
 
-The text data used was downloaded from the IUCN Red List website.
+Both the text data and mammals range data used were downloaded from the IUCN Red List website.
 
-All of the code graphics were written and created in Python. I was responsible for preprocessing the text and conducting the analysis.
+All of the code and graphics were written and created in Python and R. I was responsible for preprocessing the text and conducting the analysis.
 
 My supervisor Dr James Rosindell provided guidance for my project's development in weekly meetings.
 
@@ -178,9 +191,9 @@ My supervisor Dr James Rosindell provided guidance for my project's development 
 %\section*{List of Contents}
 \tableofcontents
 \pagebreak
-\listoffigures
-\listoftables
-\pagebreak
+%\listoffigures
+%\listoftables
+%\pagebreak
 \newpage
 %\section{Notation}
 %\textbf{IF APPLICABLE}
@@ -191,8 +204,8 @@ My supervisor Dr James Rosindell provided guidance for my project's development 
 
 
 \section*{Abstract}
-\textbf{MAXIMUM 250 WORDS}
-All Reports must include a one page synopsis. This should include a clear statement that sets out the terms of reference and objectives of the Report as agreed with the Supervisor.
+%\textbf{MAXIMUM 250 WORDS}
+The IUCN Red List is the primary source of extinction risk for life on Earth. The availability of the IUCN assessment justifications in plain text format allows for the application of text mining techniques to discover themes and identify potential gaps in existing literature. This study is the first to apply text mining on IUCN assessments. I applied topic modelling on the texts with the aim to discover latent themes. I developed a model using the texts, and the model identified 17 different topics from the texts which were then analysed from different angles. The results of this study complements the literature surrounding biodiversity loss and conservation efforts. This study also seeks to fill the gap between how the Red List is used and how it could be used, laying a foundation for further downstream analyses.
 \pagebreak
 
 \section{Introduction}
@@ -223,7 +236,5 @@ All Reports must include a one page synopsis. This should include a clear statem
 
 \section{Appendix}
 \input{appendix.tex}
-
-
 
 \end{document}   
