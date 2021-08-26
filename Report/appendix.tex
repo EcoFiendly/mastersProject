@@ -1,1 +1,25 @@
-Supplementary materials
+\renewcommand\thefigure{\thesection.\arabic{figure}}  
+\setcounter{figure}{0}
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\linewidth]{../Data/comb_global/coherencePlot.png}
+    \small
+    \caption{Plot of the C\_v metric score against the number of topics selected, ranging from 2 to 100.}
+    \label{fig:cv plot}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includesvg[width=\linewidth]{../Data/comb_global/comb_kde.svg}
+    \small
+    \caption{KDE plot of topic probabilities against their probability density}
+    \label{fig:kde plot}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includesvg[width=\linewidth]{../Data/comb_global/four_dendrogram.svg}
+    \small
+    \caption{Dendrograms by applying Ward's linkage to different distance measures}
+    \label{fig:dendrograms}
+\end{figure}

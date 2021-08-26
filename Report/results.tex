@@ -1,27 +1,197 @@
-\subsection{clustering maybe}
+\subsection{Topic analysis}
+% talk about model selection, generality vs specificity
 
-(pyLDAvis output but decorated)
+% (write it presenting the key idea table 2 talks about)
 
-\subsection{Latent Topics}
+Model selection converged at 17 topics from analysing the corpus (\Cref{tab:topic label and top 16 words}). The topics were then clustered into five themes: Threats, Population, Ecology, Range, Conservation Actions. The Threats theme contains six topics. These six topics are futher divided into two subgroups, one that is describing loss of habitat ("Forest loss", "Water pollution threat" and "Habitat loss") and the other describing the classification of threats ("Threat distribution" and "Common threats"). The Population theme contains three topics ("Population dynamics", "Marine population structure" and "Assessment criteria") that describe population status, and population status is a direct and major factor that affects how species are assessed for their Red List category \parencite{iucn2012}. The Ecology theme contains topics ("Terrestrial ecology", "Aquatic ecology" and "Fisheries threats") that are about ecology. The Range theme contains two topics ("Range, occurrence and occupancy" and "Spatial data") that relate to spatial distribution, where occurrence outlines a perimeter that samples can be observed and occupancy is how much of the space within the perimeter is occupied. The Conservation Actions theme contains topics ("Conservation Actions", "Area based protection" and "Monitoring and rewilding") that describe conservation actions.
 
-(Table of topics and their corresponding words)
+\begin{table}[!hbtp]
+\centering
+    \small
+    \begin{tabulary}{1.0\textwidth}{L L}
+        \hline
+        Topic & Top 16 Words\\
+        \hline
+        Forest loss & forest, area, habitat, agriculture, threat, fire, threaten, plant, mining, plantation, timber, deforestation, tree, logging, wood, activity\\
+        \hline
+        Water pollution threat & threat, habitat, impact, human, water, pollution, activity, development, increase, population, major, cause, change, potential, use, area\\
+        \hline
+        Habitat loss & habitat, loss, species, threat, degradation, range, threaten, area, forest, population, likely, deforestation, assess, decline, occur, agriculture\\
+        \hline
+        Forest fragmentation & forest, fragment, habitat, threaten, severely, area, taxon, population, decline, rate, subpopulation, range, consider, category, distribution, land\\
+        \hline
+        Threat distribution & threat, distribution, wide, large, major, population, currently, assess, significant, future, identify, tree, view, concern, presume, range\\
+        \hline
+        Common threats & common, threat, population, know, widespread, major, abundant, locally, range, information\_available, list, stable, widely\_distribute, fairly, relatively, consider\\
+        \hline
+        Population dynamics & population, size, trend, range, criterion, approach\_threshold, decline, year\_generation, believe, quantify, large, small, estimate, number, mature\_individual, appear\\
+        \hline
+        Assessment criteria & decline, population, habitat, criterion, quality, assess, range, extent, number, ongoing, location, suspect, small, extent\_occurrence, qualify, occur\\
+        \hline
+        Marine population structure & population, individual, estimate, decline, year, number, coral, subpopulation, reef, total, generation, mature\_individual, range, increase, reduction, base\\
+        \hline
+        Terrestrial ecology & forest, find, tree, occur, grow, species, area, lowland, dry, habitat, small, montane, soil, shrub, altitude, open\\
+        \hline
+        Aquatic ecology & water, find, depth, river, occur, stream, small, female, male, species, length, inhabit, area, large, egg, shallow\\
+        \hline
+        Fisheries threats & trade, fishery, use, catch, information, fishing, datum, fish, commercial, know, report, available, harvest, population, range, target\\
+        \hline
+        Range, occurrence and occupancy & know, area, locality, location, extent\_occurrence, occupancy, km², estimate, endemic, collection, threat, type, base, habitat, occur, find\\
+        \hline
+        Spatial data & record, endemic, occur, know, island, find, range, species, asl, area, province, elevation, specimen, region, report, recent\\
+        \hline
+        Conservation actions & conservation, need, population, research, action, protect, area, management, habitat, trend, distribution, threat, protection, ecology, recommend, require\\
+        \hline
+        Area based protection & protect, area, occur, conservation\_measure, know, specific, place, species, collection, range, present, list, utilize, find, subpopulation, marine\\
+        \hline
+        Monitoring and rewilding & population, area, survey, habitat, conservation, range, status, suitable, protect, local, study, site, country, current, establish, need\\
+        \hline
+        \end{tabulary}
+    \caption{Topics and their top 16 words revealed by the LDA model. Topic labels were assigned after visual inspection of the words in each of the topics and visualisation of their relationship according to how they were clustered using Ward's linkage and visualised using IUCN metadata \Cref{fig:topic heatmap}}
+    \label{tab:topic label and top 16 words}
+\end{table}
+\FloatBarrier
 
-Describe the model output
+\subsection{Topic composition by IUCN metadata and taxonomic class}
 
-\subsection{Topics by Red List Category}
+\begin{figure}[!htbp]
+\centering
+\includesvg[width=\linewidth]{../Data/comb_global/dend_comb_hm.svg}
+\small
+\caption{Heatmaps of logged probabilities when the documents were grouped by three different IUCN metadata and taxonomic class. The dendrogram on top shows the intertopic relationships. (a) The seven different assessment text sections. From the assessment text sections, one of the sections is Conservation actions, not to be confused with the topic named Conservation actions. (b) IUCN Red List categories. (c) Systems inhabited by species. Freshwater refers inland freshwater. All three refers to species that inhabit all three systems together. (d) Taxonomic class incorporating the top 25\% of all classes covered by the IUCN. This top 25\% includes only taxonomic classes with more than 325 species within.}
+\label{fig:topic heatmap}
+\end{figure}
+\FloatBarrier
 
-(Figure of heatmap for red list category)
+Patterns were uncovered by grouping the topic probabilities according to four diffent groups (\Cref{fig:topic heatmap}). The different AST sections feature topics that relate to what is described within the sections (\Cref{fig:topic heatmap}(a)). There are a few prominent relationships between the text sections and themes of topics, such as the theme of Ecology for the Habitat section; theme of Threats for the Threats section; theme of Conservation Actions for the Conservation Actions section.
 
-\subsection{Topics by systems}
+Three topics ("Habitat loss", "Terrestrial ecology" and "Spatial data") stand out across all the categories the when the topic probabilities were grouped by Red List Categories (\Cref{fig:topic heatmap}(b)). As for the Systems group, topics "Forest loss", "Habitat loss" and "Range, occurrence and occupancy" stand out.
 
-(Figure of heatmap for systems)
+The topic "Habitat loss" stand out across all Systems categories and Taxonomic classes (\Cref{fig:topic heatmap}(c) and \Cref{fig:topic heatmap}(d)). The topic "Marine population structure" stands out for \textit{Anthozoans}. The topic "Fisheries threats" stand out for \textit{Chondrichthyes}. The topics "Aquatic ecology" and "Terrestrial ecology" stand out for aquatic and terrestrial species respectively.
 
-\subsection{Topics by single realms}
+\subsection{Topic distribution across the world}
 
-(Figure of heatmap for single realms)
+The following figures are visual representations of the proportion of number of species AST that contain a topic at each pixel to the total number of species present at the same pixel. Note that any color that is not ivory on the map represents more than half of the AST of species present at the pixel contains the topic. Due to the resolution of the map and the breadth of information enclosed, not all of the ratios can be properly represented.
 
-\subsection{Topics by kingdom}
+% put subfigure titles on top
+\begin{figure}[!htbp]
+    \centering
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Forest loss}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Forest_loss.svg}
+        \label{subfig:for los}
+        \end{subfigure}
+        %
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Water pollution threat}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Water_pollution_threat.svg}
+        \label{subfig:wat pol}
+        \end{subfigure}
+        %
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Habitat loss}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Habitat_loss.svg}
+        \label{subfig:hab los}
+        \end{subfigure}
+        %
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Forest fragmentation}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Forest_fragmentation.svg}
+        \label{subfig:for fra}
+        \end{subfigure}
+    \caption{Proportion of mammalian species expressing the given topics (a) "Forest loss" (b) "Water pollution threat" (c) "Habitat loss" and (d) "Forest fragmentation" each pixel for this group of topics that are in the Habitat loss theme}
+    \label{fig:hab los theme}
+\end{figure}
+\FloatBarrier
 
-(Figure of heatmap for kingdom)
+The four topics in the Habitat loss theme appear across the four heatmaps in a complementary pattern when visualised (\Cref{fig:hab los theme}). The "Forest loss" topic stands out only for terrestrial regions. The topics "Habitat loss" and "Forest fragmentation" both stand out mostly for terrestrial regions, and also for aquatic regions in the southern temperate zone. "Water pollution threat" appears globally, but appears in less than half of the mammalian species present in Greenland. All four topics appear in high proportions, more than 0.85, in Australia and New Zealand.
 
-\subsection{}
+\begin{figure}[!htbp]
+    \centering
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Population dynamics}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Population_dynamics.svg}
+        \label{subfig:pop dyn}
+        \end{subfigure}
+        %
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Marine population structure}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Marine_population_structure.svg}
+        \label{subfig:mar pop}
+        \end{subfigure}
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Spatial data}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Spatial_data.svg}
+        \label{subfig:spa dat}
+        \end{subfigure}
+        %
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Range, occurrence and occupancy}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Range_occurrence_and_occupancy.svg}
+        \label{subfig:ran occ occ}
+        \end{subfigure}
+    \caption{Proportion of mammalian species expressing the given topics (a) "Population dynamics" (b) "Marine population structure" (c) "Spatial data" and (d) "Range, occurrence and occupancy" at each pixel. (a) and (b) belong to the Population theme while (c) and (d) belong to the Range theme.}
+    \label{fig:pop ran theme}
+\end{figure}
+\FloatBarrier
+
+The two population topics show opposite patterns, "Population dynamics" appear alomost exclusively in Terrestrial regions while "Marine population structure" is more prominent in aquatic regions (\Cref{subfig:pop dyn} and \Cref{subfig:mar pop}). The "Spatial data" topic also stands out globablly at more than 0.50, while the "Range, occurrence and occupancy" topic stands out in Australia, New Zealand, Chile and the coast of the Mediterranean sea.
+
+\begin{figure}[!htbp]
+    \centering
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Terrestrial ecology}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Terrestrial_ecology.svg}
+        \label{subfig:ter eco}
+        \end{subfigure}
+        %
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Aquatic ecology}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Aquatic_ecology.svg}
+        \label{subfig:aqu eco}
+        \end{subfigure}
+        %
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Fisheries threats}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Fisheries_threats.svg}
+        \label{subfig:fis thr}
+        \end{subfigure}
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Conservation actions}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Conservation_actions.svg}
+        \label{subfig:con act}
+        \end{subfigure}
+        %
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Area based protection}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Area_based_protection.svg}
+        \label{subfig:are bas pro}
+        \end{subfigure}
+        %
+        \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \caption{Monitoring and rewilding}
+        \includesvg[width=\linewidth]{../Data/mammals_range/rasters/Monitoring_and_rewilding.svg}
+        \label{subfig:mon rew}
+        \end{subfigure}
+    \caption{Proportion of mammalian species expressing the given topics (a) "Terrestrial ecology" (b) "Aquatic ecology" (c) "Fisheries threats" (d) "Conservation actions" (e) "Area based protection" and (f) "Monitoring and rewilding at each pixel. (a), (b) and (c) belong to the Ecology theme while (d), (e) and (f) belong to the Conservation actions theme.}
+    \label{fig:eco con act theme}
+\end{figure}
+\FloatBarrier
+
+The two ecology topics show opposite patterns (\Cref{subfig:ter eco} and \Cref{subfig:aqu eco}). "Terrestrial ecology" appears almost exclusively on terrestrial regions. While "Aquatic ecology" is more than 0.50 globally, it is most prominent (more than 0.95) in the aquatic regions. The topic "Fisheries threats" is also most prominent in aquatic regions (more than 0.95) (\Cref{subfig:fis thr}).
+
+The topics "Conservation actions" and "Monitoring and rewilding" stands out globally (\Cref{subfig:con act} and \Cref{subfig:are bas pro}). The "Area based protection" topic stands out in South America, Africa, New Zealand and Australia (\Cref{subfig:mon rew}).
