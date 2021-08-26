@@ -25,9 +25,9 @@ with open(home+"/Data/df_clean.pkl", "rb") as f:
     df = pickle.load(f)
     f.close()
 
-with open("../../Data/df_clean.pkl", "rb") as f:
-   df = pickle.load(f)
-   f.close()
+# with open("../../Data/df_clean.pkl", "rb") as f:
+#    df = pickle.load(f)
+#    f.close()
 
 # create training corpus
 rat = df.rationale.values.tolist()
@@ -88,13 +88,13 @@ for doc in corpus_gen:
 min_count = int(0.01*len(tokens))
 # build bigram model
 bigram = Phrases(tokens, min_count = min_count)
-bigramMod = Phraser(bigram)
+bigram_mod = Phraser(bigram)
 # bigramMod.save(home+"/Data/comb/bigramMod.pkl")
 # save bigramMod
-bigramMod.save("../../Data/comb_global/bigramMod.pkl")
+bigram_mod.save("../../Data/comb_global/bigram_mod.pkl")
 # print(bigramMod[tokens[5]])
 
-tokens_2 = bigramMod[tokens]
+tokens_2 = bigram_mod[tokens]
 
 # pickle combTokens3
 with open(home+"/Data/comb/tokens_2.pkl", "wb") as f:

@@ -25,6 +25,15 @@ with open("../../Data/df_clean.pkl", "rb") as f:
     df = pickle.load(f)
     f.close()
 
+# import taxonomy information
+taxon_info = pd.read_csv("../../Data/taxonomy_info.csv")
+# select only taxonid and class_name
+taxon_info = taxon_info[['taxonid', 'class_name']]
+taxon_info = taxon_info.rename(columns={"taxonid": "internalTaxonId"})
+
+# merge df with taxon_info
+df = df.merge(taxon_info[['internalTaxonId', 'class_name']])
+
 # load trained model
 with open("../../Data/comb_global/model_17.pkl", "rb") as f:
     model = pickle.load(f)
@@ -34,7 +43,7 @@ with open("../../Data/comb_global/model_17.pkl", "rb") as f:
 dic = corpora.Dictionary.load("../../Data/comb_global/dic.dict")
 
 # load bigram model
-bigramMod = Phrases.load("../../Data/comb_global/bigramMod.pkl")
+bigram_mod = Phrases.load("../../Data/comb_global/bigram_mod.pkl")
 
 # # load corpus
 # corpus = corpora.MmCorpus("../../Data/comb_global/bow_corpus.mm")
@@ -59,6 +68,9 @@ for word in nlp.Defaults.stop_words:
     lexeme.is_stop = True
 
 def bow_transform(corpus):
+    """
+    Function transforms corpus from text format into bag of words format
+    """
     # generator of corpus
     gen = nlp.pipe(corpus, n_process = 7, batch_size = 800, disable = ["parser", "ner"])
     # tokenise corpus
@@ -91,7 +103,9 @@ def topics_to_df(topics, num_topics):
     return res
 
 def get_doc_topic_comp(corpus):
-    # apply model to produce list of topic composition for each document
+    """
+    Function applies model to produce list of topic composition for each document
+    """
     topic_comp = [model[corpus[i]] for i in range(len(corpus))]
     # generate dataframe of document topic composition
     doc_topic_comp = pd.concat([topics_to_df(topics, 17) for topics in topic_comp]).reset_index(drop = True).fillna(0)
@@ -176,13 +190,12 @@ with open("../../Data/comb_global/con_topic_comp.pkl", "wb") as f:
 #     realm.extend(df[df[i]!='']['realm'].values.tolist())
 #     systems.extend(df[df[i]!='']['systems'].values.tolist())
 
-# # initialise dataframe for topic composition with corresponding red_list_cat, realm and systems
-# df_topic_comp = pd.concat([doc_topic_comp, pd.Series(red_list_cat), pd.Series(realm), pd.Series(systems)], axis=1)
+# initialise dataframe for topic composition with corresponding red_list_cat, realm, systems and class_name
 
-df_rl_r_s = pd.concat([df['redlistCategory'], df['realm'], df['systems']], axis = 1).reset_index(drop=True)
-df_rl_r_s = df_rl_r_s.rename(columns={"redlistCategory":"Red_list_category", "realm":"Realm", "systems":"Systems"})
-# topic composition of each of the 7 text summaries for each species
-text_topic_comp = pd.concat([df_rl_r_s, rat_topic_comp, hab_topic_comp, thr_topic_comp, pop_topic_comp, ran_topic_comp, use_topic_comp, con_topic_comp], axis = 1).reset_index(drop = True)
+df_rl_r_s_c = pd.concat([df['redlistCategory'], df['realm'], df['systems'], df['class_name']], axis = 1).reset_index(drop=True)
+df_rl_r_s_c = df_rl_r_s_c.rename(columns={"redlistCategory":"Red_list_category", "realm":"Realm", "systems":"Systems", "class_name":"Class"})
+# topic composition of each of the 7 assessment sections for each species
+text_topic_comp = pd.concat([df_rl_r_s_c, rat_topic_comp, hab_topic_comp, thr_topic_comp, pop_topic_comp, ran_topic_comp, use_topic_comp, con_topic_comp], axis = 1).reset_index(drop = True)
 
 with open("../../Data/comb_global/text_topic_comp.pkl", "wb") as f:
     pickle.dump(text_topic_comp, f)
@@ -240,11 +253,28 @@ with open("../../Data/comb_global/comb_topic_comp_norm.pkl", "wb") as f:
     pickle.dump(comb_topic_comp_norm, f)
     f.close()
 
-df_topic_comp = pd.concat([df_rl_r_s, comb_topic_comp_norm], axis = 1)
+df_topic_comp = pd.concat([df_rl_r_s_c, comb_topic_comp_norm], axis = 1)
 
 with open("../../Data/comb_global/df_topic_comp.pkl", "wb") as f:
     pickle.dump(df_topic_comp, f)
     f.close()
+
+################################################################################
+# Plot probability distribution of topics
+################################################################################
+top_prob_freq = pd.melt(comb_topic_comp_norm.reset_index(), id_vars='index', var_name='Topic', value_name="Probability")
+# start here
+# melted the dataframe, plot using df['Topic'] == [0-16]
+
+sns.set(rc={"figure.figsize":(16,6)})
+sns.set_style('whitegrid')
+g = sns.kdeplot(data=top_prob_freq, x='Probability', hue='Topic')
+g = sns.displot(data=top_prob_freq, x='Probability', hue='Topic', kind='kde')
+g.set(xticks=np.arange(0,0.75,step=0.05))
+g.set(xlabel = 'Topic Probability', ylabel = 'Probability Density')
+plt.show()
+plt.savefig("../../Data/comb_global/comb_kde.svg")
+plt.close('all')
 
 #################################################################################
 # change low risk conservation dependent and low risk near threatened to near threatened, low risk least concern to least concern
@@ -254,16 +284,22 @@ df_topic_comp['Red_list_category'] = df_topic_comp['Red_list_category'].replace(
 df_topic_comp['Red_list_category'] = df_topic_comp['Red_list_category'].replace('Lower Risk/least concern', 'Least Concern')
 df_no_reg_ext = df_topic_comp[(df_topic_comp.Red_list_category != 'Regionally Extinct')]
 
+## filtering then grouping
+# if topic percentage less than 0.05, change to 0
+for i in ['Monitor_island_endemics', 'Water_pollution_threat', 'Aquatic_ecology', 'Forest_loss', 'Monitoring_and_rewilding', 'Range', 'Common_threats', 'Forest_ecosystem', 'Population_structure', 'Fisheries_threats', 'Threat_distribution', 'Forest_fragmentation', 'Habitat_loss', 'Area_based_protection', 'Assessment_criteria', 'Population_dynamics', 'Conservation_actions']:
+    df_no_reg_ext[i] = df_no_reg_ext[i].mask(df_no_reg_ext[i] < 0.05, 0)
+
 # group by red list category and sum topic composition for each category
-red_list_topic = df_no_reg_ext.drop(columns=['Realm', 'Systems']).groupby(['Red_list_category']).sum()
+red_list_topic = df_no_reg_ext.drop(columns=['Realm', 'Systems', 'Class']).groupby(['Red_list_category']).sum()
 # normalize
-red_list_topic_pct = red_list_topic/(df_no_reg_ext.drop(columns=['Realm', 'Systems']).groupby(['Red_list_category']).count())
+red_list_topic_pct = red_list_topic/(df_no_reg_ext.drop(columns=['Realm', 'Systems', 'Class']).groupby(['Red_list_category']).count())
 # reorder and sort index
 index_order = ['Least Concern', 'Near Threatened', 'Vulnerable', 'Endangered', 'Critically Endangered', 'Extinct in the Wild', 'Extinct']
 red_list_topic_pct = red_list_topic_pct.reindex(index_order)
-# if topic percentage less than 0.05, change to 0
-for i in ['Monitor_island_endemics', 'Water_pollution_threat', 'Aquatic_ecology', 'Forest_loss', 'Monitoring_and_rewilding', 'Range', 'Common_threats', 'Forest_ecosystem', 'Population_structure', 'Fisheries_threats', 'Threat_distribution', 'Forest_fragmentation', 'Habitat_loss', 'Area_based_protection', 'Assessment_criteria', 'Population_dynamics', 'Conservation_actions']:
-    red_list_topic_pct[i] = red_list_topic_pct[i].mask(red_list_topic_pct[i] < 0.05, 0)
+
+# ## grouping then filtering
+# for i in ['Monitor_island_endemics', 'Water_pollution_threat', 'Aquatic_ecology', 'Forest_loss', 'Monitoring_and_rewilding', 'Range', 'Common_threats', 'Forest_ecosystem', 'Population_structure', 'Fisheries_threats', 'Threat_distribution', 'Forest_fragmentation', 'Habitat_loss', 'Area_based_protection', 'Assessment_criteria', 'Population_dynamics', 'Conservation_actions']:
+#     red_list_topic_pct[i] = red_list_topic_pct[i].mask(red_list_topic_pct[i] < 0.05, 0)
 
 # plot heatmap
 fig = plt.figure(figsize=(16,6)) # figure dimensions
@@ -271,30 +307,34 @@ sns.set_context('paper', font_scale=1.5) # context of plot and font scale
 g = sns.heatmap(red_list_topic_pct.loc[red_list_topic_pct.idxmax(axis=1).index],
     linewidths=0.5, # linewidth between cells
     cmap='YlGnBu', # color
-    cbar_kws={'shrink':0.8} # size of color bar
-)
+    cbar_kws={'shrink':0.8,}) # size of color bar
+            #   'ticks':[0.000, 0.025, 0.050, 0.075, 0.100, 0.125]}) # set ticklabels
 g.set_xticklabels(g.get_xticklabels(), rotation=90) # rotate xticklabels
 g.set(xlabel="Topics", ylabel="Red list category") # label both axes
 # g.set_yticklabels(g.get_yticklabels(), rotation=90)
 plt.tight_layout() # tight layout for labels to show on screen
 # docTopicSysPct.sum(axis=1) # check total percentage
 fig.show()
-fig.savefig("../../Data/comb_global/red_list_cat_HM_new.svg")
+# save filtered then grouped
+fig.savefig("../../Data/comb_global/red_list_cat_HM_ftg.svg")
 plt.close('all')
 
 ################################################################################
 # replace Marine|Marine with Marine
 df_topic_comp['Systems'] = df_topic_comp['Systems'].replace('Marine|Marine', 'Marine')
+systems_topic = df_topic_comp
+
+# if topic percentage less than 0.05, change to 0
+for i in ['Monitor_island_endemics', 'Water_pollution_threat', 'Aquatic_ecology', 'Forest_loss', 'Monitoring_and_rewilding', 'Range', 'Common_threats', 'Forest_ecosystem', 'Population_structure', 'Fisheries_threats', 'Threat_distribution', 'Forest_fragmentation', 'Habitat_loss', 'Area_based_protection', 'Assessment_criteria', 'Population_dynamics', 'Conservation_actions']:
+    systems_topic[i] = systems_topic[i].mask(systems_topic[i] < 0.05, 0)
+    
 # group by systems and sum topic composition for each category
-systems_topic = df_topic_comp.drop(columns=['Red_list_category', 'Realm']).groupby(['Systems']).sum()
+systems_topic = systems_topic.drop(columns=['Red_list_category', 'Realm', 'Class']).groupby(['Systems']).sum()
 # normalize
-systems_topic_pct = systems_topic/(df_topic_comp.drop(columns=['Red_list_category', 'Realm']).groupby(['Systems']).count())
+systems_topic_pct = systems_topic/(df_topic_comp.drop(columns=['Red_list_category', 'Realm', 'Class']).groupby(['Systems']).count())
 # reorder and sort index
 index_order = ['Terrestrial', 'Freshwater (=Inland waters)', 'Marine', 'Terrestrial|Freshwater (=Inland waters)', 'Freshwater (=Inland waters)|Marine', 'Terrestrial|Marine', 'Terrestrial|Freshwater (=Inland waters)|Marine']
 systems_topic_pct = systems_topic_pct.reindex(index_order)
-# if topic percentage less than 0.05, change to 0
-for i in ['Monitor_island_endemics', 'Water_pollution_threat', 'Aquatic_ecology', 'Forest_loss', 'Monitoring_and_rewilding', 'Range', 'Common_threats', 'Forest_ecosystem', 'Population_structure', 'Fisheries_threats', 'Threat_distribution', 'Forest_fragmentation', 'Habitat_loss', 'Area_based_protection', 'Assessment_criteria', 'Population_dynamics', 'Conservation_actions']:
-    systems_topic_pct[i] = systems_topic_pct[i].mask(systems_topic_pct[i] < 0.05, 0)
 
 # plot heatmap
 fig = plt.figure(figsize=(16,6)) # figure dimensions
@@ -310,54 +350,59 @@ g.set(xlabel="Topics", ylabel="Systems category") # label both axes
 plt.tight_layout() # tight layout for labels to show on screen
 # docTopicSysPct.sum(axis=1) # check total percentage
 fig.show()
-fig.savefig("../../Data/comb_global/systems_HM_new.svg")
+# save filtered then grouped
+fig.savefig("../../Data/comb_global/systems_HM_ftg.svg")
 plt.close('all')
 
 ################################################################################
-# remove rows with na
-realm_topic = df_topic_comp.dropna().drop(columns=['Red_list_category', 'Systems'])
+# Grouping by number of realms spp exist across, from 1 to 8
+# # remove rows with na
+# realm_topic = df_topic_comp.dropna().drop(columns=['Red_list_category', 'Systems', 'Class'])
 
-# group realm_topics by number of realms
-# count number of realms species exist across
-def count_realms(realms):
-    return len(realms.split('|'))
+# # group realm_topics by number of realms
+# # count number of realms species exist across
+# def count_realms(realms):
+#     return len(realms.split('|'))
 
-realm_topic['num_realms'] = realm_topic.Realm.apply(count_realms)
-realm_topic = realm_topic.drop(columns=['Realm']).groupby(['num_realms'])
-# calculate percentage composition of topics per realm
-realm_topic_pct = realm_topic.sum()/realm_topic.count()
+# realm_topic['num_realms'] = realm_topic.Realm.apply(count_realms)
+# realm_topic = realm_topic.drop(columns=['Realm']).groupby(['num_realms'])
+# # calculate percentage composition of topics per realm
+# realm_topic_pct = realm_topic.sum()/realm_topic.count()
 
-# save realm_topic_pct.pkl
-with open("../../Data/comb_global/realm_topic_pct.pkl", "wb") as f:
-    pickle.dump(realm_topic_pct, f)
-    f.close()
+# # save realm_topic_pct.pkl
+# with open("../../Data/comb_global/realm_topic_pct.pkl", "wb") as f:
+#     pickle.dump(realm_topic_pct, f)
+#     f.close()
 
-# load realm_topic_pct.pkl
-with open("../../Data/comb_global/realm_topic_pct.pkl", "rb") as f:
-    realm_topic_pct = pickle.load(f)
-    f.close()
+# # load realm_topic_pct.pkl
+# with open("../../Data/comb_global/realm_topic_pct.pkl", "rb") as f:
+#     realm_topic_pct = pickle.load(f)
+#     f.close()
 
-# plot heatmap
-fig = plt.figure(figsize=(16,6)) # figure dimensions
-sns.set_context('paper', font_scale=1.5) # context of plot and font scale
-g = sns.heatmap(realm_topic_pct.loc[realm_topic_pct.idxmax(axis=1).index],
-    linewidths=0.5, # linewidth between cells
-    cmap='YlGnBu', # color
-    cbar_kws={'shrink':0.8} # size of color bar
-)
-g.set_xticklabels(g.get_xticklabels(), rotation=90) # rotate xticklabels
-g.set(xlabel="Topics", ylabel="Number of realm(s)") # label both axes
-# g.set_yticklabels(g.get_yticklabels(), rotation=90)
-plt.tight_layout() # tight layout for labels to show on screen
-# docTopicSysPct.sum(axis=1) # check total percentage
-fig.show()
-fig.savefig("../../Data/comb_global/realms_HM_new.svg")
-plt.close('all')
+# # plot heatmap
+# fig = plt.figure(figsize=(16,6)) # figure dimensions
+# sns.set_context('paper', font_scale=1.5) # context of plot and font scale
+# g = sns.heatmap(realm_topic_pct.loc[realm_topic_pct.idxmax(axis=1).index],
+#     linewidths=0.5, # linewidth between cells
+#     cmap='YlGnBu', # color
+#     cbar_kws={'shrink':0.8} # size of color bar
+# )
+# g.set_xticklabels(g.get_xticklabels(), rotation=90) # rotate xticklabels
+# g.set(xlabel="Topics", ylabel="Number of realm(s)") # label both axes
+# # g.set_yticklabels(g.get_yticklabels(), rotation=90)
+# plt.tight_layout() # tight layout for labels to show on screen
+# # docTopicSysPct.sum(axis=1) # check total percentage
+# fig.show()
+# fig.savefig("../../Data/comb_global/realms_HM_new.svg")
+# plt.close('all')
 
 ################################################################################
-# experimenting with extracting by realm as condition, not feasible, changing to counting number of realms the species exist in
+# grouping by the realms for all species (not feasible)
 # remove rows with na
-realm_topic = df_topic_comp.dropna().drop(columns=['Red_list_category', 'Systems'])
+realm_topic = df_topic_comp.dropna().drop(columns=['Red_list_category', 'Systems', 'Class'])
+# if topic percentage less than 0.05, change to 0
+for i in ['Monitor_island_endemics', 'Water_pollution_threat', 'Aquatic_ecology', 'Forest_loss', 'Monitoring_and_rewilding', 'Range', 'Common_threats', 'Forest_ecosystem', 'Population_structure', 'Fisheries_threats', 'Threat_distribution', 'Forest_fragmentation', 'Habitat_loss', 'Area_based_protection', 'Assessment_criteria', 'Population_dynamics', 'Conservation_actions']:
+    realm_topic[i] = realm_topic[i].mask(realm_topic[i] < 0.05, 0)
 
 # group by realms
 realm_topic_pct = realm_topic.groupby(['Realm']).sum()/realm_topic.groupby(['Realm']).count()
@@ -414,7 +459,7 @@ g.set(xlabel="Topics", ylabel="Realms") # label both axes
 plt.tight_layout() # tight layout for labels to show on screen
 # docTopicSysPct.sum(axis=1) # check total percentage
 fig.show()
-fig.savefig("../../Data/comb_global/realm_topics_HM_new.svg")
+fig.savefig("../../Data/comb_global/realm_topics_HM_ftg.svg")
 plt.close('all')
 
 ################################################################################
@@ -441,15 +486,74 @@ g.set(xlabel="Topics", ylabel="Realms") # label both axes
 plt.tight_layout() # tight layout for labels to show on screen
 # docTopicSysPct.sum(axis=1) # check total percentage
 fig.show()
-fig.savefig("../../Data/comb_global/single_realm_topics_HM_new.svg")
+fig.savefig("../../Data/comb_global/single_realm_topics_HM_ftg.svg")
 plt.close('all')
 
 ################################################################################
-# try doing api calls to get kingdom for species
+# group by class and sum topic composition for each category
+class_topic = df_topic_comp.drop(columns=['Red_list_category', 'Realm', 'Systems']).groupby(['Class']).sum()
 
+# filter then group
+# if topic percentage less than 0.05, change to 0
+for i in ['Monitor_island_endemics', 'Water_pollution_threat', 'Aquatic_ecology', 'Forest_loss', 'Monitoring_and_rewilding', 'Range', 'Common_threats', 'Forest_ecosystem', 'Population_structure', 'Fisheries_threats', 'Threat_distribution', 'Forest_fragmentation', 'Habitat_loss', 'Area_based_protection', 'Assessment_criteria', 'Population_dynamics', 'Conservation_actions']:
+    class_topic[i] = class_topic[i].mask(class_topic[i] < 0.05, 0)
+
+class_topic_pct = class_topic/(df_topic_comp.drop(columns=['Red_list_category', 'Realm', 'Systems']).groupby(['Class']).count())
+
+# filter out classes with more than 325 species
+index = df_topic_comp.drop(columns=['Red_list_category', 'Realm', 'Systems'])['Class'].value_counts()[lambda x: x>325].index.tolist()
+top_quart_class_topic_pct = class_topic_pct[class_topic_pct.index.isin(index)]
+
+# group then filter
+# # if topic percentage less than 0.05, change to 0
+# for i in ['Monitor_island_endemics', 'Water_pollution_threat', 'Aquatic_ecology', 'Forest_loss', 'Monitoring_and_rewilding', 'Range', 'Common_threats', 'Forest_ecosystem', 'Population_structure', 'Fisheries_threats', 'Threat_distribution', 'Forest_fragmentation', 'Habitat_loss', 'Area_based_protection', 'Assessment_criteria', 'Population_dynamics', 'Conservation_actions']:
+#     top_quart_class_topic_pct[i] = top_quart_class_topic_pct[i].mask(top_quart_class_topic_pct[i] < 0.05, 0)
+
+# plot heatmap
+fig = plt.figure(figsize=(16,6)) # figure dimensions
+sns.set_context('paper', font_scale=1.5) # context of plot and font scale
+g = sns.heatmap(top_quart_class_topic_pct.loc[top_quart_class_topic_pct.idxmax(axis=1).index],
+    linewidths=0.5, # linewidth between cells
+    cmap='YlGnBu', # color
+    cbar_kws={'shrink':0.8} # size of color bar
+)
+g.set_xticklabels(g.get_xticklabels(), rotation=90) # rotate xticklabels
+g.set(xlabel="Topics", ylabel="Class") # label both axes
+# g.set_yticklabels(g.get_yticklabels(), rotation=90)
+plt.tight_layout() # tight layout for labels to show on screen
+# docTopicSysPct.sum(axis=1) # check total percentage
+fig.show()
+fig.savefig("../../Data/comb_global/top_quart_class_topics_HM_ftg.svg")
+plt.close('all')
+
+# filter out top 6 chordata classes
+index = ['ACTINOPTERYGII', 'AVES', 'REPTILIA', 'AMPHIBIA', 'MAMMALIA', 'CHONDRICHTHYES']
+six_class_topic_pct = class_topic_pct[class_topic_pct.index.isin(index)]
+
+# group then filter
+# # if topic percentage less than 0.05, change to 0
+# for i in ['Monitor_island_endemics', 'Water_pollution_threat', 'Aquatic_ecology', 'Forest_loss', 'Monitoring_and_rewilding', 'Range', 'Common_threats', 'Forest_ecosystem', 'Population_structure', 'Fisheries_threats', 'Threat_distribution', 'Forest_fragmentation', 'Habitat_loss', 'Area_based_protection', 'Assessment_criteria', 'Population_dynamics', 'Conservation_actions']:
+#     six_class_topic_pct[i] = six_class_topic_pct[i].mask(six_class_topic_pct[i] < 0.05, 0)
+
+# plot heatmap
+fig = plt.figure(figsize=(16,6)) # figure dimensions
+sns.set_context('paper', font_scale=1.5) # context of plot and font scale
+g = sns.heatmap(six_class_topic_pct.loc[six_class_topic_pct.idxmax(axis=1).index],
+    linewidths=0.5, # linewidth between cells
+    cmap='YlGnBu', # color
+    cbar_kws={'shrink':0.8} # size of color bar
+)
+g.set_xticklabels(g.get_xticklabels(), rotation=90) # rotate xticklabels
+g.set(xlabel="Topics", ylabel="Class") # label both axes
+# g.set_yticklabels(g.get_yticklabels(), rotation=90)
+plt.tight_layout() # tight layout for labels to show on screen
+# docTopicSysPct.sum(axis=1) # check total percentage
+fig.show()
+fig.savefig("../../Data/comb_global/six_class_topics_HM_ftg.svg")
+plt.close('all')
 
 ################################################################################
-topic_dict = {0: 'Monitor_endemics', 1: 'Human_threats_to_habitat', 2: 'Find_water', 3: 'Agricultural_threats_to_forests', 4: 'Monitor_population', 5: 'Range', 6: 'Common_threats', 7: 'Forest_ecosystem', 8: 'Population_structure', 9: 'Fish_use_trade', 10: 'Threat_distribution', 11: 'Forest_fragmentation', 12: 'Habitat_loss', 13: 'Area_based_protection', 14: 'Species_ecology', 15: 'Population_trend', 16: 'Conservation_actions'}
+topic_dict = {0: 'Monitor_island_endemics', 1: 'Water_pollution_threat', 2: 'Aquatic_ecology', 3: 'Forest_loss', 4: 'Monitoring_and_rewilding', 5: 'Range', 6: 'Common_threats', 7: 'Forest_ecosystem', 8: 'Population_structure', 9: 'Fisheries_threats', 10: 'Threat_distribution', 11: 'Forest_fragmentation', 12: 'Habitat_loss', 13: 'Area_based_protection', 14: 'Assessment_criteria', 15: 'Population_dynamics', 16: 'Conservation_actions'}
 
 def get_topic_desig(doc_topics_list, topic_dict=topic_dict):
     '''
